@@ -33,6 +33,11 @@
 \usepackage{ellipsis}  % Korrigiert den Weißraum um Auslassungspunkte
 \usepackage{microtype}  % optischer Randausgleich etc.
 
+\usepackage[colorlinks=false,
+pdfborder={0 0 0},
+breaklinks=true]
+{hyperref}
+
 
 \usepackage{lipsum} % kann weg, nur zur Generierung von etwas Text im Beispieldokument
 
@@ -68,9 +73,9 @@ Fakultät für Informatik}
 
 \maketitle
 
-\begin{abstract}
-Hier kommt die Zusammenfassung
-\end{abstract}
+\cleardoubleemptypage
+\include{abstract}
+\cleardoubleemptypage
 
 \tableofcontents
 
