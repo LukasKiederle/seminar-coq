@@ -1,3 +1,109 @@
+\section{Motivation}
+Ganz am Anfang der Einleitung muss in das Thema eingeführt werden. Am besten gehst Du an dieser Stelle davon aus, dass Dein Leser keinerlei Vorkenntnisse mitbringt (auch wenn das selten der Fall sein dürfte). In der Einleitung einer Seminararbeit wird außerdem genau beschrieben, welche Fragestellung beantwortet werden soll. Begründe Deine Eingrenzung des Themas und erläutere, wie Du beim Sammeln der Literatur und gegebenenfalls beim Erheben von Daten oder Analysen vorgegangen bist.
+\begin{itemize}
+	\item Fehler 40
+	\item Was wenn ein Compiler auf unterschiedlichen System aus dem selben Sourcecode unterschiedliche Runnables macht?
+	\item \url{https://www.mikrocontroller.net/articles/Compilerfehler}
+	\item \url{https://blog.regehr.org/archives/26}
+	\item Unit tests schreiben, um möglichst viele Fehler zu finden -> Proof Assistent um für alle korrekt zu funktionieren
+	\item Proof Assistent benutzen um formal richtigen Code zu schreiben/generieren
+	\item \textbf{Fragestellung: Wie gewährleiste ich sichereren/gut getesteten Code?}
+\end{itemize}
+
+
+\section{Grundlagen}
+\subsection{Was ist ein Proof Assisstant}
+\url{https://www.youtube.com/watch?v=95VlaZTaWgc&t=2646s}
+\subsubsection{Proof Verifier}
+\subsubsection{Theorem Provers}
+
+\subsection{Übersicht}
+\url{https://en.wikipedia.org/wiki/Proof_assistant}
+\begin{itemize}
+	\item ACL2
+	\item Isabelle
+	\item Coq
+\end{itemize}
+
+\section{Coq}
+\url{https://www.amazon.de/Certified-Programming-Dependent-Types-Introduction/dp/0262026651/ref=sr_1_fkmr0_1?__mk_de_DE=ÅMÅŽÕÑ&keywords=coq+proof+assistent&qid=1572974699&sr=8-1-fkmr0}
+\begin{itemize}
+	\item Warum Coq
+	\item funktionaler Programmierstil
+	\item Dependent type Sprache
+	\item Frenchmade
+	\item Warum ist coq so erfolgreich?
+\end{itemize}
+
+\section{Programmatische Coq-Grundlagen}
+\subsection{funktionaler Programmierstil}
+\subsection{Basisbegriffe}
+\url{https://softwarefoundations.cis.upenn.edu/lf-current/Basics.html#lab18}
+\begin{itemize}
+	\item Funktion
+	\item Taktik
+	\item Ziel
+	\item Subgoal
+	\item Proof/Beweis
+\end{itemize}
+\subsection{Sprache}
+\subsection{Beispielbeweise}
+
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beispiel,label=lst:api-config]
+	Inductive day : Type :=
+	| monday
+	| tuesday
+	| wednesday
+	| thursday
+	| friday
+	| saturday
+	| sunday.
+
+	Definition next_weekday (d:day) : day :=
+	match d with
+	| monday => tuesday
+	| tuesday => wednesday
+	| wednesday => thursday
+	| thursday => friday
+	| friday => monday
+	| saturday => monday
+	| sunday => monday
+	end.
+
+	Compute (next_weekday friday).
+	(* ==> monday : day *)
+	Compute (next_weekday (next_weekday saturday)).
+	(* ==> tuesday : day *)
+\end{lstlisting}
+
+\section{Zusammenspiel Proof - Program}
+\begin{itemize}
+	\item Codegenerierung, Proof -> Program
+	\item Program -> Proof
+	\item Beispiel mit Liste aus Video
+\end{itemize}
+
+\section{Aktuelle Anwendung}
+\subsection{CompCert for C}
+\url{http://compcert.inria.fr}
+\subsection{JSCert for ECMA 5}
+\url{https://github.com/jscert/jscert}
+\subsection{4-Farben Rätsel ist löstbar!}
+
+\section{Anwendbarkeit in der Praxis}
+\begin{itemize}
+	\item Objektorientierung
+	\item Sicherheitskritische Systeme
+	\item compilerbau
+\end{itemize}
+
+
+\section{Fazit}
+\section{Aussicht}
+
+\section{Glossar}
+
+
 \section{Einleitung}
 \label{s:intro}
 
@@ -11,25 +117,25 @@ Hier kommt die Einleitung.
 Einen Überblick findet man z.\,B.\ in \cite{Auer00:HTF}.
 
 \begin{figure}[t]
-\centering
-
-\begin{subfigure}{0.45\linewidth}
-\centering
-\includegraphics[width=\linewidth]{\figdir/handorig}
-\caption{Originalbild}
-\label{FIG:arexorig}
-\end{subfigure}
-%
-\begin{subfigure}{0.45\linewidth}
-\centering
-\includegraphics[width=\linewidth]{\figdir/handaug}
-\caption{erweitertes Bild}
-\label{FIG:arexaugm}
-\end{subfigure}
-%
-\caption[AR Beispiel]
-{Beispiel eines Augmented Reality Systems: es folgt eine Beschreibung (Bilder aus \cite{Schmidt01:PAO})}
-\label{FIG:arex}
+	\centering
+	
+	\begin{subfigure}{0.45\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{\figdir/handorig}
+		\caption{Originalbild}
+		\label{FIG:arexorig}
+	\end{subfigure}
+	%
+	\begin{subfigure}{0.45\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{\figdir/handaug}
+		\caption{erweitertes Bild}
+		\label{FIG:arexaugm}
+	\end{subfigure}
+	%
+	\caption[AR Beispiel]
+	{Beispiel eines Augmented Reality Systems: es folgt eine Beschreibung (Bilder aus \cite{Schmidt01:PAO})}
+	\label{FIG:arex}
 \end{figure}
 
 Ein Beispiel wird in Abb.\ \ref{FIG:arex} gezeigt.
@@ -50,35 +156,11 @@ Und noch eine:
 Tabelle \ref{t:CodebookOverview} gibt einen Überblick über XYZ.
 
 \begin{table}[t]
-\centering\small
-\input{\tabledir/CodebookOverview.tex}
- \caption[Testtabelle]{Datenselektion für verschiedene Testdatensätze.}
-  \label{t:CodebookOverview}
+	\centering\small
+	\input{\tabledir/CodebookOverview.tex}
+	\caption[Testtabelle]{Datenselektion für verschiedene Testdatensätze.}
+	\label{t:CodebookOverview}
 \end{table}
-
-\section{Motivation}
-CompCert und Verifizierung von Programmcode (Compilercode)
-
-\section{Grundlagen}
-\subsection{Was ist Coq}
-\subsection{Was ist ein Proof Assisstant}
-\url{https://www.youtube.com/watch?v=95VlaZTaWgc&t=2646s}
-\subsubsection{Proof Verifier}
-\subsubsection{Theorem Provers}
-
-\section{Programmatische Coq-Grundlagen}
-\subsection{Sprache}
-\subsection{Beispielbeweise}
-
-\section{Zusammenspiel Proof - Program}
-
-\section{Anwendung}
-\subsection{CompCert}
-
-\section{Fazit}
-\section{Aussicht}
-
-\section{Glossar}
 
 
 %%% Local Variables: 
