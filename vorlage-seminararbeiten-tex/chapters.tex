@@ -1,6 +1,9 @@
 \section{Motivation}
 Ganz am Anfang der Einleitung muss in das Thema eingeführt werden. Am besten gehst Du an dieser Stelle davon aus, dass Dein Leser keinerlei Vorkenntnisse mitbringt (auch wenn das selten der Fall sein dürfte). In der Einleitung einer Seminararbeit wird außerdem genau beschrieben, welche Fragestellung beantwortet werden soll. Begründe Deine Eingrenzung des Themas und erläutere, wie Du beim Sammeln der Literatur und gegebenenfalls beim Erheben von Daten oder Analysen vorgegangen bist.
 \begin{itemize}
+	\item Normale Software wird so gebaut und evaluiert, sodass sie funktioniert
+	\item “If you start with an English-language specification, you’re inherently starting with an ambiguous specification,” said Jeannette Wing, corporate vice president at Microsoft Research. “Any natural language is inherently ambiguous. In a formal specification you’re writing down a precise specification based on mathematics to explain what it is you want the program to do.”
+	\item \url{https://www.quantamagazine.org/formal-verification-creates-hacker-proof-code-20160920/}
 	\item Fehler 40
 	\item Was wenn ein Compiler auf unterschiedlichen System aus dem selben Sourcecode unterschiedliche Runnables macht?
 	\item \url{https://www.mikrocontroller.net/articles/Compilerfehler}
@@ -78,10 +81,20 @@ Ganz am Anfang der Einleitung muss in das Thema eingeführt werden. Am besten ge
 
 \section{Zusammenspiel Proof - Program}
 \begin{itemize}
+	\item Wir haben eine Liste von Dingen, die die Software tun soll, und verwenden Logik, um zu beweisen, dass die Software diese Dinge tut.
 	\item \url{https://www.youtube.com/watch?v=Ue8QG8pf0wU}
 	\item Codegenerierung, Proof -> Program
 	\item Programm -> Proof
 	\item Beispiel mit Liste aus Video
+\end{itemize}
+
+\subsection{How-to}
+\begin{itemize}
+	\item \url{https://medium.com/@ahelwer/formal-verification-casually-explained-3fb4fef2e69a}
+	\item Erstelle eine Spezifikation, die ein Programm beschreibt
+	\item Schreie die Spezifikation mathematisch in ein Proof Tool
+	\item Wenn es Fehler enthält, sagt es dir der Verifier
+	\item 
 \end{itemize}
 
 \section{Aktuelle Anwendung}
