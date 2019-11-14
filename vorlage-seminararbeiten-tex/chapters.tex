@@ -1,8 +1,8 @@
 \section{Motivation}
 Heutige Software wird üblicherweise so gebaut, dass sie funktioniert. Das bedeutet, dass eine Person, welche mit der Software interagiert, diese möglichst problemfrei nutzen kann. Dabei spielt oftmals vor alle in sicherheitskritischen Bereichen die Qualität eine große Rolle.
 Um diese zu gewährleisten, werden verschiedenste Methoden wie zum Beispiel Unit-Tests, Integrationstests und manuelles Testen eingesetzt.\\
-Ein Problem bei dieser Art Software zu testen, ist allerdings, wenn Fälle außerhalb der bereits bekannten Tests aufkommen. Dies könnte für die jeweilige Software bedeuten, dass es zu keinem Problem bis hin zu großen finanziellem oder auch menschlichem Schaden kommen kann.\\
-Mathematisch und maschinell geprüfte Programme sollen diese Lücke in Zukunft schließen. 
+Ein Problem bei dieser Art Software zu testen ist allerdings, wenn Fälle außerhalb der bereits bekannten Tests aufkommen. Dies könnte für die jeweilige Software bedeuten, dass es zu keinem Problem bis hin zu großen finanziellem oder auch menschlichem Schaden kommen kann.\\
+Mathematisch und maschinell geprüfte Programme sollen diese Lücke in Zukunft schließen.
 
 
 \begin{itemize}
@@ -22,6 +22,8 @@ Mathematisch und maschinell geprüfte Programme sollen diese Lücke in Zukunft s
 \section{Grundlagen}
 \subsection{Was ist ein Proof Assisstant}
 \url{https://www.youtube.com/watch?v=95VlaZTaWgc&t=2646s}
+
+
 \subsubsection{Proof Verifier}
 \subsubsection{Theorem Provers}
 
@@ -38,13 +40,15 @@ Mathematisch und maschinell geprüfte Programme sollen diese Lücke in Zukunft s
 \begin{itemize}
 	\item Warum Coq
 	\item funktionaler Programmierstil
-	\item Dependent type Sprache
 	\item Frenchmade
 	\item Warum ist coq so erfolgreich?
 \end{itemize}
 
 \section{Programmatische Coq-Grundlagen}
-\subsection{funktionaler Programmierstil}
+\begin{itemize}
+	\item Dependent type Sprache: So we established that we can prove things are true before we have a concrete value. To do this in an actual programming language, we need a way to encode these statements into the type system itself, which means our type system needs an upgrade. \url{https://medium.com/background-thread/the-future-of-programming-is-dependent-types-programming-word-of-the-day-fcd5f2634878}
+	We're turning the above run-time assertion into compile-time type.
+\end{itemize}
 \subsection{Basisbegriffe}
 \url{https://softwarefoundations.cis.upenn.edu/lf-current/Basics.html#lab18}
 \begin{itemize}
