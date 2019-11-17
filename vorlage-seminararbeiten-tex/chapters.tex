@@ -50,19 +50,13 @@ Mathematisch und maschinell geprüfte Programme sollen diese Lücke in Zukunft s
 	We're turning the above run-time assertion into compile-time type.
 \end{itemize}
 \subsection{Basisbegriffe}
-\url{https://softwarefoundations.cis.upenn.edu/lf-current/Basics.html#lab18}
-\begin{itemize}
-	\item Funktion
-	\item Taktik
-	\item Ziel
-	\item Subgoal
-	\item Proof/Beweis
-\end{itemize}
-\subsection{Sprache}
-\subsection{Beispielbeweise}
-
-\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beispiel,label=lst:api-config]
-	Inductive day : Type :=
+\subsubsection{Typdefinition}
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Typedefinition,label=lst:typedefinition]
+Inductive bool : Type :=
+	| true
+	| false.
+	
+Inductive day : Type :=
 	| monday
 	| tuesday
 	| wednesday
@@ -70,22 +64,113 @@ Mathematisch und maschinell geprüfte Programme sollen diese Lücke in Zukunft s
 	| friday
 	| saturday
 	| sunday.
+	
+Inductive nat : Type :=
+	| O
+	| S (n : nat).
+\end{lstlisting}
 
-	Definition next_weekday (d:day) : day :=
-	match d with
-	| monday => tuesday
-	| tuesday => wednesday
-	| wednesday => thursday
-	| thursday => friday
-	| friday => monday
-	| saturday => monday
-	| sunday => monday
-	end.
+Die Beispiele aus dem Codeblock \ref{lst:typedefinition} stellen drei Typedefinitionen in Coq dar. Ersteres ist ein klassischer Bool. Sowie dieser true oder false annehmen kann, repräsentiert der zweite Type day alle Wochentage. \\
+Die letzte Definition wird verwendet um alle natürlichen Zahlen darzustellen. \textbf{S (n : nat)} stellt den Successor z.d. die Nachfolgefunktion dar. Somit kann durch diesen Typ jeder Zahlenwert der natürlichen Zahlen dargestellt werden. Eine 4 würde beispielsweise durch die vierte Nachfolgefunktion von 0 wie folgt dargestellt werden. \textbf{(S (S (S (S O)))) => 0 + 1 + 1 + 1 + 1 => 4}.
 
-	Compute (next_weekday friday).
-	(* ==> monday : day *)
-	Compute (next_weekday (next_weekday saturday)).
-	(* ==> tuesday : day *)
+\subsubsection{Funktion}
+In Coq gibt es mehrere arten von Funktionstypen. Mit dem Keyword \textbf{Definition} können einfach Funktionen dargestellt werden. Oftmals wird allerdings Rekursion benötigt. Diese ist nur möglich, wenn die Deklaration mit \textbf{Fixpoint} beschrieben ist. In Codeblock \ref{lst:functions} ist jeweils ein Beispiel hierfür dargestellt.
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Funktionen,label=lst:functions]
+Definition minustwo (n : nat) : nat :=
+match n with
+	| O => O
+	| S O => O
+	| S (S n') => n'
+end.
+
+Fixpoint plus (n : nat) (m : nat) : nat :=
+match n with
+	| O => m
+	| S n' => S (plus n' m)
+end.
+\end{lstlisting}
+
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq rekursive Funktion,label=lst:functions-executed]
+(* Run function plus with 3 and 2. Result => 5 *)
+Compute (plus 3 2).
+
+(*  plus (S (S (S O))) (S (S O))
+	==> S (plus (S (S O)) (S (S O)))
+by the second clause of the match
+	==> S (S (plus (S O) (S (S O))))
+by the second clause of the match
+	==> S (S (S (plus O (S (S O)))))
+by the second clause of the match
+	==> S (S (S (S (S O))))
+by the first clause of the match
+*)
+\end{lstlisting}
+Um ein tieferes Verständnis für die Rekursion in Coq zu bekommen, sind im Codeblock \ref{lst:functions-executed} die einzelnen Schritte abgebildet. Im 1. Schritt stellt Coq, wie bereits bei den Typdefinitionen der natürlichen Zahlen gezeigt, die Dezimalzahlen zwei und drei mittels der Successor-funktion dar. Anschließend beginnt die Rekursion. Solange \textbf{n > 0}, wird 1 mehr zum Endergebnis gezählt. Wenn \textbf{n = 0}, dann wird, wie in den letzten zwei Zeilen im Codeblock dargestellt, das plus durch \textbf{m} ersetzt. Somit ergibt \textbf{plus 3 2 => 5}.
+
+
+\url{https://softwarefoundations.cis.upenn.edu/lf-current/Basics.html#lab18}
+\begin{itemize}
+	\item Typ Definition
+	\item Funktion
+	\item Proof/Beweis
+	\item Taktik
+	\item Ziel
+	\item Subgoal
+\end{itemize}
+\subsection{Beispielbeweise}
+
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beispielbeweis,label=lst:sample-proof1]
+(* Initiating the theorem to proof. *)
+Theorem plus_id_exercise : forall n m o : nat,
+	n = m ->
+	m = o ->
+	n + m = m + o.
+	
+(* result: 
+1 subgoal
+______________________________________(1/1)
+forall n m o : nat,
+n = m -> m = o -> n + m = m + o*)
+
+Proof.
+(* move quantifiers into the context: *)
+	intros n m o. 
+	
+(* result: 
+1 subgoal
+n, m, o : nat
+______________________________________(1/1)
+n = m -> m = o -> n + m = m + o*)
+
+(* move hypothesises into the context: *)	
+	intros H.
+	intros H2.
+
+(* result: 
+1 subgoal
+n, m, o : nat
+H : n = m
+H2 : m = o
+______________________________________(1/1)
+n + m = m + o*)
+
+(* rewrite the goal using the hypothesises: *)
+	rewrite -> H.
+
+(* result: 
+...
+______________________________________(1/1)
+m + m = m + o
+*)
+	rewrite <- H2.
+
+(* result:
+...
+______________________________________(1/1)
+m + m = m + m
+*)
+	reflexivity.
+Qed.
 \end{lstlisting}
 
 \section{Zusammenspiel Proof - Program}
