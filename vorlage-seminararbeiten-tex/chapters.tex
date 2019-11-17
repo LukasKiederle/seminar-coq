@@ -48,6 +48,7 @@ Mathematisch und maschinell geprüfte Programme sollen diese Lücke in Zukunft s
 \begin{itemize}
 	\item Dependent type Sprache: So we established that we can prove things are true before we have a concrete value. To do this in an actual programming language, we need a way to encode these statements into the type system itself, which means our type system needs an upgrade. \url{https://medium.com/background-thread/the-future-of-programming-is-dependent-types-programming-word-of-the-day-fcd5f2634878}
 	We're turning the above run-time assertion into compile-time type.
+	\item \url{https://softwarefoundations.cis.upenn.edu/lf-current/Basics.html#lab18}
 \end{itemize}
 \subsection{Basisbegriffe}
 \subsubsection{Typdefinition}
@@ -71,10 +72,12 @@ Inductive nat : Type :=
 \end{lstlisting}
 
 Die Beispiele aus dem Codeblock \ref{lst:typedefinition} stellen drei Typedefinitionen in Coq dar. Ersteres ist ein klassischer Bool. Sowie dieser true oder false annehmen kann, repräsentiert der zweite Type day alle Wochentage. \\
-Die letzte Definition wird verwendet um alle natürlichen Zahlen darzustellen. \textbf{S (n : nat)} stellt den Successor z.d. die Nachfolgefunktion dar. Somit kann durch diesen Typ jeder Zahlenwert der natürlichen Zahlen dargestellt werden. Eine 4 würde beispielsweise durch die vierte Nachfolgefunktion von 0 wie folgt dargestellt werden. \textbf{(S (S (S (S O)))) => 0 + 1 + 1 + 1 + 1 => 4}.
+Die letzte Definition wird verwendet um alle natürlichen Zahlen darzustellen. \textbf{S (n : nat)} stellt den Successor z.d. die Nachfolgefunktion dar. Somit kann durch diesen Typ jeder Zahlenwert der natürlichen Zahlen dargestellt werden. Eine 4 würde beispielsweise durch die vierte Nachfolgefunktion von 0 wie folgt dargestellt werden. \textbf{(S (S (S (S O)))) => 0 + 1 + 1 + 1 + 1 => 4}.\\
+Des Weiteren ist es auch möglich Komposition durch das Schlüsselwort \textbf{Inductive} abzubilden.
 
-\subsubsection{Funktion}
-In Coq gibt es mehrere arten von Funktionstypen. Mit dem Keyword \textbf{Definition} können einfach Funktionen dargestellt werden. Oftmals wird allerdings Rekursion benötigt. Diese ist nur möglich, wenn die Deklaration mit \textbf{Fixpoint} beschrieben ist. In Codeblock \ref{lst:functions} ist jeweils ein Beispiel hierfür dargestellt.
+\subsubsection{Funktionen}
+In Coq gibt es mehrere Arten von Funktionstypen. Mit dem Keyword \textbf{Definition} können einfach Funktionen dargestellt werden. Oftmals wird allerdings Rekursion benötigt. Diese ist nur möglich, wenn die Deklaration mit \textbf{Fixpoint} oder ähnlichen Wörtern beschrieben ist. Anstelle von \textbf{Theorem} könnten Beispielsweise auch \textbf{Example, Lemma, Fact oder Remark} stehen. Diese Schlüsselwörter ermöglichen es in Coq mittels des Allquantors die Korrektheit einer Funktion für alle Elemente einer Menge zu beweisen.
+In Codeblock \ref{lst:functions} ist für die unterschiedlichen Funktionstypen jeweils ein Beispiel dargestellt.
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Funktionen,label=lst:functions]
 Definition minustwo (n : nat) : nat :=
 match n with
@@ -83,12 +86,18 @@ match n with
 	| S (S n') => n'
 end.
 
+Theorem plus_O_n' : forall n : nat,
+0 + n = n.
+
 Fixpoint plus (n : nat) (m : nat) : nat :=
 match n with
 	| O => m
 	| S n' => S (plus n' m)
 end.
 \end{lstlisting}
+
+Die erste Funktion \textbf{minustwo} zieht von einer eingegebenen natürlichen Zahl zwei ab. Allerdings ergibt \textbf{0 - 2, 1 - 2 => 0}. Dies ist durch die ersten zwei Fälle des \textbf{match}-Begriffs dargestellt.\\
+Das \textbf{Theorem plus\_O\_n} liest sich wie folgt: "Für alle natürlichen Zahlen n gilt 0 + n = 0". In folgendem Kapitel wird gezeigt, wie eine solche Funktion mathematisch bewiesen werden kann.
 
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq rekursive Funktion,label=lst:functions-executed]
 (* Run function plus with 3 and 2. Result => 5 *)
@@ -107,17 +116,10 @@ by the first clause of the match
 \end{lstlisting}
 Um ein tieferes Verständnis für die Rekursion in Coq zu bekommen, sind im Codeblock \ref{lst:functions-executed} die einzelnen Schritte abgebildet. Im 1. Schritt stellt Coq, wie bereits bei den Typdefinitionen der natürlichen Zahlen gezeigt, die Dezimalzahlen zwei und drei mittels der Successor-funktion dar. Anschließend beginnt die Rekursion. Solange \textbf{n > 0}, wird 1 mehr zum Endergebnis gezählt. Wenn \textbf{n = 0}, dann wird, wie in den letzten zwei Zeilen im Codeblock dargestellt, das plus durch \textbf{m} ersetzt. Somit ergibt \textbf{plus 3 2 => 5}.
 
-
-\url{https://softwarefoundations.cis.upenn.edu/lf-current/Basics.html#lab18}
-\begin{itemize}
-	\item Typ Definition
-	\item Funktion
-	\item Proof/Beweis
-	\item Taktik
-	\item Ziel
-	\item Subgoal
-\end{itemize}
-\subsection{Beispielbeweise}
+\subsection{Beweise}
+\subsubsection{Taktik}
+\subsubsection{Ziele und Subgoals}
+\subsubsection{Beispielbeweise}
 
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beispielbeweis,label=lst:sample-proof1]
 (* Initiating the theorem to proof. *)
