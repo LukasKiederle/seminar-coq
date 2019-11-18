@@ -49,6 +49,7 @@ Mathematisch und maschinell geprüfte Programme sollen diese Lücke in Zukunft s
 	\item Dependent type Sprache: So we established that we can prove things are true before we have a concrete value. To do this in an actual programming language, we need a way to encode these statements into the type system itself, which means our type system needs an upgrade. \url{https://medium.com/background-thread/the-future-of-programming-is-dependent-types-programming-word-of-the-day-fcd5f2634878}
 	We're turning the above run-time assertion into compile-time type.
 	\item \url{https://softwarefoundations.cis.upenn.edu/lf-current/Basics.html#lab18}
+	\item Coq und Coqide - Zusammenspiel mit Screenshot => wird in Kapitel mit Beispielbeweis genauer drauf eingegangen
 \end{itemize}
 \subsection{Basisbegriffe}
 \subsubsection{Typdefinition}
@@ -97,7 +98,7 @@ end.
 \end{lstlisting}
 
 Die erste Funktion \textbf{minustwo} zieht von einer eingegebenen natürlichen Zahl zwei ab. Allerdings ergibt \textbf{0 - 2, 1 - 2 => 0}. Dies ist durch die ersten zwei Fälle des \textbf{match}-Begriffs dargestellt.\\
-Das \textbf{Theorem plus\_O\_n} liest sich wie folgt: "Für alle natürlichen Zahlen n gilt 0 + n = 0". In folgendem Kapitel wird gezeigt, wie eine solche Funktion mathematisch bewiesen werden kann.
+Das \textbf{Theorem plus\_O\_n} liest sich wie folgt: "Für alle natürlichen Zahlen n gilt 0 + n = 0". Im folgenden Kapitel wird gezeigt, wie eine solche Funktion mathematisch bewiesen werden kann.
 
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq rekursive Funktion,label=lst:functions-executed]
 (* Run function plus with 3 and 2. Result => 5 *)
@@ -114,29 +115,32 @@ by the second clause of the match
 by the first clause of the match
 *)
 \end{lstlisting}
-Um ein tieferes Verständnis für die Rekursion in Coq zu bekommen, sind im Codeblock \ref{lst:functions-executed} die einzelnen Schritte abgebildet. Im 1. Schritt stellt Coq, wie bereits bei den Typdefinitionen der natürlichen Zahlen gezeigt, die Dezimalzahlen zwei und drei mittels der Successor-funktion dar. Anschließend beginnt die Rekursion. Solange \textbf{n > 0}, wird 1 mehr zum Endergebnis gezählt. Wenn \textbf{n = 0}, dann wird, wie in den letzten zwei Zeilen im Codeblock dargestellt, das plus durch \textbf{m} ersetzt. Somit ergibt \textbf{plus 3 2 => 5}.
+Um ein tieferes Verständnis für die Rekursion in Coq zu bekommen, sind im Codeblock \ref{lst:functions-executed} die einzelnen Schritte in einem Kommentar-block (gekennzeichnet durch (* *)) abgebildet. Im 1. Schritt stellt Coq, wie bereits bei den Typdefinitionen der natürlichen Zahlen gezeigt, die Dezimalzahlen zwei und drei mittels der Successor-funktion dar. Anschließend beginnt die Rekursion. Solange \textbf{n > 0}, wird 1 mehr zum Endergebnis gezählt. Wenn \textbf{n = 0}, dann wird, wie in den letzten zwei Zeilen im Codeblock dargestellt, das plus durch \textbf{m} ersetzt. Somit ergibt \textbf{plus 3 2 => 5}.
 
-\subsection{Beweise}
-
+\subsection{Beweise und Taktiken}
+Úm zu prüfen, dass die definierten Funktionen mathematisch korrekt sind, stellt der Proof Assistent verschiedene Taktiken zur Verfügung. Diese werden zwischen den \textbf{Proof.} und \textbf{Qed.} Schlüsselworten angegeben.\\\
+Eine grundlegende Beweismethode ist die Induktion, welche nur für die natürlichen Zahlen verwendet werden kann. Dabei wird zuerst geprüft, ob beim Einsetzen in die zu beweisende Funktion der kleinste Wert gültig ist. Anschließend soll die Aussage für \textbf{n + 1} bewiesen werden. Wenn beides zu einem gültigen Ergebnis führt, ist die Funktion mathematisch valide.
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beispielbeweis,label=lst:sample-proof1]
-Theorem negb_involutive : forall b : bool,
-negb (negb b) = b.
+Theorem plus_1_l : forall n:nat, 1 + n = S n.
 Proof.
-	intros b. destruct b eqn:E.
-	- reflexivity.
-	- reflexivity. 
+	intros n. 
+	reflexivity. 
+Qed.
+
+Theorem plus_n_O : forall n:nat, n = n + 0.
+Proof.
+	intros n. 
+	induction n as [| n' IHn'].
+		- (* n = 0 *) reflexivity.
+		- (* n = S n' *) simpl.
+		  rewrite <- IHn'.
+	reflexivity.
 Qed.
 \end{lstlisting}
-
-\begin{itemize}
-	\item Was bedeutet negb
-	\item Beweis beginnt mit Proof. und endet mit Qed.
-	\item Dazwischen werden verschiedene Taktiken angewendet
-\end{itemize}
-
-\subsubsection{Taktik}
-\subsubsection{Ziele und Subgoals}
-\subsubsection{Beispielbeweise}
+Im Codeblock \ref{lst:sample-proof1} sind zwei Theoreme bewiesen. Ersteres kann durch zwei Taktiken geprüft werden. \textbf{Intros} in Verbindung mit allen verwendeten Variablen des Theorems, setzt diese in den Kontext. Dies ist vergleichbar mit: "Gegeben sei n, eine natürliche Zahl".\\
+Ein anschließendes Anwenden von \textbf{reflexivity} sorgt dafür, dass das Programm überprüft, ob die linke und rechte Seite identisch sind. Dabei führt \textbf{reflexivity} auch noch ein \textbf{simpl} zur Vereinfachung (z.B.: 0 + n => 0) aus. \textbf{Reflexivity} muss somit immer am Ende eines Beweises stehen, sodass er abgeschlossen ist.\\
+Die zweite Funktion wird mit Hilfe der Taktik \textbf{induction} gelöst. Diese teilt die Aussage in zwei Subgoals (z.d. Teilziele) auf. Anschließend gilt es, jedes einzelne Ziel zu prüfen. Diese werden in verschiedenen Ebenen mithilfe von \textbf{-, +, *} gekennzeichnet. Ein \textbf{-} wird bei der ersten Subgoal-Ebene verwendet. Für das Adressieren weiterer Subgoals von Subgoals werden \textbf{+} und \textbf{*} genutzt.
+\subsection{Beispielbeweise}
 
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beispielbeweis,label=lst:sample-proof2]
 (* Initiating the theorem to proof. *)
@@ -199,15 +203,15 @@ Qed.
 	\item Codegenerierung, Proof -> Program
 	\item Programm -> Proof
 	\item Beispiel mit Liste aus Video
+	\item Oder Beispiel mit Haskel
 \end{itemize}
 
 \subsection{How-to}
 \begin{itemize}
 	\item \url{https://medium.com/@ahelwer/formal-verification-casually-explained-3fb4fef2e69a}
 	\item Erstelle eine Spezifikation, die ein Programm beschreibt
-	\item Schreie die Spezifikation mathematisch in ein Proof Tool
+	\item Schreibe die Spezifikation mathematisch in ein Proof Tool
 	\item Wenn es Fehler enthält, sagt es dir der Verifier
-	\item 
 \end{itemize}
 
 \section{Aktuelle Anwendung}
