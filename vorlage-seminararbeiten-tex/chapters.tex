@@ -117,11 +117,28 @@ by the first clause of the match
 Um ein tieferes Verständnis für die Rekursion in Coq zu bekommen, sind im Codeblock \ref{lst:functions-executed} die einzelnen Schritte abgebildet. Im 1. Schritt stellt Coq, wie bereits bei den Typdefinitionen der natürlichen Zahlen gezeigt, die Dezimalzahlen zwei und drei mittels der Successor-funktion dar. Anschließend beginnt die Rekursion. Solange \textbf{n > 0}, wird 1 mehr zum Endergebnis gezählt. Wenn \textbf{n = 0}, dann wird, wie in den letzten zwei Zeilen im Codeblock dargestellt, das plus durch \textbf{m} ersetzt. Somit ergibt \textbf{plus 3 2 => 5}.
 
 \subsection{Beweise}
+
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beispielbeweis,label=lst:sample-proof1]
+Theorem negb_involutive : forall b : bool,
+negb (negb b) = b.
+Proof.
+	intros b. destruct b eqn:E.
+	- reflexivity.
+	- reflexivity. 
+Qed.
+\end{lstlisting}
+
+\begin{itemize}
+	\item Was bedeutet negb
+	\item Beweis beginnt mit Proof. und endet mit Qed.
+	\item Dazwischen werden verschiedene Taktiken angewendet
+\end{itemize}
+
 \subsubsection{Taktik}
 \subsubsection{Ziele und Subgoals}
 \subsubsection{Beispielbeweise}
 
-\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beispielbeweis,label=lst:sample-proof1]
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beispielbeweis,label=lst:sample-proof2]
 (* Initiating the theorem to proof. *)
 Theorem plus_id_exercise : forall n m o : nat,
 	n = m ->
