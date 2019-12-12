@@ -202,17 +202,168 @@ Qed.
 	\item \url{https://www.youtube.com/watch?v=Ue8QG8pf0wU}
 	\item Codegenerierung, Proof -> Program
 	\item Programm -> Proof
-	\item Beispiel mit Liste aus Video
-	\item Oder Beispiel mit Haskel
 \end{itemize}
 
 \subsection{How-to}
+\subsubsection{theoretisch}
 \begin{itemize}
 	\item \url{https://medium.com/@ahelwer/formal-verification-casually-explained-3fb4fef2e69a}
 	\item Erstelle eine Spezifikation, die ein Programm beschreibt
 	\item Schreibe die Spezifikation mathematisch in ein Proof Tool
 	\item Wenn es Fehler enthält, sagt es dir der Verifier
+	\item Code to Ocaml extractor ist nicht formal verifiziert. Wird aber viel verwendet, weil es einfach ist
 \end{itemize}
+
+\subsubsection{praktisch}
+\textbf{Funktionalitäten schreiben und mathematisch beweisen}
+\begin{itemize}
+	\item natprod beschreibt ein paar von 2 natürlichen Zahlen
+	\item Check und Compute wird als Konsolen-Ausgabe genutzt
+	\item fst gibt x zurück
+	\item snd gibt y zurück
+	\item Notation ist ein Alias um bestimmte Ausdrücke anders als normal zu schreiben
+	\item swap\_pair vertauscht x und y
+	\item surjective\_pairing und surjective\_pairing\_stuck beweist, dass das Erstellen von einem neuem Paar demselben entspricht, wenn man fst und snd von diesem Paar nimmt und ein neues Paar bildet.
+	\item snd\_fst\_is\_swap und fst\_swap\_is\_snd prüft die swap\_pair Funktion auf Korrektheit.
+	\item destruct bedeutet:
+\end{itemize}
+
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beispielbeweis,label=lst:practical-proof]
+From LF Require Export Induction.
+
+Inductive natprod : Type :=
+	| pair (n1 n2 : nat).
+
+Check (pair 3 5).
+
+Definition fst (p : natprod) : nat :=
+match p with
+	| pair x y => x
+end.
+
+Definition snd (p : natprod) : nat :=
+match p with
+	| pair x y => y
+end.
+
+Compute (fst (pair 3 5)).
+Compute (snd (pair 5 7)).
+
+Notation "( x , y )" := (pair x y).
+
+Compute (fst (3,5)).
+Definition fst' (p : natprod) : nat :=
+match p with
+	| (x,y) => x
+end.
+Definition snd' (p : natprod) : nat :=
+match p with
+	| (x,y) => y
+end.
+Definition swap_pair (p : natprod) : natprod :=
+match p with
+	| (x,y) => (y,x)
+end.
+
+Theorem surjective_pairing' : forall (n m : nat),
+(n,m) = (fst (n,m), snd (n,m)).
+Proof.
+	simpl.
+	reflexivity. 
+Qed.
+
+Theorem surjective_pairing_stuck : forall (p : natprod),
+p = (fst p, snd p).
+Proof.
+	intros p.
+	destruct p as [n m].  
+	simpl.
+	reflexivity.
+Qed.
+
+Theorem snd_fst_is_swap : forall(p : natprod),
+(snd p, fst p) = swap_pair p.
+Proof.
+	intros p.
+	destruct p as [n m].
+	simpl.
+	reflexivity.
+Qed.
+
+Theorem fst_swap_is_snd : forall(p : natprod),
+fst (swap_pair p) = snd p.
+Proof.
+	intros p.
+	destruct p as [n m].
+	simpl.
+	reflexivity.
+Qed.
+\end{lstlisting}
+
+\textbf{Proof extrahieren}
+\textbf{coqc -Q . LF PaperPairExtraction.v}
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Code extrahieren,label=lst:practical-proof-extraction]
+Require Extraction.
+Extraction Language OCaml.
+Require Import ExtrOcamlBasic.
+Require Import ExtrOcamlString.
+Require Import Arith Even Div2 EqNat Euclid.
+
+Extract Inductive nat => int [ "0" "Pervasives.succ" ]
+"(fun fO fS n -> if n=0 then fO () else fS (n-1))".
+
+Extraction "paperimpl.ml" fst snd swap_pair.
+\end{lstlisting}
+\textbf{Ocaml Code anpassen (Tests hinzufügen Sachen ausbessern)}
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Ocaml Code anpassen,label=lst:practical-generated-code]
+type natprod =
+| Pair of int * int
+
+(** val fst : natprod -> int **)
+
+let fst = function
+| Pair (x, _) -> x
+
+(** val snd : natprod -> int **)
+
+let snd = function
+| Pair (_, y) -> y
+
+(** val swap_pair : natprod -> natprod **)
+
+let swap_pair = function
+| Pair (x, y) -> Pair (y, x)
+\end{lstlisting}
+
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Ocaml Code anpassen,label=lst:practical-code-adjustment]
+let pair = Pair(3, 4);;
+let resultfst = fst pair;;
+let resultsnd = snd pair;;
+
+Printf.printf "Result fst: %d \n%!" resultfst;;
+Printf.printf "Result snd: %d \n%!" resultsnd;;
+
+let pair2 = swap_pair pair;;
+let resultfst2 = fst pair2;;
+let resultsnd2 = snd pair2;;
+
+Printf.printf "Result fst: %d \n%!" resultfst2;;
+Printf.printf "Result snd: %d \n%!" resultsnd2;;
+\end{lstlisting}
+
+\textbf{Ocaml code compilieren}
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Ocaml Code compilieren,label=lst:practical-code-compilation]
+ocamlc -w -20 -w -26 -o paperimp paperimpl.mli paperimpl.ml
+\end{lstlisting}
+
+\textbf{Ocaml code ausführen}
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Ocaml code ausführen,label=lst:practical-code-execution]
+lukas@luk-ubuntu@~/Documents/coq-test/lf: ./paperimp
+Result fst: 3 
+Result snd: 4 
+Result fst: 4 
+Result snd: 3 
+\end{lstlisting}
 
 \section{Aktuelle Anwendung}
 \subsection{Proofed Stack}
