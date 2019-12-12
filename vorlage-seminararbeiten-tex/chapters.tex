@@ -196,15 +196,15 @@ m + m = m + m
 Qed.
 \end{lstlisting}
 
-\section{Zusammenspiel Proof - Program}
+\section{Zusammenspiel Coq und Programmcode}
 \begin{itemize}
 	\item Wir haben eine Liste von Dingen, die die Software tun soll, und verwenden Logik, um zu beweisen, dass die Software diese Dinge tut.
 	\item \url{https://www.youtube.com/watch?v=Ue8QG8pf0wU}
-	\item Codegenerierung, Proof -> Program
-	\item Programm -> Proof
+	\item Codegenerierung, Proof -> Programm (ich gehe vorallem hierauf ein)
+	\item Programm -> Proof 
 \end{itemize}
 
-\subsection{How-to}
+\subsection{Proof -> Programm}
 \subsubsection{theoretisch}
 \begin{itemize}
 	\item \url{https://medium.com/@ahelwer/formal-verification-casually-explained-3fb4fef2e69a}
@@ -225,7 +225,7 @@ Qed.
 	\item swap\_pair vertauscht x und y
 	\item surjective\_pairing und surjective\_pairing\_stuck beweist, dass das Erstellen von einem neuem Paar demselben entspricht, wenn man fst und snd von diesem Paar nimmt und ein neues Paar bildet.
 	\item snd\_fst\_is\_swap und fst\_swap\_is\_snd prüft die swap\_pair Funktion auf Korrektheit.
-	\item destruct bedeutet:
+	\item destruct bedeutet: The tactic that tells Coq to consider, separately, the cases where n = O and where n = S n' is called destruct. The destruct generates two subgoals, which we must then prove, separately, in order to get Coq to accept the theorem. The same as we used in induction. The difference of destruct and induction is, that induction is capable of checking n = 0, n+1 and than say, if this is correct -> the whole proof is correct. In this example we use destruct just to split the pair p into n and m again. Otherwise Coq can't simplify the statement.
 \end{itemize}
 
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beispielbeweis,label=lst:practical-proof]
@@ -365,6 +365,14 @@ Result fst: 4
 Result snd: 3 
 \end{lstlisting}
 
+\subsection{Programm -> Proof}
+\begin{itemize}
+	\item nutze Verified Software Toolchain (VST) der PrincetonUniversity um C Code mathematisch zu beweisen
+	\item Schreibe ein C Program F.c
+	\item Führe clightgen -normalize F.c aus. Dadurch entsteht eine Datei Coq-File F.v
+	\item Schreibe eine formale Verifikation in einer Datei (z.B.: verif\_F.v). In dieser File müssen sowohl F.v als auch das VST Floya Programm-Verifikationssystem VST.floyd.proofauto importieren.\cite{Appel01:VST}
+\end{itemize}
+
 \section{Aktuelle Anwendung}
 \subsection{Proofed Stack}
 \begin{itemize}
@@ -387,7 +395,7 @@ Result snd: 3
 
 \section{Anwendbarkeit in der Praxis}
 \begin{itemize}
-	\item Objektorientierung
+	\item Objektorientierung eher schwer, da direkte Umwandlung von funktionaler Sprache in eine funktionale Sprache einfacher ist. (Außerdem programmieren die Menschen, die das entwickeln eigentlich nicht wirklich objektorientiert)
 	\item Sicherheitskritische Systeme
 	\item Compilerbau
 \end{itemize}
@@ -397,65 +405,6 @@ Result snd: 3
 \subsection{Aussicht}
 
 \section{Glossar}
-
-
-\section{Einleitung}
-\label{s:intro}
-
-Hier kommt die Einleitung.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Ein Abschnitt der Einleitung}
-\label{ss:intro:abc}
-
-Einen Überblick findet man z.\,B.\ in \cite{Auer00:HTF}.
-
-\begin{figure}[t]
-	\centering
-	
-	\begin{subfigure}{0.45\linewidth}
-		\centering
-		\includegraphics[width=\linewidth]{\figdir/handorig}
-		\caption{Originalbild}
-		\label{FIG:arexorig}
-	\end{subfigure}
-	%
-	\begin{subfigure}{0.45\linewidth}
-		\centering
-		\includegraphics[width=\linewidth]{\figdir/handaug}
-		\caption{erweitertes Bild}
-		\label{FIG:arexaugm}
-	\end{subfigure}
-	%
-	\caption[AR Beispiel]
-	{Beispiel eines Augmented Reality Systems: es folgt eine Beschreibung (Bilder aus \cite{Schmidt01:PAO})}
-	\label{FIG:arex}
-\end{figure}
-
-Ein Beispiel wird in Abb.\ \ref{FIG:arex} gezeigt.
-Das verwendete Objekt ist in Abb.\ \ref{FIG:arexorig} dargestellt, das Ergebnis in Abb.\ \ref{FIG:arexaugm}.
-
-Eine Formel
-\begin{equation}
-\label{eq:cvp:test}
-f(x) = \frac{1}{3} x + 5, \quad x \in \real.
-\end{equation}
-
-Und noch eine:
-\begin{equation}
-\label{eq:cvp:matvec}
-\bm{M}  = \bm{Ax} \pi, \quad \bm{A} \in \real^{2 \times 2}, \bm{x} \in \real^2.
-\end{equation}
-
-Tabelle \ref{t:CodebookOverview} gibt einen Überblick über XYZ.
-
-\begin{table}[t]
-	\centering\small
-	\input{\tabledir/CodebookOverview.tex}
-	\caption[Testtabelle]{Datenselektion für verschiedene Testdatensätze.}
-	\label{t:CodebookOverview}
-\end{table}
 
 
 %%% Local Variables: 
