@@ -38,10 +38,12 @@ Mathematisch und maschinell geprüfte Programme sollen diese Lücke in Zukunft s
 \section{Coq}
 \url{https://www.amazon.de/Certified-Programming-Dependent-Types-Introduction/dp/0262026651/ref=sr_1_fkmr0_1?__mk_de_DE=ÅMÅŽÕÑ&keywords=coq+proof+assistent&qid=1572974699&sr=8-1-fkmr0}
 \begin{itemize}
-	\item Warum Coq
+	\item erster Release Mai 1989 (30 Jahre)
 	\item funktionaler Programmierstil
-	\item Frenchmade
-	\item Warum ist coq so erfolgreich?
+	\item crossplatform
+	\item open source
+	\item wurde seit 1984 von INRIA ("`National Institute for Research in Computer Science and Automation"') supported
+	\item Warum Coq?
 \end{itemize}
 
 \section{Programmatische Coq-Grundlagen}
@@ -139,9 +141,20 @@ Qed.
 \end{lstlisting}
 Im Codeblock \ref{lst:sample-proof1} sind zwei Theoreme bewiesen. Ersteres kann durch zwei Taktiken geprüft werden. \textbf{Intros} in Verbindung mit allen verwendeten Variablen des Theorems, setzt diese in den Kontext. Dies ist vergleichbar mit: "Gegeben sei n, eine natürliche Zahl".\\
 Ein anschließendes Anwenden von \textbf{reflexivity} sorgt dafür, dass das Programm überprüft, ob die linke und rechte Seite identisch sind. Dabei führt \textbf{reflexivity} auch noch ein \textbf{simpl} zur Vereinfachung (z.B.: 0 + n => 0) aus. \textbf{Reflexivity} muss somit immer am Ende eines Beweises stehen, sodass er abgeschlossen ist.\\
-Die zweite Funktion wird mit Hilfe der Taktik \textbf{induction} gelöst. Diese teilt die Aussage in zwei Subgoals (z.d. Teilziele) auf. Anschließend gilt es, jedes einzelne Ziel zu prüfen. Diese werden in verschiedenen Ebenen mithilfe von \textbf{-, +, *} gekennzeichnet. Ein \textbf{-} wird bei der ersten Subgoal-Ebene verwendet. Für das Adressieren weiterer Subgoals von Subgoals werden \textbf{+} und \textbf{*} genutzt.
-\subsection{Beispielbeweise}
-
+Die zweite Funktion wird mit Hilfe der Taktik \textbf{induction} gelöst. Diese teilt die Aussage in zwei Subgoals (z.d. Teilziele) auf. Anschließend gilt es, jedes einzelne Ziel zu prüfen. Diese werden in verschiedenen Ebenen mithilfe von \textbf{-, +, *} gekennzeichnet. Ein \textbf{-} wird bei der ersten Subgoal-Ebene verwendet. Für das Adressieren weiterer Subgoals von Subgoals werden \textbf{+} und \textbf{*} genutzt. Das Schlüsselwort \textbf{rewrite} wird in folgendem Unterkapitel erläutert. 
+\subsection{Umfangreicherer Beweis}
+\begin{itemize}
+	\item Gegeben: Für die natürlichen Zahlen m, n und o gilt, dass n = m und m = o ist. Zu beweisen: n + m = m + o
+	\item In den Kommentar-Blöcken, gekennzeichnet durch (* und *) wird das Ergebnis nach jedem einzelnen Schritt dargestellt.
+	\item Wie bereits erwähnt, werden mit \textbf{Intros} die Variablen als gegeben markiert.
+	Forall wird nun über der Linie angezeigt.
+	\item Alles unter der Linie ist zu beweisen und drüber ist gegeben
+	\item Die Zwei Hypothesen H1 und H2 in den Kontext setzen
+	\item Anschließend ist nur noch n + m = m + o mit den gegebenen Sachen zu beweisen
+	\item Es wird nun die Taktik \textbf{rewrite} oder nicht fachlich gesagt: Einsetzen genutzt.
+	\item Es ist zu sehen, dass nach jedem Rewrite sich das End-Ziel verändert, bis schließlich m + m = m + m dasteht.
+	\item Dies kann einfach mit reflexivity geprüft werden und der Beweis ist vollständig.
+\end{itemize}
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beispielbeweis,label=lst:sample-proof2]
 (* Initiating the theorem to proof. *)
 Theorem plus_id_exercise : forall n m o : nat,
@@ -196,13 +209,13 @@ m + m = m + m
 Qed.
 \end{lstlisting}
 
-\section{Zusammenspiel Coq und Programmcode}
-\begin{itemize}
-	\item Wir haben eine Liste von Dingen, die die Software tun soll, und verwenden Logik, um zu beweisen, dass die Software diese Dinge tut.
-	\item \url{https://www.youtube.com/watch?v=Ue8QG8pf0wU}
-	\item Codegenerierung, Proof -> Programm (ich gehe vorallem hierauf ein)
-	\item Programm -> Proof 
-\end{itemize}
+\section{Coq und Programmcode}
+
+Beim Zusammenspiel von Beweisen in Coq und Programmcode gibt es zwei verschiedene Richtungen. Einerseits können Theoreme bewiesen und dann in Programmiersprachen extrahiert werden. Andererseits ist es auch möglich, erst ein Programm zu entwickeln und anschließend dieses in Coq zu verifizieren. \\
+Das dabei verwendete Prinzip lautet salopp gesagt:
+\textbf{Es gibt eine Liste von Dingen, die eine Software tun soll. Hierfür wird Logik verwendet, um zu beweisen, dass diese Software auch genau diese Dinge tut.}
+\\
+In den folgenden Unterkapiteln sind beide Wege beschrieben. Dabei wird die Richtung Proof zu Programm anhand eines genauen Codebeispiels erläutert.
 
 \subsection{Proof -> Programm}
 \subsubsection{theoretisch}
@@ -215,6 +228,11 @@ Qed.
 \end{itemize}
 
 \subsubsection{praktisch}
+\begin{itemize}
+	\item Programmcode in Coq bewiesen und dann in Ocaml extrahiert
+	\item Ocaml ("`Categorical Abstract Machine + ML"') ist eine sowohl funktionale, als auch objektorientierte Programmiersprache.
+	\item ML bedeutet Meta-Language. Dies ist für diese Arbeit weniger relevant, da Ocaml lediglich als Beispiel für Code-Extraction genutzt wird und der Fokus hauptsächlich auf dem Prinzip liegt.
+\end{itemize}
 \textbf{Funktionalitäten schreiben und mathematisch beweisen}
 \begin{itemize}
 	\item natprod beschreibt ein paar von 2 natürlichen Zahlen
@@ -299,9 +317,11 @@ Proof.
 	reflexivity.
 Qed.
 \end{lstlisting}
-
-\textbf{Proof extrahieren}
-\textbf{coqc -Q . LF PaperPairExtraction.v}
+Um anschließend die formal bewiesenen Funktionen in Programmen nutzen zu können, muss die Datei, in der die Beweise geschrieben wurden, in Coq compiliert werden. Dafür muss folgender Befehl in die Kommandozeile eingeben werden:
+\textbf{coqc -Q . LF PaperPair.v}. \\
+\textbf{Coqc} ist hierbei der Aufruf des Coq-Compilers. \textbf{-Q . LF} sorgt dafür, dass alle .v-Dateien aus dem Paket LF in andere Coq-Dateien importiert werden können. Ein Paket in Coq ist ähnlich zu anderen Programmiersprachen wie beispielsweise Java.
+\\
+Für den nächsten Schritt in der Extraktion wird eine Coq-Datei benötigt, welche definiert, wie und was in welcher Sprache extrahiert werden soll. Diese muss ebenfalls über die Kommandozeile, wie zuvor beschrieben, compiliert werden.
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Code extrahieren,label=lst:practical-proof-extraction]
 Require Extraction.
 Extraction Language OCaml.
@@ -314,7 +334,11 @@ Extract Inductive nat => int [ "0" "Pervasives.succ" ]
 
 Extraction "paperimpl.ml" fst snd swap_pair.
 \end{lstlisting}
-\textbf{Ocaml Code anpassen (Tests hinzufügen Sachen ausbessern)}
+Im Codeblock \ref{lst:practical-proof-extraction} ist zu sehen, dass verschiedene Dateien mit \textbf{Require} und \textbf{Require Import} importiert werden. \textbf{Extraction} und \textbf{ExtraOcamlBasic} sind beispielweise Standard-Features von Coq um Funktionen von Coq-Code in Ocaml-Code umzuwandeln.\\
+Weiterhin wird in der Zeile \textbf{Extract Inductive nat => \dots} ein Ausdruck verwendet, sodass OCaml den Typ der natürlichen Zahlen aus Coq verwenden kann.
+Damit schlussendlich eine ausführbare Datei entsteht, muss definiert werden, welche Funktionen in welche Datei extrahiert werden sollen.\\
+\\
+Der folgende Code \ref{lst:practical-generated-code} ist das Resultat, des zuvor gezeigten Coq-Codes. 
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Ocaml Code anpassen,label=lst:practical-generated-code]
 type natprod =
 | Pair of int * int
@@ -334,7 +358,7 @@ let snd = function
 let swap_pair = function
 | Pair (x, y) -> Pair (y, x)
 \end{lstlisting}
-
+Dadurch das der Coq-To-Ocaml-Extraktor nicht komplett formal verifiziert ist, kann es sein, dass der Code nicht 100\% korrekt ist. Um sicherzustellen, dass dies der Fall ist, wurden im Nachhinein ein paar Tests geschrieben, welche im Codebeispiel \ref{lst:practical-code-adjustment} dargestellt werden. Diese Tests beschreiben einfache Funktionsaufrufe wie zum Beispiel das Erhalten des ersten und zweiten Wertes eines Paares. Anschließend werden die selben Funktionen noch einmal aufgerufen - allerdings auf ein neues Paar, dass du die swap\_	pair Funktion entstanden ist. Zur Nachvollziehbarkeit werden dabei die jeweiligen Ergebnisse auf der Kommandozeile ausgegeben.
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Ocaml Code anpassen,label=lst:practical-code-adjustment]
 let pair = Pair(3, 4);;
 let resultfst = fst pair;;
@@ -350,13 +374,12 @@ let resultsnd2 = snd pair2;;
 Printf.printf "Result fst: %d \n%!" resultfst2;;
 Printf.printf "Result snd: %d \n%!" resultsnd2;;
 \end{lstlisting}
-
-\textbf{Ocaml code compilieren}
+Ocaml-Code muss genauso wie C-Code compiliert werden. Folgender Befehl ermöglicht es aus der \textbf{paperimpl.ml} und der \textbf{paperimpl.mli} Datei funktionierenden compilierten Code zu erhalten. Dieser wird unter dem Namen \textbf{paperimp} im selben Verzeichnis abgelegt.
+\\
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Ocaml Code compilieren,label=lst:practical-code-compilation]
 ocamlc -w -20 -w -26 -o paperimp paperimpl.mli paperimpl.ml
 \end{lstlisting}
 
-\textbf{Ocaml code ausführen}
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Ocaml code ausführen,label=lst:practical-code-execution]
 lukas@luk-ubuntu@~/Documents/coq-test/lf: ./paperimp
 Result fst: 3 
@@ -364,6 +387,7 @@ Result snd: 4
 Result fst: 4 
 Result snd: 3 
 \end{lstlisting}
+In Codeblock \ref{lst:practical-code-execution} werden die Ausgaben der Tests dargestellt. Die ersten zwei Ergebnisse sind die Werte, welches mit den Werten \textbf{fst: 3} und \textbf{snd: 4} initiiert wurde. Die zweiten zwei Ausgaben stellen \textbf{fst} und \textbf{snd} des invertierten Paars dar.
 
 \subsection{Programm -> Proof}
 \begin{itemize}
@@ -390,6 +414,7 @@ Result snd: 3
 \subsection{JSCert for ECMA 5}
 \url{https://github.com/jscert/jscert}
 \subsection{4-Farben Rätsel ist löstbar!}
+\url{http://www.ams.org/notices/200811/tx081101382p.pdf}
 \subsection{CertiCoq}
 \url{https://www.cs.princeton.edu/~appel/papers/certicoq-coqpl.pdf}
 
@@ -402,7 +427,14 @@ Result snd: 3
 
 
 \section{Fazit}
-\subsection{Aussicht}
+\begin{itemize}
+	\item Programmcodeverifikation nimmt vor allem in sicherheitskritischen Bereichen zu
+	\item Programmcodeverifikation ist deutlich zeitintensiver (5mal)
+	\item Mit dieser Verifikation kann 100\%tige Garantie für funktionierende Software gewährleistet werden
+	\item Es hat großes Potential
+	\item Wird sehr stark durch die Community weiterentwickelt
+	\item Große Firmen nutzen es immer aktiver
+\end{itemize}
 
 \section{Glossar}
 
