@@ -19,31 +19,30 @@ Diese Seminararbeit soll einen tieferen Einblick in den Themenbereich der Progra
 
 
 \section{Grundlagen}
-\subsection{Was ist ein Proof Assisstant}
-\url{https://www.youtube.com/watch?v=95VlaZTaWgc&t=2646s}
+\subsection{Theorem Provers}
+Ein Theorem Prover ist ein Programm.
+In diesem definiert ein Mensch Aussagen, welche das Tool versucht zu beweisen, wenn es möglich ist.
 
-
-\subsubsection{Proof Verifier}
-\subsubsection{Theorem Provers}
+\subsection{Proof Assistent}
+Ein Proof Assistent, welcher auch interaktiver Theorem Proofer genannt wird, ist ein Softwaretool, dass hilft formale Beweise durchzuführen. Dabei wird meistens ein interaktiver Editor verwendet, mit dem ein Mensch am Computer Schritt für Schritt Beweise schreiben kann. Der Unterschied zu einem Theorem Prover ist, dass die Software mit dem Bediener interagiert.
 
 \subsection{Übersicht}
-\url{https://en.wikipedia.org/wiki/Proof_assistant}
-\begin{itemize}
-	\item ACL2
-	\item Isabelle
-	\item Coq
-\end{itemize}
+Zum Zeitpunkt dieser Arbeit existieren circa 17 verschiedene Tools für formale Verifikation. Dabei sind \textbf{ACL2}, \textbf{Isabelle} und \textbf{Coq} die bekanntesten.\cite{WIEDIJK01:FP}
+In dieser Arbeit, wird wie bereits erwähnt ausschließlich auf Coq eingegangen, da das Vergleichen den Rahmen dieser Arbeit sprengen würde. Für Interessenten ist das Paper unter \url{http://www.cs.ru.nl/~freek/comparison/comparison.pdf} von Freek Wiedijk und Dana Scott zu empfehlen.
 
 \section{Coq}
 \url{https://www.amazon.de/Certified-Programming-Dependent-Types-Introduction/dp/0262026651/ref=sr_1_fkmr0_1?__mk_de_DE=ÅMÅŽÕÑ&keywords=coq+proof+assistent&qid=1572974699&sr=8-1-fkmr0}
+\url{https://www.youtube.com/watch?v=95VlaZTaWgc&t=2646s}
 \begin{itemize}
 	\item erster Release Mai 1989 (30 Jahre)
 	\item funktionaler Programmierstil
 	\item crossplatform
 	\item open source
-	\item wurde seit 1984 von INRIA ("`National Institute for Research in Computer Science and Automation"') supported
+	\item wurde seit 1984 von INRIA ("`National Institute for Research in Computer Science and Automation"') supported und auch entwickelt
 	\item Warum Coq?
 \end{itemize}
+Der Proof Assistent Coq wurde erstmals im Mai 1989 veröffentlicht. Das National Institute for Research in Computer Science and Automation (INRIA) hat dessen Entwicklung seit bereits 1984 unterstützt. \\
+Bestandteile in Coq sind die funktionale Programmiersprache Coq selbst und eine Entwicklungsumgebung namens Coqide. Zum heutigen Zeitpunkt ist beide plattform-unabhängig und open-source erhältlich. Die aktuelle Version ist  8.10.2.\cite{COQ01:FV}
 
 \section{Programmatische Coq-Grundlagen}
 \begin{itemize}
