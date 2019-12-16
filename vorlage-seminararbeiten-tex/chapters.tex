@@ -4,18 +4,15 @@
 \\
 Diese Seminararbeit soll einen tieferen Einblick in den Themenbereich der Programmcodeverifikation schaffen. Dabei wird sowohl auf die Grundlagen als auch technisch-detaillierte Beispiele eingegangen. Als technisches Mittel wird hierfür der Proof-Assistent Coq verwendet.
 
-\begin{itemize}
-	\item Normale Software wird so gebaut und evaluiert, sodass sie funktioniert
-	\item “If you start with an English-language specification, you’re inherently starting with an ambiguous specification,” said Jeannette Wing, corporate vice president at Microsoft Research. “Any natural language is inherently ambiguous. In a formal specification you’re writing down a precise specification based on mathematics to explain what it is you want the program to do.”
-	\item \url{https://www.quantamagazine.org/formal-verification-creates-hacker-proof-code-20160920/}
-	\item Fehler 40
-	\item Was wenn ein Compiler auf unterschiedlichen System aus dem selben Sourcecode unterschiedliche Runnables macht?
-	\item \url{https://www.mikrocontroller.net/articles/Compilerfehler}
-	\item \url{https://blog.regehr.org/archives/26}
-	\item Unit tests schreiben, um möglichst viele Fehler zu finden -> Proof Assistent um für alle korrekt zu funktionieren
-	\item Proof Assistent benutzen um formal richtigen Code zu schreiben/generieren
-	\item \textbf{Fragestellung: Wie gewährleiste ich sichereren/gut getesteten Code?}
-\end{itemize}
+
+\section{Warum ist Formale Verifikation interessant?}
+Es existieren unzählige Beispiele für die Relevanz von Formaler Verifikation. Zum Beispiel jeder Computer besteht aus vielen elektronischen Hardwareteilen wie Prozessoren, Grafikkarte et cetera. Um diesen nutzen zu können, wird eine Hardware Description Language (HDL) eingesetzt. Diese beschreibt sowohl die Struktur als auch das Verhalte des elektronischen Bauteils.\\
+Eine Firma X verkauft nun einen Computer mit einer fehlerhaften HDL-Software. Je nach Ausmaß des Bugs, kann dies gravierende Folgen nach sich ziehen.\\
+\\
+Heutzutage gehen viele Computer-Nutzer davon aus, dass ein Prozessor, ein Compiler oder ein Programm 100\% korrekt funktionieren. Doch wie ist sichergestellt, dass das Speichern in einem Editor oder das Compilieren von C Code auch das gewünschte Ergebnis liefert? Es ist eine Annahme, dass dies so funktioniert. Sehr wahrscheinlich wurden etliche Tests vor der Veröffentlichung der jeweiligen Software geschrieben. Trotzdem ist dies nur eine Annahme und kein Beweis, dass die Software auch wirklich so funktioniert, wie diese funktionieren soll.
+\\
+Wenn beispielsweise diese HDL-Software jedoch formal verifiziert wäre, wäre bewiesen, dass, solange die Spezifikation korrekt ist, kein Fehler auftreten kann.\\
+Somit lässt sich schlussfolgern, dass formale Verifikation vor allem in Software, die 100\% korrekt sein muss benötigt wird. Hauptsächlich betrifft dies sicherheitskritische und intensiv genutzte Systeme.
 
 
 \section{Grundlagen}
@@ -28,19 +25,9 @@ Ein Proof Assistent, welcher auch interaktiver Theorem Proofer genannt wird, ist
 
 \subsection{Übersicht}
 Zum Zeitpunkt dieser Arbeit existieren circa 17 verschiedene Tools für formale Verifikation. Dabei sind \textbf{ACL2}, \textbf{Isabelle} und \textbf{Coq} die bekanntesten.\cite{WIEDIJK01:FP}
-In dieser Arbeit, wird wie bereits erwähnt ausschließlich auf Coq eingegangen, da das Vergleichen den Rahmen dieser Arbeit sprengen würde. Für Interessenten ist das Paper unter \url{http://www.cs.ru.nl/~freek/comparison/comparison.pdf} von Freek Wiedijk und Dana Scott zu empfehlen.
+In dieser Arbeit, wird wie bereits erwähnt ausschließlich auf Coq eingegangen, da das Vergleichen den Rahmen dieser Arbeit sprengen würde. Hintergrundwissen diesbezüglich ist ersichtlich im Paper von Freek Wiedijk und Dana Scott zu empfehlen unter \url{http://www.cs.ru.nl/~freek/comparison/comparison.pdf}. 
 
 \section{Coq}
-\url{https://www.amazon.de/Certified-Programming-Dependent-Types-Introduction/dp/0262026651/ref=sr_1_fkmr0_1?__mk_de_DE=ÅMÅŽÕÑ&keywords=coq+proof+assistent&qid=1572974699&sr=8-1-fkmr0}
-\url{https://www.youtube.com/watch?v=95VlaZTaWgc&t=2646s}
-\begin{itemize}
-	\item erster Release Mai 1989 (30 Jahre)
-	\item funktionaler Programmierstil
-	\item crossplatform
-	\item open source
-	\item wurde seit 1984 von INRIA ("`National Institute for Research in Computer Science and Automation"') supported und auch entwickelt
-	\item Warum Coq?
-\end{itemize}
 Der Proof Assistent Coq wurde erstmals im Mai 1989 veröffentlicht. Das National Institute for Research in Computer Science and Automation (INRIA) hat dessen Entwicklung bereits seit 1984 unterstützt. \\
 Bestandteile in Coq sind die funktionale Programmiersprache Coq selbst und eine Entwicklungsumgebung namens Coqide. Zum heutigen Zeitpunkt ist beide plattform-unabhängig und open-source erhältlich. Die aktuelle Version ist  8.10.2.\cite{COQ01:FV}
 
@@ -210,7 +197,7 @@ Qed.
 \section{Coq und Programmcode}
 
 Beim Zusammenspiel von Beweisen in Coq und Programmcode gibt es zwei verschiedene Richtungen. Einerseits können Theoreme bewiesen und dann in Programmiersprachen extrahiert werden. Andererseits ist es auch möglich, erst ein Programm zu entwickeln und anschließend dieses in Coq zu verifizieren. \\
-Das dabei verwendete Prinzip lautet salopp gesagt:
+Das dabei verwendete Prinzip lautet vereinfacht gesagt:
 \textbf{Es gibt eine Liste von Dingen, die eine Software tun soll. Hierfür wird Logik verwendet, um zu beweisen, dass diese Software auch genau diese Dinge tut.}
 \\
 In den folgenden Unterkapiteln sind beide Wege beschrieben. Dabei wird die Richtung Proof zu Programm anhand eines genauen Codebeispiels erläutert.
@@ -226,7 +213,7 @@ Schlussendlich müssen die bewiesenen Anforderungen der Spezifikation in Program
 	\item Programmcode in Coq bewiesen und dann in Ocaml extrahiert
 	\item Ocaml ("`Categorical Abstract Machine + ML"') ist eine sowohl funktionale, als auch objektorientierte Programmiersprache.
 	\item ML bedeutet Meta-Language. Dies ist für diese Arbeit weniger relevant, da Ocaml lediglich als Beispiel für Code-Extraction genutzt wird und der Fokus hauptsächlich auf dem Prinzip liegt.
-	\item Code to Ocaml extractor ist nicht formal verifiziert. Wird aber viel verwendet, weil es einfach ist
+	\item Code to Ocaml extractor ist nicht formal verifiziert. Korrektheit wird angenommen, da Coq in Ocaml geschrieben ist.
 \end{itemize}
 \textbf{Funktionalitäten schreiben und mathematisch beweisen}
 \begin{itemize}
@@ -395,7 +382,7 @@ In Codeblock \ref{lst:practical-code-execution} werden die Ausgaben der Tests da
 \section{Aktuelle Anwendung}
 \subsection{Proofed Stack}
 \begin{itemize}
-	\item CompCert (C compiler)
+	\item CompCert (C compiler) \url{http://compcert.inria.fr}
 	\item Princeton VST
 	\item Certikos (verified Operating System with hypervisor and multi instances)
 	\item \url{http://plv.csail.mit.edu/kami/}
@@ -404,8 +391,6 @@ In Codeblock \ref{lst:practical-code-execution} werden die Ausgaben der Tests da
 	\item \url{https://vst.cs.princeton.edu}
 	\item \url{https://news.yale.edu/2016/11/14/certikos-breakthrough-toward-hacker-resistant-operating-systems}
 \end{itemize}
-\subsection{CompCert for C}
-\url{http://compcert.inria.fr}
 \subsection{JSCert for ECMA 5}
 \url{https://github.com/jscert/jscert}
 \subsection{4-Farben Rätsel ist löstbar!}
@@ -413,11 +398,12 @@ In Codeblock \ref{lst:practical-code-execution} werden die Ausgaben der Tests da
 \subsection{CertiCoq}
 \url{https://www.cs.princeton.edu/~appel/papers/certicoq-coqpl.pdf}
 
-\section{Anwendbarkeit in der Praxis}
+\section{Aufwand in der Praxis}
 \begin{itemize}
+	\item Für jede Zeile Code wurden >= 5 extra Zeilen Proofs geschrieben.
+	\item Code der geschrieben wurde, hat meistens sofort funktioniert. (Es ist eine neue Art zu programmieren)
+	\item Projekt Ironclad von Microsoft Research. Talk von Bryan Parno 2014 \url{https://www.usenix.org/node/186162}
 	\item Objektorientierung eher schwer, da direkte Umwandlung von funktionaler Sprache in eine funktionale Sprache einfacher ist. (Außerdem programmieren die Menschen, die das entwickeln eigentlich nicht wirklich objektorientiert)
-	\item Sicherheitskritische Systeme
-	\item Compilerbau
 \end{itemize}
 
 
@@ -429,6 +415,7 @@ In Codeblock \ref{lst:practical-code-execution} werden die Ausgaben der Tests da
 	\item Es hat großes Potential
 	\item Wird sehr stark durch die Community weiterentwickelt
 	\item Große Firmen nutzen es immer aktiver
+	\item nur Software kann sicher gemacht werden. Hardware ist immer noch fehlbar!
 \end{itemize}
 
 \section{Glossar}
