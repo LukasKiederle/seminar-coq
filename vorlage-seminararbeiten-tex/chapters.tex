@@ -41,7 +41,7 @@ In dieser Arbeit, wird wie bereits erwähnt ausschließlich auf Coq eingegangen,
 	\item wurde seit 1984 von INRIA ("`National Institute for Research in Computer Science and Automation"') supported und auch entwickelt
 	\item Warum Coq?
 \end{itemize}
-Der Proof Assistent Coq wurde erstmals im Mai 1989 veröffentlicht. Das National Institute for Research in Computer Science and Automation (INRIA) hat dessen Entwicklung seit bereits 1984 unterstützt. \\
+Der Proof Assistent Coq wurde erstmals im Mai 1989 veröffentlicht. Das National Institute for Research in Computer Science and Automation (INRIA) hat dessen Entwicklung bereits seit 1984 unterstützt. \\
 Bestandteile in Coq sind die funktionale Programmiersprache Coq selbst und eine Entwicklungsumgebung namens Coqide. Zum heutigen Zeitpunkt ist beide plattform-unabhängig und open-source erhältlich. Die aktuelle Version ist  8.10.2.\cite{COQ01:FV}
 
 \section{Programmatische Coq-Grundlagen}
@@ -217,19 +217,16 @@ In den folgenden Unterkapiteln sind beide Wege beschrieben. Dabei wird die Richt
 
 \subsection{Proof -> Programm}
 \subsubsection{theoretisch}
-\begin{itemize}
-	\item \url{https://medium.com/@ahelwer/formal-verification-casually-explained-3fb4fef2e69a}
-	\item Erstelle eine Spezifikation, die ein Programm beschreibt
-	\item Schreibe die Spezifikation mathematisch in ein Proof Tool
-	\item Wenn es Fehler enthält, sagt es dir der Verifier
-	\item Code to Ocaml extractor ist nicht formal verifiziert. Wird aber viel verwendet, weil es einfach ist
-\end{itemize}
+{Wie bereits zuvor erwähnt, ist der erste Schritt die Erstellung einer Spezifikation, welche die Software beschreibt. Anschließend muss diese in mathematischer Form in ein Proof Tool geschrieben und bewiesen werden. Auf fehlerhafte Beweise weißt dieses Tool hin.
+Sobald jetzt ein Fehler in der realen Welt auftritt, sollte dieser mit diesem beschrieben Model abgefangen werden. \\
+Schlussendlich müssen die bewiesenen Anforderungen der Spezifikation in Programmcode konvertiert werden. Dieser Prozess wird in folgendem Kapitel genauer erklärt.}\cite{HELWER01:FV}
 
 \subsubsection{praktisch}
 \begin{itemize}
 	\item Programmcode in Coq bewiesen und dann in Ocaml extrahiert
 	\item Ocaml ("`Categorical Abstract Machine + ML"') ist eine sowohl funktionale, als auch objektorientierte Programmiersprache.
 	\item ML bedeutet Meta-Language. Dies ist für diese Arbeit weniger relevant, da Ocaml lediglich als Beispiel für Code-Extraction genutzt wird und der Fokus hauptsächlich auf dem Prinzip liegt.
+	\item Code to Ocaml extractor ist nicht formal verifiziert. Wird aber viel verwendet, weil es einfach ist
 \end{itemize}
 \textbf{Funktionalitäten schreiben und mathematisch beweisen}
 \begin{itemize}
