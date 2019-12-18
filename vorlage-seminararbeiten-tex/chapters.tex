@@ -127,19 +127,26 @@ Qed.
 Im Codeblock \ref{lst:sample-proof1} sind zwei Theoreme bewiesen. Ersteres kann durch zwei Taktiken geprüft werden. \textbf{Intros} in Verbindung mit allen verwendeten Variablen des Theorems, setzt diese in den Kontext. Dies ist vergleichbar mit: "Gegeben sei n, eine natürliche Zahl".\\
 Ein anschließendes Anwenden von \textbf{reflexivity} sorgt dafür, dass das Programm überprüft, ob die linke und rechte Seite identisch sind. Dabei führt \textbf{reflexivity} auch noch ein \textbf{simpl} zur Vereinfachung (z.B.: 0 + n => 0) aus. \textbf{Reflexivity} muss somit immer am Ende eines Beweises stehen, sodass er abgeschlossen ist.\\
 Die zweite Funktion wird mit Hilfe der Taktik \textbf{induction} gelöst. Diese teilt die Aussage in zwei Subgoals (z.d. Teilziele) auf. Anschließend gilt es, jedes einzelne Ziel zu prüfen. Diese werden in verschiedenen Ebenen mithilfe von \textbf{-, +, *} gekennzeichnet. Ein \textbf{-} wird bei der ersten Subgoal-Ebene verwendet. Für das Adressieren weiterer Subgoals von Subgoals werden \textbf{+} und \textbf{*} genutzt. Das Schlüsselwort \textbf{rewrite} wird in folgendem Unterkapitel erläutert. 
-\subsection{Umfangreicherer Beweis}
-\begin{itemize}
-	\item Gegeben: Für die natürlichen Zahlen m, n und o gilt, dass n = m und m = o ist. Zu beweisen: n + m = m + o
-	\item In den Kommentar-Blöcken, gekennzeichnet durch (* und *) wird das Ergebnis nach jedem einzelnen Schritt dargestellt.
-	\item Wie bereits erwähnt, werden mit \textbf{Intros} die Variablen als gegeben markiert.
-	Forall wird nun über der Linie angezeigt.
-	\item Alles unter der Linie ist zu beweisen und drüber ist gegeben
-	\item Die Zwei Hypothesen H1 und H2 in den Kontext setzen
-	\item Anschließend ist nur noch n + m = m + o mit den gegebenen Sachen zu beweisen
-	\item Es wird nun die Taktik \textbf{rewrite} oder nicht fachlich gesagt: Einsetzen genutzt.
-	\item Es ist zu sehen, dass nach jedem Rewrite sich das End-Ziel verändert, bis schließlich m + m = m + m dasteht.
-	\item Dies kann einfach mit reflexivity geprüft werden und der Beweis ist vollständig.
-\end{itemize}
+\subsection{Wie verwende ich Coq?}
+
+Diese Kapitel beinhaltet einen Beispielbeweis und geht somit auf den praktischen Einsatz von Coq ein. Die zur Programmiersprache Coq parallel entwickelte Coqide wird hierfür verwendet. Wie bereits erwähnt, ist diese Entwicklungsumgebung interaktiv. Das bedeutet, dass der Nutzer Informationen vom Programm erhält. Diese können sowohl Hinweise, als auch Fehlermeldungen sein. Um sich die Coqide genauer vorstellen zu können, wird folgende Illustration \ref{fig:coqide-sample} verwendet.
+\begin{minipage}{\textwidth}
+	\centering
+	\captionsetup{type=figure}
+	\includegraphics[width=1\textwidth]{\figdir/Coqide-sample.png}
+	\caption{Coqide}
+	\label{fig:coqide-sample}
+\end{minipage}
+Die Coqide bietet viele spezielle Features für formale Verifikation. Beispielsweise ist es möglich mit den Pfeilen in der Navigationsleiste die einzelnen Kommandos aus der linken Textbox auszuführen. Je nach Pfeil springt man einen Schritt vorwärts, bis zum Zeiger vorwärts oder auch rückwärts.\\
+\\
+Die Entwicklungsumgebung stellt grundsätzlich drei Fenster dar. Dabei wird eines für den Programmcode genutzt. Die anderen beiden Fenster auf der rechten Seite dienen ausschließlich der Informationsausgabe.\\
+Im Screenshot ist ein Beweis zu sehen. Dabei wird überprüft, wenn die natürlichen Zahlen \textbf{n, m, o} und die Beziehungen \textbf{n = m} und \textbf{m = o} gegeben sind, dass \textbf{n + m = m + o} gilt.\\
+Zunächst fällt auf, dass der Coq-Code teilweise grün markiert ist. Dies symbolisiert den bereits erfolgreich ausgeführten Teil. Das Ausgabefenster rechts oben zeigt, hierfür die passende Ausgabe. Dabei werden über dem Trennstrich die gegebenen Zahlen und Hypothesen angezeigt. Zusätzlich ist noch die Anzahl an Zielen abgebildet. Den darunter stehende Ausdruck gilt es zu beweisen.\\
+Das dritte Fenster rechts unten dient zur Meldung von Hinweisen, Fehlern und Konsolenausgaben, wie beispielsweise von einer Suche.\\
+\\
+Im Anschluss folgt das bereits gezeigte Codebeispiel \ref{lst:sample-proof2} mit der ausführlichen Ausgabe der Coqide nach jedem Schritt.
+Diese ist durch die Kommentarblöcke, welche durch \textbf{(*} eingeleitet und durch \textbf{*)} beendet werden, gekennzeichnet.
+Wie bereits zuvor erklärt, gilt es, unter den gegebenen Umständen, \textbf{n + m = m + o} zu beweisen. Hierfür wird die \textbf{rewrite} Taktik eingesetzt. Nicht fachlich ausgedrückt bedeutet es, dass je nach Richtung des Pfeils die eine oder die andere Seite eingesetzt wird. Somit verändert sich die zu beweisende Aussage dynamisch im Coqide-Ausgabefeld. Nach dem ersten \textbf{Rewrite}, wird \textbf{n} mit \textbf{m} ersetzt. Das Einsetzen der zweiten Hypothese \textbf{H2} führt schlussendlich zu dem Ergebnis: \textbf{m + m = m + m}. Folglich kann das Ziel mit \textbf{reflexivity} bewiesen werden.
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beispielbeweis,label=lst:sample-proof2]
 (* Initiating the theorem to proof. *)
 Theorem plus_id_exercise : forall n m o : nat,
