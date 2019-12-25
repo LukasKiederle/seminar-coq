@@ -33,11 +33,19 @@ Bestandteile in Coq-Projekt sind die funktionale Programmiersprache Coq selbst u
 Coq ist zum Großteil in Ocaml geschrieben. Prüfen auf formale Richtigkeit von Beweisen ist das grundlegende Feature von der Programmiersprache. Dabei wird der Entwickler durch die eingebaute Entwicklungsumgebung interaktiv während des Schreiben eines Beweises unterstützt. Eine weitere interessante Funktionalität ist die Code Extraktion. Coq bietet diese für Ocaml, Haskel oder mit Hilfe von externen Bibliotheken auch für C an. Dies wird im Kapitel \ref{s:coq-and-code} detaillierter anhand eines Beispiels aufgegriffen. Dabei werden Funktionen formal verifiziert und anschließend in ausführbaren Ocaml Code extrahiert.
 
 \section{Programmatische Coq-Grundlagen}
+In diesem Kapitel werden die Grundlagen der Programmiersprache Coq erläutert. Dabei wird zuerst das spezielle Type-System eingegangen. Das dabei verwendete Konzept stellt die Basis für programmatische formale Verifikation dar. Weiterhin werden die darauf aufbauenden Coq-Features erklärt.\\
+Das Kapitel der Grundlagen wird mit dem Zusammenspiel von Coq und der interaktiven CoqIde abgeschlossen. Um dieses und die fortlaufende Kapitel besser zu verstehen, lohnt es sich das umfangreiche Tutorial von Benjamin C. Pierce auf \url{https://softwarefoundations.cis.upenn.edu/lf-current/Basics.html#lab18} anzulesen. Der gezeigte Programmcode stammt teilweise aus dieser Lektüre.\cite{Pierce01:COQ}
+
+\subsection{Dependent Type Language}
+Coq ist eine Type-abhängige Sprache (in Englisch: dependent type Language). 
+
 \begin{itemize}
 	\item Dependent type Sprache: So we established that we can prove things are true before we have a concrete value. To do this in an actual programming language, we need a way to encode these statements into the type system itself, which means our type system needs an upgrade. \url{https://medium.com/background-thread/the-future-of-programming-is-dependent-types-programming-word-of-the-day-fcd5f2634878}
 	We're turning the above run-time assertion into compile-time type.
-	\item \url{https://softwarefoundations.cis.upenn.edu/lf-current/Basics.html#lab18} \cite{Pierce01:COQ}
-	\item Coq und Coqide - Zusammenspiel mit Screenshot => wird in Kapitel mit Beispielbeweis genauer drauf eingegangen
+	\item Wir schreiben also Funktionen, die eine Art Check schon während der Compile-Time bekommen. Somit spare ich mir: if(type == null) oder Zeug
+	\item This makes a huge number of bugs simply impossible to create. With dependent typing, you can avoid off-by-one errors, accessing non existent array indices, null pointer exceptions, infinite loops and non performant code.
+	You can express almost anything with dependent types. A factorial function which only accepts natural numbers, a login function which doesn't accept empty strings, a removeLast function which only accepts non-empty arrays. And all this is checked before you run the program.
+	The problem with runtime checks is that they fail when the program is already running. This is okay if you’re the one running it, but not if the user is. Dependent types let you move those checks to the type system itself, making it impossible to fail while the program is running.
 \end{itemize}
 \subsection{Basisbegriffe}
 \subsubsection{Typdefinition}
@@ -128,7 +136,7 @@ Qed.
 Im Codeblock \ref{lst:sample-proof1} sind zwei Theoreme bewiesen. Ersteres kann durch zwei Taktiken geprüft werden. \textbf{Intros} in Verbindung mit allen verwendeten Variablen des Theorems, setzt diese in den Kontext. Dies ist vergleichbar mit: "Gegeben sei n, eine natürliche Zahl".\\
 Ein anschließendes Anwenden von \textbf{reflexivity} sorgt dafür, dass das Programm überprüft, ob die linke und rechte Seite identisch sind. Dabei führt \textbf{reflexivity} auch noch ein \textbf{simpl} zur Vereinfachung (z.B.: 0 + n => 0) aus. \textbf{Reflexivity} muss somit immer am Ende eines Beweises stehen, sodass er abgeschlossen ist.\\
 Die zweite Funktion wird mit Hilfe der Taktik \textbf{induction} gelöst. Diese teilt die Aussage in zwei Subgoals (z.d. Teilziele) auf. Anschließend gilt es, jedes einzelne Ziel zu prüfen. Diese werden in verschiedenen Ebenen mithilfe von \textbf{-, +, *} gekennzeichnet. Ein \textbf{-} wird bei der ersten Subgoal-Ebene verwendet. Für das Adressieren weiterer Subgoals von Subgoals werden \textbf{+} und \textbf{*} genutzt. Das Schlüsselwort \textbf{rewrite} wird in folgendem Unterkapitel erläutert. 
-\subsection{Wie verwende ich Coq?}
+\subsection{Wie wird Coq verwendet?}
 
 Diese Kapitel beinhaltet einen Beispielbeweis und geht somit auf den praktischen Einsatz von Coq ein. Die zur Programmiersprache Coq parallel entwickelte Coqide wird hierfür verwendet. Wie bereits erwähnt, ist diese Entwicklungsumgebung interaktiv. Das bedeutet, dass der Nutzer Informationen vom Programm erhält. Diese können sowohl Hinweise, als auch Fehlermeldungen sein. Um sich die Coqide genauer vorstellen zu können, wird folgende Illustration \ref{fig:coqide-sample} verwendet.
 \begin{minipage}{\textwidth}
