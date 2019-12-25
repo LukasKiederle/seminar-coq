@@ -25,11 +25,12 @@ Ein Proof Assistent, welcher auch interaktiver Theorem Proofer genannt wird, ist
 
 \subsection{Übersicht}
 Zum Zeitpunkt dieser Arbeit existieren circa 17 verschiedene Tools für formale Verifikation. Dabei sind \textbf{ACL2}, \textbf{Isabelle} und \textbf{Coq} die bekanntesten.\cite{WIEDIJK01:FP}
-In dieser Arbeit, wird wie bereits erwähnt ausschließlich auf Coq eingegangen, da das Vergleichen den Rahmen dieser Arbeit sprengen würde. Hintergrundwissen diesbezüglich ist ersichtlich im Paper von Freek Wiedijk und Dana Scott zu empfehlen unter \url{http://www.cs.ru.nl/~freek/comparison/comparison.pdf}. 
+In dieser Arbeit wird, wie bereits erwähnt, ausschließlich auf Coq eingegangen, da das Vergleichen den Umfang dieser Arbeit stark ausdehnen würde. Hintergrundwissen diesbezüglich ist ersichtlich im Paper von Freek Wiedijk und Dana Scott. Es ist unter \url{http://www.cs.ru.nl/~freek/comparison/comparison.pdf} veröffentlicht. 
 
 \section{Coq}
 Der Proof Assistent Coq wurde erstmals im Mai 1989 veröffentlicht. Das National Institute for Research in Computer Science and Automation (INRIA) hat dessen Entwicklung bereits seit 1984 unterstützt. \\
-Bestandteile in Coq sind die funktionale Programmiersprache Coq selbst und eine Entwicklungsumgebung namens Coqide. Zum heutigen Zeitpunkt ist beide plattform-unabhängig und open-source erhältlich. Die aktuelle Version ist  8.10.2.\cite{COQ01:FV}
+Bestandteile in Coq-Projekt sind die funktionale Programmiersprache Coq selbst und eine Entwicklungsumgebung namens Coqide. Beides ist zum heutigen Zeitpunkt plattform-unabhängig und open-source erhältlich unter \url{https://github.com/coq/coq}. Die dort aktuell veröffentlichte Version ist 8.10.2.\cite{COQ01:FV}\\
+Coq ist zum Großteil in Ocaml geschrieben. Prüfen auf formale Richtigkeit von Beweisen ist das grundlegende Feature von der Programmiersprache. Dabei wird der Entwickler durch die eingebaute Entwicklungsumgebung interaktiv während des Schreiben eines Beweises unterstützt. Eine weitere interessante Funktionalität ist die Code Extraktion. Coq bietet diese für Ocaml, Haskel oder mit Hilfe von externen Bibliotheken auch für C an. Dies wird im Kapitel \ref{s:coq-and-code} detaillierter anhand eines Beispiels aufgegriffen. Dabei werden Funktionen formal verifiziert und anschließend in ausführbaren Ocaml Code extrahiert.
 
 \section{Programmatische Coq-Grundlagen}
 \begin{itemize}
@@ -202,6 +203,7 @@ Qed.
 \end{lstlisting}
 
 \section{Coq und Programmcode}
+\label{s:coq-and-code}
 
 Beim Zusammenspiel von Beweisen in Coq und Programmcode gibt es zwei verschiedene Richtungen. Einerseits können Theoreme bewiesen und dann in Programmiersprachen extrahiert werden. Andererseits ist es auch möglich, erst ein Programm zu entwickeln und anschließend dieses in Coq zu verifizieren. \\
 Das dabei verwendete Prinzip lautet vereinfacht gesagt:
@@ -402,6 +404,16 @@ In Codeblock \ref{lst:practical-code-execution} werden die Ausgaben der Tests da
 \url{https://github.com/jscert/jscert}
 \subsection{4-Farben Rätsel ist löstbar!}
 \url{http://www.ams.org/notices/200811/tx081101382p.pdf}
+\subsection{Satz von Feit-Thompson}
+Der Satz von Feit-Thompson sagt aus, dass jede endliche Gruppe ungerader Ordnung auflösbar ist. Er wurde 1963 von Walter Feit und John Griggs Thompson bewiesen.
+
+Georges Gonthier gelang mit Kollegen nach sechsjähriger Arbeit 2012 die Verifikation des Beweises mit Coq
+\begin{itemize}
+	\item Number of lines ~ 170 000
+	\item Number of definitions ~15 000
+	\item Number of theorems ~ 4 200
+\end{itemize}
+\url{https://web.archive.org/web/20161119094854/http://www.msr-inria.fr/news/feit-thomson-proved-in-coq/}
 \subsection{CertiCoq}
 \url{https://www.cs.princeton.edu/~appel/papers/certicoq-coqpl.pdf}
 
