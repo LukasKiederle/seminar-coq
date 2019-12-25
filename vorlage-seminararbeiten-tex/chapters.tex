@@ -64,18 +64,13 @@ Jetzt ist es möglich, dass bereits der Compiler sicherstellen kann, dass die Fu
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Pseudocode Check auf null des User Objektes,label=lst:pseudocode-checked-function-usage]
 result: UserWithAdminRole = setRole (user, adminRole);
 \end{lstlisting}
-
 Jeder der oben genannten Typen stellt genau einen User mit einer bestimmten Rolle/ einem bestimmten Wert dar. Dies bedeutet typ-abhängig. Und nur dadurch ist es dem Compiler möglich den Code auf Korrektheit zu untersuchen.\cite{MARTIN01:FV}
-Zusammenfassend gesagt, ist es durch typ-abhängige Sprachen möglich, zu prüfen, ob etwas wahr ist, bevor ein konkretes Objekt beziehungsweise eine Instanz mit Werten existiert.
-
-\begin{itemize}
-	\item Dependent type Sprache: So we established that we can prove things are true before we have a concrete value. To do this in an actual programming language, we need a way to encode these statements into the type system itself, which means our type system needs an upgrade.
-	We're turning the above run-time assertion into compile-time type.
-	\item Wir schreiben also Funktionen, die eine Art Check schon während der Compile-Time bekommen. Somit spare ich mir: if(type == null) oder Zeug
-	\item This makes a huge number of bugs simply impossible to create. With dependent typing, you can avoid off-by-one errors, accessing non existent array indices, null pointer exceptions, infinite loops and non performant code.
-	You can express almost anything with dependent types. A factorial function which only accepts natural numbers, a login function which doesn't accept empty strings, a removeLast function which only accepts non-empty arrays. And all this is checked before you run the program.
-	The problem with runtime checks is that they fail when the program is already running. This is okay if you’re the one running it, but not if the user is. Dependent types let you move those checks to the type system itself, making it impossible to fail while the program is running.
-\end{itemize}
+Zusammenfassend gesagt, ist es durch typ-abhängige Sprachen möglich, zu prüfen, ob etwas wahr ist, bevor ein konkretes Objekt beziehungsweise eine Instanz mit Werten erstellt wurde. Die durchgeführten Checks, die normalerweise bei der Laufzeit durch laufen werden, sind dadurch bereits zur Compilezeit des Programms geprüft.\\
+\\
+Diese Art von Typ-System benötigt einerseits für jeden Wert einen eigenen Typ, andererseits entstehen dadurch viele neue Optionen. Die viele Arbeit zur Erstellung eines Typs pro Wert, übernimmt der Compiler.\\
+Der größte Vorteil ist die Vermeidung von Bugs. Zugriffe auf nicht existente Array Indizes, Nullpointer-Exceptions oder nicht endlicher Code sind faktisch keine Probleme in typ-abhängigen Sprachen - insofern die korrekten Checks durchgeführt wurden.\\
+\\
+Des Weiteren ist es möglich fast alles auch mit dependent Types darzustellen. Beispielsweise eine Login Funktion, die keine Leerstrings erlaubt oder eine Funktion, die natürliche Zahlen dividiert, ohne eine Null zu erlauben, sind dadurch problemlos umsetzbar.
 \subsection{Basisbegriffe}
 \subsubsection{Typdefinition}
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Typedefinition,label=lst:typedefinition]
