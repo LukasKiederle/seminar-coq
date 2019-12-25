@@ -32,15 +32,44 @@ Der Proof Assistent Coq wurde erstmals im Mai 1989 veröffentlicht. Das National
 Bestandteile in Coq-Projekt sind die funktionale Programmiersprache Coq selbst und eine Entwicklungsumgebung namens Coqide. Beides ist zum heutigen Zeitpunkt plattform-unabhängig und open-source erhältlich unter \url{https://github.com/coq/coq}. Die dort aktuell veröffentlichte Version ist 8.10.2.\cite{COQ01:FV}\\
 Coq ist zum Großteil in Ocaml geschrieben. Prüfen auf formale Richtigkeit von Beweisen ist das grundlegende Feature von der Programmiersprache. Dabei wird der Entwickler durch die eingebaute Entwicklungsumgebung interaktiv während des Schreiben eines Beweises unterstützt. Eine weitere interessante Funktionalität ist die Code Extraktion. Coq bietet diese für Ocaml, Haskel oder mit Hilfe von externen Bibliotheken auch für C an. Dies wird im Kapitel \ref{s:coq-and-code} detaillierter anhand eines Beispiels aufgegriffen. Dabei werden Funktionen formal verifiziert und anschließend in ausführbaren Ocaml Code extrahiert.
 
+\begin{itemize}
+	\item ohloh bewertung
+\end{itemize}
+
 \section{Programmatische Coq-Grundlagen}
 In diesem Kapitel werden die Grundlagen der Programmiersprache Coq erläutert. Dabei wird zuerst das spezielle Type-System eingegangen. Das dabei verwendete Konzept stellt die Basis für programmatische formale Verifikation dar. Weiterhin werden die darauf aufbauenden Coq-Features erklärt.\\
 Das Kapitel der Grundlagen wird mit dem Zusammenspiel von Coq und der interaktiven CoqIde abgeschlossen. Um dieses und die fortlaufende Kapitel besser zu verstehen, lohnt es sich das umfangreiche Tutorial von Benjamin C. Pierce auf \url{https://softwarefoundations.cis.upenn.edu/lf-current/Basics.html#lab18} anzulesen. Der gezeigte Programmcode stammt teilweise aus dieser Lektüre.\cite{Pierce01:COQ}
 
 \subsection{Dependent Type Language}
-Coq ist eine Type-abhängige Sprache (in Englisch: dependent type Language). 
+Java, C\# und PHP verwendete Objekte als universellen Datentyp. C und Go nutzen hingegen Strukturen. Allerdings das Typ-System von Coq basiert weder auf Objekten, noch auf Strukturen - es ist eine zu Deutsch typ-abhängige Sprache.\\
+Angenommen es gäbe eine Funktion, die irgendetwas mit einem User-Objekt macht. In den häufig verwendeten Sprachen, wie beispielsweise Java, sollten die ersten Zeilen einen Check, ob das User-Objekt null ist beinhalten (zu sehen in Codeblock \ref{lst:java-function}).
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Java Funktion für den initialen Check auf null des User Objektes,label=lst:java-function]
+public void doSomething(User user) {
+	if(user == null) {
+		throw new Exception("Recieved empty user!");
+	}
+...
+}
+\end{lstlisting}
+
+Dadurch ist gewährleistet, dass wenn es zu einem Fehler während der Laufzeit kommen sollte, dieser kontrolliert abgefangen wird. Allerdings bedeutet dies auch, dass die Funktion den Status eines User-Objekts, welches null ist, als gültiges Objekt entgegennimmt.\\
+Wären Funktionen, welche bereits zum Compilierungs-Zeitpunkt prüfen, ob das übergebene Objekt korrekt ist, nicht viel praktischer? Genau dies ist mit Hilfe von typ-abhängigen Sprachen umsetzbar. Dabei muss zuerst definiert werden, was ein \textbf{korrektes User-Objekt} charakterisiert. Beispielsweise könnte es bedeuten, dass das Objekt ungleich null oder eine bestimmte Rolle gesetzt ist. Dadurch könnte Beispielsweise die folgende Funktion in Form von Pseudocode geschrieben werden.
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Pseudocode Check auf null des User Objektes,label=lst:pseudocode-checked-function]
+setRole: (user: User, role: String) -> userWithRole: User,
+			where userWithRole.role == role;
+\end{lstlisting}
+Sodass diese Funktion bereits beim Compilieren auf Korrektheit geprüft werden kann, muss noch eine weitere grundlegende Voraussetzung erfüllt sein.
+Unter der Annahme, dass es insgesamt nur drei verschiedene Rollen gibt, können einzelne Typen für jede Rolle erstellt werden. Beispielsweise: UserWithAdminRole, UserWithSupportRole, UserWithUserRole. 
+Jetzt ist es möglich, dass bereits der Compiler sicherstellen kann, dass die Funktion aus \ref{lst:pseudocode-checked-function} korrekt abläuft. Zur Erklärung hilft folgendes Codebeispiel:
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Pseudocode Check auf null des User Objektes,label=lst:pseudocode-checked-function-usage]
+result: UserWithAdminRole = setRole (user, adminRole);
+\end{lstlisting}
+
+Jeder der oben genannten Typen stellt genau einen User mit einer bestimmten Rolle/ einem bestimmten Wert dar. Dies bedeutet typ-abhängig. Und nur dadurch ist es dem Compiler möglich den Code auf Korrektheit zu untersuchen.\cite{MARTIN01:FV}
+Zusammenfassend gesagt, ist es durch typ-abhängige Sprachen möglich, zu prüfen, ob etwas wahr ist, bevor ein konkretes Objekt beziehungsweise eine Instanz mit Werten existiert.
 
 \begin{itemize}
-	\item Dependent type Sprache: So we established that we can prove things are true before we have a concrete value. To do this in an actual programming language, we need a way to encode these statements into the type system itself, which means our type system needs an upgrade. \url{https://medium.com/background-thread/the-future-of-programming-is-dependent-types-programming-word-of-the-day-fcd5f2634878}
+	\item Dependent type Sprache: So we established that we can prove things are true before we have a concrete value. To do this in an actual programming language, we need a way to encode these statements into the type system itself, which means our type system needs an upgrade.
 	We're turning the above run-time assertion into compile-time type.
 	\item Wir schreiben also Funktionen, die eine Art Check schon während der Compile-Time bekommen. Somit spare ich mir: if(type == null) oder Zeug
 	\item This makes a huge number of bugs simply impossible to create. With dependent typing, you can avoid off-by-one errors, accessing non existent array indices, null pointer exceptions, infinite loops and non performant code.
