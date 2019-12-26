@@ -443,18 +443,22 @@ Zuerst muss ein C-Programm in eine Datei \textbf{F.c} geschrieben werden. Anschl
 In diesem Kapitel werden ein paar neben der Princeton Toolchain existierenden Anwendungsfälle und Projekte aufgeführt und kurz vorgestellt.
 
 \subsection{Proofed Stack}
-Mit Hilfe von VST inklusive CompCert wird versucht eine Art Stack aufzubauen, der von Maschinensprache über das Betriebssystem bis hin zu C-Programmcode formal verifiziert ist. Hierfür wird ein spezielles Coq-Framework namens Kami verwendet. Damit ist es möglich Hardware-Design formal zu beweisen. Diese Domain spezific Language (DSL) ist hauptsächlich inspiriert von \textbf{Bluespec} ihren RISC-V Open Source Cores.
+Mit Hilfe von VST inklusive CompCert wird versucht eine Art Stack aufzubauen, der von Maschinensprache über das Betriebssystem bis hin zu C-Programmcode formal verifiziert ist. Hierfür wird zusätzlich ein spezielles Coq-Framework namens \textbf{Kami} verwendet. Damit ist es möglich Hardware-Design formal zu beweisen. Diese Domain specific Language (DSL) ist hauptsächlich inspiriert von \textbf{Bluespec} und der open-source \textbf{RISC-V} Befehlssatzarchitektur.\cite{KAMI01:ST} Vereinfacht gesagt, beschreibt dies die Verhaltensweise eines Prozessors in Form von einer formalen Spezifikation.\\
+Die zur Architektur passenden Chips werden beispielsweise durch \textbf{SiFive}, welche auch \textbf{Kami} entwickelt haben, hergestellt.\\
+Schlussendlich fehlt noch ein Betriebssystem, welches zum ein oder anderen Zeitpunkt mit Prozessoren und Speichern interagiert. Hierfür wurde \textbf{CertiKOS}, das erste formal verifizierten Betriebssystem, entwickelt. Es unterstützt \textbf{x86} inklusive Multiprozessing. Außerdem ist es möglich, einen Hypervisor zu hosten und dadurch mehrere Betriebssysteme gleichzeitig auf der selben Maschine zu verwenden.\cite{CERTIKOS01:FV}\cite{CERTIKOS02:FV}\\
+\\
+Der ganze proof Stack könnte ungefähr wie in der folgenden Illustration \ref{fig:proofed-stack} dargestellt werden. Dabei wird Hardware-Komponenten in rot markiert. Der Softwareteil wird farblich unterschiedlich abgebildet mit dem Ziel, dass das Bild übersichtlicher ist.\\
 
 
-\begin{itemize}
-	\item CompCert (C compiler) \url{http://compcert.inria.fr}
-	\item Princeton VST \url{https://github.com/PrincetonUniversity/VST}
-	\item Certikos (verified Operating System with hypervisor and multi instances)
-	\item \url{http://plv.csail.mit.edu/kami/}
-	\item \url{https://www.zdnet.com/article/certikos-a-hacker-proof-os/}
-	\item \url{https://vst.cs.princeton.edu}
-	\item \url{https://news.yale.edu/2016/11/14/certikos-breakthrough-toward-hacker-resistant-operating-systems}
-\end{itemize}
+\begin{minipage}{\textwidth}
+	\centering
+	\captionsetup{type=figure}
+	\includegraphics[width=0.6\textwidth]{\figdir/verified-stack.png}
+	\caption{Proofed Stack}
+	\label{fig:proofed-stack}
+\end{minipage}
+
+
 \subsection{JSCert for ECMA 5}
 \url{https://github.com/jscert/jscert}
 \subsection{4-Farben Rätsel ist lösbar!}
