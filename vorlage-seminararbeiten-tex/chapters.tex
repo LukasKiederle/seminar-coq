@@ -417,7 +417,12 @@ Beweis im Coq-Proof-Assistenten), dass:\\
 \textbf{Egal welche beobachtbare Eigenschaft eines C-Programms Sie auch immer beweisen wollen. Unter Verwendung der Verifiable C-Programmlogik, wird diese Eigenschaft
 tatsächlich im Assemblerprogramm enthalten sein, welches der C-Compiler generiert.}"'\\
 Mit \textbf{program logic} ist eine Art Hoare Logik gemeint, die ein leichteres Beweisen von Programmcode mit Pointern, Funktions-Pointern, Datenabstraktion und Datenstrukturen ermöglicht.\cite{Appel02:VST} Die Hoare Logik wurde durch den britischen Informatiker C. A. R. Hoare entwickelt und dient generell als Hilfsmittel für das Beweisen von Programmcode. Dabei werden logische Regeln aufgestellt, die es erlauben, Aussage in mathematischer Form über Computer-Programme zu treffen.\\
-Die in orange dargestellte Komponenten bezüglich der \textbf{VST retargetable Seperation Logic} ergänzt die \textbf{program logic}.
+Die in orange dargestellte Komponenten bezüglich der \textbf{VST retargetable Seperation Logic} ergänzt die \textbf{program logic}. Zusätzlich können in diesem Schritt weitere \textbf{verified program analysis tools} integriert werden.\\
+\\
+Der nächste Teil in der Princeton Tool Chain ist der \textbf{verified Compiler CompCert}, welcher von INRIA entwickelt wurde. Sowohl CompCert, als auch die ganze VST ist open-source erhältlich auf GitHub unter \url{https://github.com/PrincetonUniversity/VST} und \url{https://github.com/PrincetonUniversity/VST/tree/master/compcert}. 
+\begin{itemize}
+	\item Übergang, was CompCert macht in einem Satz
+\end{itemize}
 
 
 
@@ -429,7 +434,8 @@ Die in orange dargestellte Komponenten bezüglich der \textbf{VST retargetable S
 	\label{fig:vst}
 \end{minipage}
 
-\begin{itemize} 
+\begin{itemize}
+	\item Wie benutzt man nun praktisch die VST?
 	\item Schreibe ein C Program F.c
 	\item Führe \textbf{clightgen -normalize F.c} aus. Dadurch entsteht eine Datei Coq-File F.v
 	\item Schreibe eine formale Verifikation in einer Datei (z.B.: verif\_F.v). In dieser File müssen sowohl F.v als auch das VST Floya Programm-Verifikationssystem VST.floyd.proofauto importieren.\cite{Appel01:VST}
