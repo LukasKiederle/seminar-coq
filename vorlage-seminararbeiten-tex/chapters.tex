@@ -440,8 +440,12 @@ Zuerst muss ein C-Programm in eine Datei \textbf{F.c} geschrieben werden. Anschl
 
 \section{Aktuelle Anwendung}
 \label{s:current-usage}
+In diesem Kapitel werden ein paar neben der Princeton Toolchain existierenden Anwendungsfälle und Projekte aufgeführt und kurz vorgestellt.
 
 \subsection{Proofed Stack}
+Mit Hilfe von VST inklusive CompCert wird versucht eine Art Stack aufzubauen, der von Maschinensprache über das Betriebssystem bis hin zu C-Programmcode formal verifiziert ist. Hierfür wird ein spezielles Coq-Framework namens Kami verwendet. Damit ist es möglich Hardware-Design formal zu beweisen. Diese Domain spezific Language (DSL) ist hauptsächlich inspiriert von \textbf{Bluespec} ihren RISC-V Open Source Cores.
+
+
 \begin{itemize}
 	\item CompCert (C compiler) \url{http://compcert.inria.fr}
 	\item Princeton VST \url{https://github.com/PrincetonUniversity/VST}
