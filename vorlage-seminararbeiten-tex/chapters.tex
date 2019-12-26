@@ -55,7 +55,7 @@ public void doSomething(User user) {
 \end{lstlisting}
 
 Dadurch ist gewährleistet, dass wenn es zu einem Fehler während der Laufzeit kommen sollte, dieser kontrolliert abgefangen wird. Allerdings bedeutet dies auch, dass die Funktion den Status eines User-Objekts, welches null ist, als gültiges Objekt entgegennimmt.\\
-Wären Funktionen, welche bereits zum Compilierungs-Zeitpunkt prüfen, ob das übergebene Objekt korrekt ist, nicht viel praktischer? Genau dies ist mit Hilfe von typ-abhängigen Sprachen umsetzbar. Dabei muss zuerst definiert werden, was ein \textbf{korrektes User-Objekt} charakterisiert. Beispielsweise könnte es bedeuten, dass das Objekt ungleich null oder eine bestimmte Rolle gesetzt ist. Dadurch könnte Beispielsweise die folgende Funktion in Form von Pseudocode geschrieben werden.
+Wären Funktionen, welche bereits zum Compilierungs-Zeitpunkt prüfen, ob das übergebene Objekt korrekt ist, nicht viel praktischer? Genau dies ist mit Hilfe von typ-abhängigen Sprachen umsetzbar. In Coq heißt diese \textbf{Gallina}. Dabei muss zuerst definiert werden, was ein \textbf{korrektes User-Objekt} charakterisiert. Beispielsweise könnte es bedeuten, dass das Objekt ungleich null oder eine bestimmte Rolle gesetzt ist. Dadurch könnte Beispielsweise die folgende Funktion in Form von Pseudocode geschrieben werden.
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Pseudocode Check auf null des User Objektes,label=lst:pseudocode-checked-function]
 setRole: (user: User, role: String) -> userWithRole: User,
 			where userWithRole.role == role;
@@ -459,11 +459,16 @@ Der ganze proof Stack könnte ungefähr wie in der folgenden Illustration \ref{f
 \end{minipage}
 
 
-\subsection{JSCert for ECMA 5}
-\url{https://github.com/jscert/jscert}
-\subsection{4-Farben Rätsel ist lösbar!}
+\subsection{JSCert}
+JSCert ist eine maschinell geprüfte Spezifikation von JavaScript. Es wurde mit der Coq Version 8.4.6 geschrieben. Dabei wurde versucht sich so nah wie möglichst am englischen Standard ECMAScript 5 zu halten. Damit wurde ein Ocaml geschriebener Interpreter namens \textbf{JSRef} als korrekt bewiesen. Dabei wurden 262 Testfälle abgedeckt.\cite{JSCERT01:FV}\cite{JSCERT012:FV}
+
+\subsection{CertiCoq}
+CertiCoq ist ein verifizierter Compiler für Coq. Genauer genommen beweist CertiCoq, dass die Compilierung von typ-abhängigen Sprachen, wie Gallina korrekt verläuft.\cite{CERTICOQ01:FV}\cite{CERTICOQ02:FV} Weitere Informationen diesbezüglich sind auf der Website der Princeton University zu finden.
+
+\subsection{Beweise für Probleme der Mathematik oder Informatik}
+\subsubsection{4-Farben Rätsel ist lösbar!}
 \url{http://www.ams.org/notices/200811/tx081101382p.pdf}
-\subsection{Satz von Feit-Thompson}
+\subsubsection{Satz von Feit-Thompson}
 Der Satz von Feit-Thompson sagt aus, dass jede endliche Gruppe ungerader Ordnung auflösbar ist. Er wurde 1963 von Walter Feit und John Griggs Thompson bewiesen.
 
 Georges Gonthier gelang mit Kollegen nach sechsjähriger Arbeit 2012 die Verifikation des Beweises mit Coq (nicht das erste mal Bewiesen)
@@ -473,8 +478,6 @@ Georges Gonthier gelang mit Kollegen nach sechsjähriger Arbeit 2012 die Verifik
 	\item Number of theorems ~ 4 200
 \end{itemize}
 \url{https://web.archive.org/web/20161119094854/http://www.msr-inria.fr/news/feit-thomson-proved-in-coq/}
-\subsection{CertiCoq}
-\url{https://www.cs.princeton.edu/~appel/papers/certicoq-coqpl.pdf}
 
 \section{Aufwand in der Praxis}
 \begin{itemize}
