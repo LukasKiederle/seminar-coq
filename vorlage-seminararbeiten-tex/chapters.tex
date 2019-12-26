@@ -410,16 +410,16 @@ In Codeblock \ref{lst:practical-code-execution} werden die Ausgaben der Tests da
 \subsection{Programm -> Proof}
 Generell ist es möglich fast jeden Programmcode formal zu verifizieren. Der Aufwand, der dafür aufzubringen ist, unterscheidet sich gewaltig. Um den Code einer Sprache vollständig formal beweisen zu können, muss theoretisch auch der Compiler der Sprache formal bewiesen sein. Ansonsten wäre zwar der Programmcode formal verifiziert, allerdings kann nicht garantiert werden, dass der Compiler dennoch Fehler beim übersetzen macht. Des Weiteren ist noch zu erwähnen, dass der Compiler nicht die niedrigste Software-Ebene repräsentiert. In den Schichten darunter sind beispielsweise noch Hardwarebeschreibungssprachen. Sobald dort ein gravierender Bug enthalten ist, kann der high-level Programmcode formal bewiesen sein und trotzdem fehlerhaft laufen.\\
 \\
-In der Programmiersprache C wird zum Beispiel C-Code in Assembler-Code umgewandelt.
+Der Code aus der Programmiersprache C wird zum Beispiel in Maschinencode umgewandelt. 
+Um diese Konvertierung durchführen zu können, haben Forscher von INRIA und der Princeton University die Verified Software Toolchain (VST), oder auch Princeton Tool Chain genannt, entwickelt. Auf folgender Illustration \ref{fig:vst} sind die einzelnen Komponenten von der VST abgebildet. Zuerst wird dabei das C-Source-Programm in Verifiable C übersetzt. \\
+"`Verifiable C ist grundsätzlich korrekt. Das heißt, es ist nachgewiesen (mit einem maschinell geprüften
+Beweis im Coq-Proof-Assistenten), dass:\\
+\textbf{Egal welche beobachtbare Eigenschaft eines C-Programms Sie auch immer beweisen wollen. Unter Verwendung der Verifiable C-Programmlogik, wird diese Eigenschaft
+tatsächlich im Assemblerprogramm enthalten sein, welches der C-Compiler generiert.}"'\\
+Mit \textbf{program logic} ist eine Art Hoare Logik gemeint, die ein leichteres Beweisen von Programmcode mit Pointern, Funktions-Pointern, Datenabstraktion und Datenstrukturen ermöglicht.\cite{Appel02:VST} Die Hoare Logik wurde durch den britischen Informatiker C. A. R. Hoare entwickelt und dient generell als Hilfsmittel für das Beweisen von Programmcode. Dabei werden logische Regeln aufgestellt, die es erlauben, Aussage in mathematischer Form über Computer-Programme zu treffen.\\
+Die in orange dargestellte Komponenten bezüglich der \textbf{VST retargetable Seperation Logic} ergänzt die \textbf{program logic}.
 
-\begin{itemize}
-	\item nutze Verified Software Toolchain (VST) der Princeton University um C Code mathematisch zu beweisen
-\end{itemize}
-\begin{itemize} 
-	\item Schreibe ein C Program F.c
-	\item Führe \textbf{clightgen -normalize F.c} aus. Dadurch entsteht eine Datei Coq-File F.v
-	\item Schreibe eine formale Verifikation in einer Datei (z.B.: verif\_F.v). In dieser File müssen sowohl F.v als auch das VST Floya Programm-Verifikationssystem VST.floyd.proofauto importieren.\cite{Appel01:VST}
-\end{itemize}
+
 
 \begin{minipage}{\textwidth}
 	\centering
@@ -428,6 +428,14 @@ In der Programmiersprache C wird zum Beispiel C-Code in Assembler-Code umgewande
 	\caption{Verified Software Toolchain\cite{PRINCETON01:VST}}
 	\label{fig:vst}
 \end{minipage}
+
+\begin{itemize} 
+	\item Schreibe ein C Program F.c
+	\item Führe \textbf{clightgen -normalize F.c} aus. Dadurch entsteht eine Datei Coq-File F.v
+	\item Schreibe eine formale Verifikation in einer Datei (z.B.: verif\_F.v). In dieser File müssen sowohl F.v als auch das VST Floya Programm-Verifikationssystem VST.floyd.proofauto importieren.\cite{Appel01:VST}
+\end{itemize}
+
+
 
 \section{Aktuelle Anwendung}
 \label{s:current-usage}
