@@ -288,7 +288,13 @@ end.
 Zu Beginn wird der \textbf{induktive Typ natprod} definiert, welcher ein Paar repräsentiert. Im darauf folgenden Teil des Codebeispiels werden immer wieder die Schlüsselwörter \textbf{Check} und \textbf{Compute} verwendet. Mit Hilfe dieser Funktionen können stichprobenartig einzelne Werte in die Definitionen oder Typen eingesetzt werden. Anschließend wird das daraus resultierende Ergebnis ausgegeben.\\
 Die Funktionen \textbf{fst} und \textbf{snd} geben jeweils x oder y eines Paares zurück. Weiterhin ist eine Notation für die Definition von Paaren dargestellt. Diese dient ausschließlich dafür, dass anstelle von 
 \textbf{(pair x y)} auch \textbf{(x , y)} verwendet werden darf. Wenn eine solche Notation nicht vorhanden wäre, müsse eine komplett neue Funktion \textbf{fst'} für den Syntax von \textbf{(x , y )} geschrieben werden. Notationen sind prinzipiell Aliase und tragen zur Kürzung des Aufwands bei.\\
-Zuletzt wird die \textbf{swap\_pair} Funktion, die X- und Y-Wert eines Paares vertauscht zurückgibt, definiert.
+Zuletzt wird die \textbf{swap\_pair} Funktion, die den X- und Y-Wert eines Paares vertauscht zurückgibt, definiert.\\
+\\
+Anschließend müssen Eigenschaften die diese Funktionen erfüllen sollen, bewiesen werden.
+Zuerst wird mit Hilfe der Theoreme surjective\_pairing und surjective\_pairing\_stuck bewiesen, dass das Erstellen von einem neuem Paar demselben entspricht, wenn man fst und snd von diesem Paar nimmt und somit ein neues Paar bildet. Die zwei Funktionen unterscheiden sich lediglich in der Verwendung des Syntax von Paaren. Bei surjective\_pairing\_stuck wird außerdem die \textbf{destruct} Taktik benötigt.\\
+Diese teilt normalerweise das Hauptziel des Beweises in die einzelnen Subgoals \textbf{n = O} und \textbf{n = S n'} auf. Sobald beide Ziele bewiesen wurden, akzeptiert Coq dieses Theorem. Hierbei ist der Unterschied zur Induktion, dass dabei \textbf{n = 0, n + 1} gecheckt wird und anschließend die Schlussfolgerung auf Korrektheit möglich ist.\\
+Im Beispiel wird \textbf{destruct} jedoch nur zur Aufteilung von \textbf{p} in die natürlichen Zahlen n und m verwendet.
+Ab dieser Zeile entspricht dieser Beweis exakt dem Ersten, welcher von Anfang an natürliche Zahlen verwendet. 
 
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beweise für Paar Funktionen,label=lst:practical-proof]
 Theorem surjective_pairing' : forall (n m : nat),
@@ -326,12 +332,9 @@ Proof.
 Qed.
 \end{lstlisting}
 
-\begin{itemize}
-	\item surjective\_pairing und surjective\_pairing\_stuck beweist, dass das Erstellen von einem neuem Paar demselben entspricht, wenn man fst und snd von diesem Paar nimmt und ein neues Paar bildet.
-	\item snd\_fst\_is\_swap und fst\_swap\_is\_snd prüft die swap\_pair Funktion auf Korrektheit.
-	\item destruct bedeutet: The tactic that tells Coq to consider, separately, the cases where n = O and where n = S n' is called destruct. The destruct generates two subgoals, which we must then prove, separately, in order to get Coq to accept the theorem. The same as we used in induction. The difference of destruct and induction is, that induction is capable of checking n = 0, n+1 and than say, if this is correct -> the whole proof is correct. In this example we use destruct just to split the pair p into n and m again. Otherwise Coq can't simplify the statement.
-\end{itemize}
-
+Die nächsten zwei Theorem prüfen bestimmte Eigenschaften der \textbf{swap\_pair} Funktion. Zuerst wird Bewiesen, dass das zweite Element eines Paares in Verbindung mit dem ersten, das Ergebnis der Definition \textbf{swap\_pair} ist. Letzterer Beweis stellt sicher, dass für jeden \textbf{natprod} das erste Element eines Paares nach einem Aufruf von \textbf{swap\_pair} dem ursprünglich zweiten Wert des Paares entspricht.\\
+Beide Theoreme werden identisch zu surjective\_pairing\_stuck bewiesen. Dabei wird der \textbf{natprod}-Typ ebenfalls mit Hilfe von \textbf{destruct} in zwei natürliche Zahlen aufgeteilt.\\
+\\
 Um anschließend die formal bewiesenen Funktionen in Programmen nutzen zu können, muss die Datei, in der die Beweise geschrieben wurden, in Coq compiliert werden. Dafür muss folgender Befehl in die Kommandozeile eingeben werden:
 \textbf{coqc -Q . LF PaperPair.v}. \\
 \textbf{Coqc} ist hierbei der Aufruf des Coq-Compilers. \textbf{-Q . LF} sorgt dafür, dass alle .v-Dateien aus dem Paket LF in andere Coq-Dateien importiert werden können. Ein Paket in Coq ist ähnlich zu anderen Programmiersprachen wie beispielsweise Java.
