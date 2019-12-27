@@ -174,8 +174,8 @@ Die zweite Funktion \textbf{plus\_n\_O} validiert das \textbf{n = n + 0} gilt un
 Anschließend muss jedes einzelne Ziel überprüft werden. Dies verschiedenen Ebenen von Subgoals sind mit Hilfe von \textbf{-, +, *} gekennzeichnet. Der \textbf{*}-Operator ist dabei nicht mit der vorher beschriebenen Kommentar-Notation \textbf{(* *)} zu verwechseln. Ein \textbf{-} wird bei der ersten Teilziel-Ebene verwendet. Für das Adressieren weiterer Subgoals von Subgoals werden \textbf{+} und \textbf{*} genutzt. Das Schlüsselwort \textbf{rewrite} wird in folgendem Unterkapitel erläutert.
 
 \subsection{Wie wird Coq verwendet?}
+Dieses Kapitel beinhaltet einen Beispielbeweis und geht somit auf den praktischen Einsatz von Coq ein. Dabei wird die interaktive Entwicklungsumgebung CoqIde verwendet. Das bedeutet, dass der Nutzer während des Beweisvorgangs Informationen vom Programm erhält. Dies können sowohl Hinweise, als auch Fehlermeldungen sein. Um sich die CoqIde genauer vorstellen zu können, wird folgende Illustration \ref{fig:coqide-sample} verwendet.\\
 
-Diese Kapitel beinhaltet einen Beispielbeweis und geht somit auf den praktischen Einsatz von Coq ein. Die zur Programmiersprache Coq parallel entwickelte Coqide wird hierfür verwendet. Wie bereits erwähnt, ist diese Entwicklungsumgebung interaktiv. Das bedeutet, dass der Nutzer Informationen vom Programm erhält. Diese können sowohl Hinweise, als auch Fehlermeldungen sein. Um sich die Coqide genauer vorstellen zu können, wird folgende Illustration \ref{fig:coqide-sample} verwendet.
 \begin{minipage}{\textwidth}
 	\centering
 	\captionsetup{type=figure}
@@ -183,16 +183,20 @@ Diese Kapitel beinhaltet einen Beispielbeweis und geht somit auf den praktischen
 	\caption{Coqide}
 	\label{fig:coqide-sample}
 \end{minipage}
-Die Coqide bietet viele spezielle Features für formale Verifikation. Beispielsweise ist es möglich mit den Pfeilen in der Navigationsleiste die einzelnen Kommandos aus der linken Textbox auszuführen. Je nach Pfeil springt man einen Schritt vorwärts, bis zum Zeiger vorwärts oder auch rückwärts.\\
+Die CoqIde bietet viele spezielle Features für formale Verifikation. Beispielsweise ist es möglich mit den Pfeilen in der Navigationsleiste die einzelnen Kommandos aus der linken Textbox auszuführen. Je nach Pfeil springt man einen Schritt vorwärts, bis zum Mauszeiger vorwärts oder auch rückwärts.\\
 \\
-Die Entwicklungsumgebung stellt grundsätzlich drei Fenster dar. Dabei wird eines für den Programmcode genutzt. Die anderen beiden Fenster auf der rechten Seite dienen ausschließlich der Informationsausgabe.\\
+Die Entwicklungsumgebung besteht grundsätzlich aus drei Fenster. Dabei wird eines für den Programmcode genutzt. Die anderen beiden Fenster auf der rechten Seite dienen ausschließlich der Informationsausgabe.\\
 Im Screenshot ist ein Beweis zu sehen. Dabei wird überprüft, wenn die natürlichen Zahlen \textbf{n, m, o} und die Beziehungen \textbf{n = m} und \textbf{m = o} gegeben sind, dass \textbf{n + m = m + o} gilt.\\
-Zunächst fällt auf, dass der Coq-Code teilweise grün markiert ist. Dies symbolisiert den bereits erfolgreich ausgeführten Teil. Das Ausgabefenster rechts oben zeigt, hierfür die passende Ausgabe. Dabei werden über dem Trennstrich die gegebenen Zahlen und Hypothesen angezeigt. Zusätzlich ist noch die Anzahl an Zielen abgebildet. Den darunter stehende Ausdruck gilt es zu beweisen.\\
+Zunächst fällt auf, dass der Coq-Code teilweise grün markiert ist. Dies symbolisiert den bereits erfolgreich ausgeführten Teil. Das Ausgabefenster rechts oben zeigt, hierfür die passende Ausgabe. Dabei werden über dem Trennstrich die gegebenen Variablen und Hypothesen angezeigt. Zusätzlich ist noch die Anzahl an Zielen abgebildet. Den darunter stehenden Ausdruck gilt es zu beweisen.\\
 Das dritte Fenster rechts unten dient zur Meldung von Hinweisen, Fehlern und Konsolenausgaben, wie beispielsweise von einer Suche.\\
 \\
-Im Anschluss folgt das bereits gezeigte Codebeispiel \ref{lst:sample-proof2} mit der ausführlichen Ausgabe der Coqide nach jedem Schritt.
+Im Anschluss folgt die detailliert Version des in Abbildung \ref{fig:coqide-sample} gezeigten Beispiels. Dabei wird in Codeblock \ref{lst:sample-proof2} die Ausgabe der Coqide nach jedem Schritt dargestellt.
 Diese ist durch die Kommentarblöcke, welche durch \textbf{(*} eingeleitet und durch \textbf{*)} beendet werden, gekennzeichnet.
-Wie bereits zuvor erklärt, gilt es, unter den gegebenen Umständen, \textbf{n + m = m + o} zu beweisen. Hierfür wird die \textbf{rewrite} Taktik eingesetzt. Nicht fachlich ausgedrückt bedeutet es, dass je nach Richtung des Pfeils die eine oder die andere Seite eingesetzt wird. Somit verändert sich die zu beweisende Aussage dynamisch im Coqide-Ausgabefeld. Nach dem ersten \textbf{Rewrite}, wird \textbf{n} mit \textbf{m} ersetzt. Das Einsetzen der zweiten Hypothese \textbf{H2} führt schlussendlich zu dem Ergebnis: \textbf{m + m = m + m}. Folglich kann das Ziel mit \textbf{reflexivity} bewiesen werden.
+Wie bereits zuvor erklärt, gilt es, unter den gegebenen Umständen, \textbf{n + m = m + o} zu beweisen. Hierfür wird die \textbf{rewrite} Taktik eingesetzt. Nicht fachlich ausgedrückt bedeutet es, dass je nach Richtung des Pfeils die eine oder die andere Seite eingesetzt wird. Somit verändert sich die zu beweisende Aussage dynamisch im CoqIde-Ausgabefeld. Nach dem ersten \textbf{Rewrite}, wird \textbf{n} mit \textbf{m} ersetzt. Das Einsetzen der zweiten Hypothese \textbf{H2} führt schlussendlich zu dem Ergebnis: \textbf{m + m = m + m}. Folglich kann das Ziel mit \textbf{reflexivity} bewiesen werden.
+\begin{itemize}
+	\item \textbf{TODO Ausführlicher}
+	\item Zeilen referenzieren
+\end{itemize}
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beispielbeweis,label=lst:sample-proof2]
 (* Initiating the theorem to proof. *)
 Theorem plus_id_exercise : forall n m o : nat,
