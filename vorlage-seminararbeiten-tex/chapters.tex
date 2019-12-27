@@ -460,24 +460,30 @@ Der ganze proof Stack könnte ungefähr wie in der folgenden Illustration \ref{f
 
 
 \subsection{JSCert}
-JSCert ist eine maschinell geprüfte Spezifikation von JavaScript. Es wurde mit der Coq Version 8.4.6 geschrieben. Dabei wurde versucht sich so nah wie möglichst am englischen Standard ECMAScript 5 zu halten. Damit wurde ein Ocaml geschriebener Interpreter namens \textbf{JSRef} als korrekt bewiesen. Dabei wurden 262 Testfälle abgedeckt.\cite{JSCERT01:FV}\cite{JSCERT012:FV}
+JSCert ist eine maschinell in Coq geprüfte Spezifikation von JavaScript. Es wurde mit der Coq Version 8.4.6 geschrieben. Dabei wurde versucht sich so nah wie möglichst am englischen Standard ECMAScript 5 zu halten. Damit wurde ein Ocaml geschriebener Interpreter namens \textbf{JSRef} als korrekt bewiesen. Dabei wurden 262 Testfälle abgedeckt.\cite{JSCERT01:FV}\cite{JSCERT012:FV}
 
 \subsection{CertiCoq}
-CertiCoq ist ein verifizierter Compiler für Coq. Genauer genommen beweist CertiCoq, dass die Compilierung von typ-abhängigen Sprachen, wie Gallina korrekt verläuft.\cite{CERTICOQ01:FV}\cite{CERTICOQ02:FV} Weitere Informationen diesbezüglich sind auf der Website der Princeton University zu finden.
+CertiCoq ist ein in Coq verifizierter Compiler für Coq. Genauer genommen beweist CertiCoq, dass die Compilierung von typ-abhängigen Sprachen, wie Gallina korrekt verläuft.\cite{CERTICOQ01:FV}\cite{CERTICOQ02:FV} Weitere Informationen diesbezüglich sind auf der Website der Princeton University zu finden.
 
 \subsection{Beweise für Probleme der Mathematik oder Informatik}
-\subsubsection{4-Farben Rätsel ist lösbar!}
-\url{http://www.ams.org/notices/200811/tx081101382p.pdf}
-\subsubsection{Satz von Feit-Thompson}
-Der Satz von Feit-Thompson sagt aus, dass jede endliche Gruppe ungerader Ordnung auflösbar ist. Er wurde 1963 von Walter Feit und John Griggs Thompson bewiesen.
+Mit Coq kann nicht nur Programmcode verifiziert werden. Die Grundlage dafür sind schließlich mathematische Beweise inklusive Taktiken und der interaktiven Entwicklungsumgebung. Somit wird Coq auch von Theoretikern, welche vor allem aus den Fachbereichen der Mathematik und Informatik kommen, genutzt. Die folgenden zwei bekannten Probleme wurden mittels Coq bewiesen. 
 
-Georges Gonthier gelang mit Kollegen nach sechsjähriger Arbeit 2012 die Verifikation des Beweises mit Coq (nicht das erste mal Bewiesen)
-\begin{itemize}
-	\item Number of lines ~ 170 000
-	\item Number of definitions ~15 000
-	\item Number of theorems ~ 4 200
-\end{itemize}
-\url{https://web.archive.org/web/20161119094854/http://www.msr-inria.fr/news/feit-thomson-proved-in-coq/}
+\subsubsection{Satz von Feit-Thompson}
+Das Odd-Order-Theorem, zu deutsch Satz von Feit-Thopmson sagt aus, dass jede endliche Gruppe von ungeraden Ordnungen auflösbar ist. Dies wurde bereits durch Walter Feit und John Griggs Thompson 1963 bewiesen.\\
+Nach einer sechsjährigen Arbeit gelang Georges Gonthier von INRIA 2012 die Verifikation in Coq. Dies wurde als Forschung-Projekt zur Weiterentwicklung von Coq durchgeführt. Dabei sind über 150000 Zeilen an Beweis-Code entstanden, welche circa 4000 Definition und 13000 Theoreme enthalten.\cite{ODD01:FV}
+
+\subsubsection{Vier-Farben-Theorem}
+Das Vier-Farben Theorem sagt aus, dass es immer möglich ist, mit Hilfe von vier Farben eine beliebige Landkarte in der euklidischen Ebene einzufärben. Dabei dürfen angrenzende Länder niemals gleich gefärbt sein. Weiterhin werden isolierte gemeinsame Punkte nicht als Grenze gewertet. Eine weitere Einschränkung ist, dass keine Exklaven vorhanden sein dürfen. Dies bedeutet, dass die Karte aus einer zusammenhängenden Fläche bestehen muss(siehe Grafik \ref{fig:four-color}).\cite{FOURCOLORS01:FV}\\
+Im Jahr 2005 wurde dieses Theorem erstmals durch die zwei Forscher Goerges Gonthier und Benjamin Werner vollständig mit Coq bewiesen.
+\cite{FOURCOLORS02:FV}\\
+
+\begin{minipage}{\textwidth}
+	\centering
+	\captionsetup{type=figure}
+	\includegraphics[width=0.3\textwidth]{\figdir/four-color.png}
+	\caption{Beispiel für Vier-Farben-Problem}
+	\label{fig:four-color}
+\end{minipage}
 
 \section{Aufwand in der Praxis}
 \begin{itemize}
