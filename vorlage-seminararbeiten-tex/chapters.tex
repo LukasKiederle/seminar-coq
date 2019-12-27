@@ -1,19 +1,19 @@
 \section{Motivation}
-{Wenn heutzutage die Spezifikation eines Projektes in Englisch formuliert wird, ist diese Spezifikation von Anfang an mehrdeutig, behauptet Jeannette Wing, Coperate Vice President von Microsoft Research. Des Weiteren sagt sie, dass jede natürliche Sprache mehrdeutig ist. Hingegen in formalen Spezifikationen, wird basierend auf Mathematik präzise erklärt, was genau ein Programm machen soll.}\cite{WING01:FV}
+{Wenn heutzutage die Spezifikation eines Projektes in englischer Sprache formuliert wird, ist diese Spezifikation von Anfang an mehrdeutig, behauptet Jeannette Wing, Coperate Vice President von Microsoft Research. Des Weiteren sagt sie, dass jede natürliche Sprache mehrdeutig ist. Hingegen in formalen Spezifikationen, wird mathematisch präzise erklärt, was genau ein Programm machen soll.}\cite{WING01:FV}
 \\
 \\
-Diese Seminararbeit soll einen tieferen Einblick in den Themenbereich der Programmcodeverifikation schaffen. Dabei wird sowohl auf die Grundlagen als auch technisch-detaillierte Beispiele eingegangen. Als technisches Mittel wird hierfür der Proof-Assistent Coq verwendet.
+Diese Seminararbeit soll einen tieferen Einblick in den Themenbereich der Programmcodeverifikation schaffen. Dabei wird sowohl auf die Grundlagen als auch technisch-detaillierte Beispiele eingegangen. Als Programmiersprache wird hierfür der Proof-Assistent Coq verwendet.
 
 
-\section{Warum ist Formale Verifikation interessant?}
-Es existieren unzählige Beispiele für die Relevanz von Formaler Verifikation. Zum Beispiel jeder Computer besteht aus vielen elektronischen Hardwareteilen wie Prozessoren, Grafikkarte et cetera. Um diesen nutzen zu können, wird eine Hardware Description Language (HDL) eingesetzt. Diese beschreibt sowohl die Struktur als auch das Verhalte des elektronischen Bauteils.\\
-Eine Firma X verkauft nun einen Computer mit einer fehlerhaften HDL-Software. Je nach Ausmaß des Bugs, kann dies gravierende Folgen nach sich ziehen.\\
+\section{Relevanz formaler Verifikation}
+Es existieren unzählige Beispiele für die Relevanz von formaler Verifikation. Jeder Computer besteht beispielsweise aus vielen elektronischen Hardwareteilen wie Prozessoren, Grafikkarte et cetera. Zur Benutzung wird eine Hardware Description Language (HDL) eingesetzt, welche sowohl die Struktur als auch das Verhalten der elektronischen Bauteile beschreibt. Falls eine Firma nun einen Computer mit einer fehlerhaften HDL-Software verkauft, kann dies gravierende Folgen nach sich ziehen.
+Daher ist es wichtig, dass sowohl die Bauteile als auch das Zusammenspiel von Hardware und Software ausgiebig getestet werden.\\
 \\
-Heutzutage gehen viele Computer-Nutzer davon aus, dass ein Prozessor, ein Compiler oder ein Programm 100\% korrekt funktionieren. Doch wie ist sichergestellt, dass das Speichern in einem Editor oder das Compilieren von C Code auch das gewünschte Ergebnis liefert? Es ist eine Annahme, dass dies so funktioniert. Sehr wahrscheinlich wurden etliche Tests vor der Veröffentlichung der jeweiligen Software geschrieben. Trotzdem ist dies nur eine Annahme und kein Beweis, dass die Software auch wirklich so funktioniert, wie diese funktionieren soll.
-\\
-Wenn beispielsweise diese HDL-Software jedoch formal verifiziert wäre, wäre bewiesen, dass, solange die Spezifikation korrekt ist, kein Fehler auftreten kann.\\
-Somit lässt sich schlussfolgern, dass formale Verifikation vor allem in Software, die 100\% korrekt sein muss benötigt wird. Hauptsächlich betrifft dies sicherheitskritische und intensiv genutzte Systeme.
-
+Heutzutage gehen die meisten Computer-Nutzer davon aus, dass ein Betriebssystem, ein Compiler oder andere Software zu 100\% korrekt funktionieren. Doch wie ist sichergestellt, dass das Speichern in einem Editor oder das Compilieren von C Code auch in jedem Fall das gewünschte Ergebnis liefert? \\
+Sehr wahrscheinlich wurden viele verschiedene Tests bereits vor der Veröffentlichung der jeweiligen Software durchgeführt. Die bekanntesten sind Unit-, Integration- und manuelle Tests. Dabei versucht man sowohl Standard- als auch Grenz- und Sonderfälle abzudecken, aber natürlich nicht jeden Einzelfall. Würde man einen kompletten Test durchführen, müsste beispielsweise für eine simple Funktion, die zwei Integer addiert, jeder beliebige Wert, den dieser annehmen könnte, getestet werden. Dies ist nicht in annehmbarer Laufzeit mit den oben genannten Testformen durchführbar.\\
+Nichts desto trotz schränken viel Tests ein Fehlverhalten der jeweiligen Software ein. Dies ist für vielerlei Anwendungen bereits ausreichend. Allerdings vor allem in sicherheitskritischen und intensiv genutzte Systemen sollte diese zu 100\% korrekt funktionieren.
+Um allerdings alle Fälle abzudecken, muss eine andere Syntax verwendet werden. Hier kommt die formale Verifikation zum Einsatz. 
+Die dabei verwendete Sprache ist mathematisch aufgebaut und erlaubt es somit Konstrukte, wie beispielsweise \textbf{für alle natürlichen Zahlen gilt} nieder zuschreiben.
 
 \section{Grundlagen}
 \subsection{Theorem Provers}
