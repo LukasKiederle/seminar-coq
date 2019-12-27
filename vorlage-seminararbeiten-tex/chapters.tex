@@ -173,7 +173,7 @@ Ein anschließendes Anwenden von \textbf{reflexivity} sorgt dafür, dass das Pro
 Die zweite Funktion \textbf{plus\_n\_O} validiert das \textbf{n = n + 0} gilt und wird mit Hilfe der Taktik \textbf{induction} gelöst. Diese teilt die Aussage in zwei Subgoals (zu deutsch Teilziele) auf, passend zu Induktion. Dabei wird geprüft, dass sowohl \textbf{n = 0} (Zeile 11) und \textbf{n + 1} (Zeile 12-13) gilt.
 Anschließend muss jedes einzelne Ziel überprüft werden. Dies verschiedenen Ebenen von Subgoals sind mit Hilfe von \textbf{-, +, *} gekennzeichnet. Der \textbf{*}-Operator ist dabei nicht mit der vorher beschriebenen Kommentar-Notation \textbf{(* *)} zu verwechseln. Ein \textbf{-} wird bei der ersten Teilziel-Ebene verwendet. Für das Adressieren weiterer Subgoals von Subgoals werden \textbf{+} und \textbf{*} genutzt. Das Schlüsselwort \textbf{rewrite} wird in folgendem Unterkapitel erläutert.
 
-\subsection{Wie wird Coq verwendet?}
+\subsection{Anwendung von Coq}
 Dieses Kapitel beinhaltet einen Beispielbeweis und geht somit auf den praktischen Einsatz von Coq ein. Dabei wird die interaktive Entwicklungsumgebung CoqIde verwendet. Das bedeutet, dass der Nutzer während des Beweisvorgangs Informationen vom Programm erhält. Dies können sowohl Hinweise, als auch Fehlermeldungen sein. Um sich die CoqIde genauer vorstellen zu können, wird folgende Illustration \ref{fig:coqide-sample} verwendet.\\
 
 \begin{minipage}{\textwidth}
@@ -192,11 +192,11 @@ Das dritte Fenster rechts unten dient zur Meldung von Hinweisen, Fehlern und Kon
 \\
 Im Anschluss folgt die detailliert Version des in Abbildung \ref{fig:coqide-sample} gezeigten Beispiels. Dabei wird in Codeblock \ref{lst:sample-proof2} die Ausgabe der Coqide nach jedem Schritt dargestellt.
 Diese ist durch die Kommentarblöcke, welche durch \textbf{(*} eingeleitet und durch \textbf{*)} beendet werden, gekennzeichnet.
-Wie bereits zuvor erklärt, gilt es, unter den gegebenen Umständen, \textbf{n + m = m + o} zu beweisen. Hierfür wird die \textbf{rewrite} Taktik eingesetzt. Nicht fachlich ausgedrückt bedeutet es, dass je nach Richtung des Pfeils die eine oder die andere Seite eingesetzt wird. Somit verändert sich die zu beweisende Aussage dynamisch im CoqIde-Ausgabefeld. Nach dem ersten \textbf{Rewrite}, wird \textbf{n} mit \textbf{m} ersetzt. Das Einsetzen der zweiten Hypothese \textbf{H2} führt schlussendlich zu dem Ergebnis: \textbf{m + m = m + m}. Folglich kann das Ziel mit \textbf{reflexivity} bewiesen werden.
-\begin{itemize}
-	\item \textbf{TODO Ausführlicher}
-	\item Zeilen referenzieren
-\end{itemize}
+Wie bereits zuvor erklärt, gilt es \textbf{n + m = m + o} zu beweisen. Die gegebenen Hypothesen sind \textbf{n = m} und \textbf{m = o}. Nachdem das Theorem durch die CoqIde eingelesen (grün markiert) wurde, ergibt sich die Ausgabe von Zeile 7 - 11. Darin ist das fast unveränderte Theorem abgebildet. Wie bereits im vorherigen Kapitel erklärt, gilt es alles unter der dem Trennstrich zu beweisen.\\
+Als nächstes wird der Beweis durch das Schlüsselwort \textbf{Proof} in Zeile 13 gestartet. Mit Hilfe von \textbf{intros} in Zeile 15 sind die drei Variablen n m o in den Kontext gesetzt. Das Resultat dieser Operation ist in Zeile 19 zu erkennen. Die Variablen werden nun als gegeben angesehen. Ein weiteres Nutzen des selben Kommandos ermöglicht es die zwei Hypothesen \textbf{H} und \textbf{H2} aufzustellen. Somit ergibt sich die Ausgabe in den Zeilen 27 bis 33. Das einzige zu beweisende Ziel ist \textbf{n + m = m + o}. Die gegebenen Variablen und Hypothesen sind oberhalb der Linie aufgelistet. Die in den nächsten zwei Zeilen 36 und 43 verwendet Taktik \textbf{rewrite} nutzt die \textbf{H1} und \textbf{H2}.
+\textbf{Rewrite} bedeutet vereinfacht ausgedrückt, dass je nach Richtung des Pfeils die eine oder die andere Seite eingesetzt wird. In Zeile 41 ist das Ergebnis nach dem Einsetzen von der Hypothese \textbf{H} dargestellt, wobei alle \textbf{n}'s durch \textbf{m}'s ersetzt wurden. Selbiges Resultat entsteht nach der Verwendung von \textbf{H2}. Allerdings werden dabei alle \textbf{o}'s durch \textbf{m}'s ersetzt. In beiden Ausgaben sind nur \dots zu sehen, da der gegebene Teil unverändert bleibt.
+Abschließend kann das Ziel mit \textbf{reflexivity} bewiesen werden, da \textbf{m + m} das selbe ist, wie \textbf{m + m}.
+
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beispielbeweis,label=lst:sample-proof2]
 (* Initiating the theorem to proof. *)
 Theorem plus_id_exercise : forall n m o : nat,
@@ -504,7 +504,7 @@ Im Jahr 2005 wurde dieses Theorem erstmals durch die zwei Forscher Goerges Gonth
 Der Aufwand für formale Verifikation ist schwer abzuschätzen, da diese Art von Programmieren nicht für jedes Teilgebiet gleichmäßig erforscht ist oder überhaupt benötigt wird. Grundsätzlich nutzen vor allem große Firmen im Bereich der low-level Software diese Form der Verifizierung. Damit kann sichergestellt werden, dass der Prozessor immer korrekt angesteuert wird et cetera. Dabei werden meist funktionale Sprachen, wie beispielsweise C oder maschinennahe Sprachen verwendet. Dem entsprechenden, ist in diesen Bereichen die Forschung bereits sehr weit vorgedrungen im
 Vergleich zu anderen Programmiersprachen wie Java oder C\#.\\
 \\
-In einem Talk über das Projekt Ironclad von Microsoft Research sprach Bryan Parno 2014 über den Vorgang beim Einsetzen von Formaler Verifikation bei einer Ende-zu-Ende Sicherheits-Anwendung. Dabei nannte benannte er den Aufwand für das Programmieren mit etwa fünft Zeilen extra Beweis-Code pro richtiger Zeile Code. Außerdem sei es eine komplett neue Art zu Software zu entwickeln. Abschließend fügte er noch hinzu, dass der meiste neue Code "`out-of-the-box"' funktionierte und faktisch kaum Bugs enthielt.\cite{IRONCLAD01:FV}
+In einem Talk über das Projekt Ironclad von Microsoft Research sprach Bryan Parno 2014 über den Vorgang beim Einsetzen von Formaler Verifikation bei einer Ende-zu-Ende Sicherheits-Anwendung. Dabei nannte benannte er den Aufwand für das Programmieren mit etwa fünf Zeilen extra Beweis-Code pro Zeile Programmcode. Außerdem sei es eine komplett neue Art zu Software zu entwickeln. Abschließend fügte er noch hinzu, dass der meiste neue Code "`out-of-the-box"' funktionierte und faktisch kaum Bugs enthielt.\cite{IRONCLAD01:FV}
 
 \section{Fazit}
 \begin{itemize}
@@ -517,6 +517,10 @@ In einem Talk über das Projekt Ironclad von Microsoft Research sprach Bryan Par
 	\item Große Firmen nutzen es immer aktiver
 	\item nur Software kann sicher gemacht werden. Hardware ist immer noch fehlbar!
 	\item Referenz auf weiterführende Artikel
+\end{itemize}
+
+\begin{itemize}
+	\item 
 \end{itemize}
 
 \section{Glossar}
