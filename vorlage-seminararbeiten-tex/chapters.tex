@@ -13,29 +13,28 @@ Heutzutage gehen die meisten Computer-Nutzer davon aus, dass ein Betriebssystem,
 Sehr wahrscheinlich wurden viele verschiedene Tests bereits vor der Veröffentlichung der jeweiligen Software durchgeführt. Die bekanntesten sind Unit-, Integration- und manuelle Tests. Dabei versucht man sowohl Standard- als auch Grenz- und Sonderfälle abzudecken, aber natürlich nicht jeden Einzelfall. Würde man einen kompletten Test durchführen, müsste beispielsweise für eine simple Funktion, die zwei Integer addiert, jeder beliebige Wert, den dieser annehmen könnte, getestet werden. Dies ist nicht in annehmbarer Laufzeit mit den oben genannten Testformen durchführbar.\\
 Nichts desto trotz schränken viel Tests ein Fehlverhalten der jeweiligen Software ein. Dies ist für vielerlei Anwendungen bereits ausreichend. Allerdings vor allem in sicherheitskritischen und intensiv genutzte Systemen sollte diese zu 100\% korrekt funktionieren.
 Um allerdings alle Fälle abzudecken, muss eine andere Syntax verwendet werden. Hier kommt die formale Verifikation zum Einsatz. 
-Die dabei verwendete Sprache ist mathematisch aufgebaut und erlaubt es somit Konstrukte, wie beispielsweise \textbf{für alle natürlichen Zahlen gilt} nieder zuschreiben.
-
-\section{Grundlagen}
-\subsection{Theorem Provers}
-Ein Theorem Prover ist ein Programm.
-In diesem definiert ein Mensch Aussagen, welche das Tool versucht zu beweisen, wenn es möglich ist.
-
-\subsection{Proof Assistent}
-Ein Proof Assistent, welcher auch interaktiver Theorem Proofer genannt wird, ist ein Softwaretool, dass hilft formale Beweise durchzuführen. Dabei wird meistens ein interaktiver Editor verwendet, mit dem ein Mensch am Computer Schritt für Schritt Beweise schreiben kann. Der Unterschied zu einem Theorem Prover ist, dass die Software mit dem Bediener interagiert.
-
-\subsection{Übersicht}
-Zum Zeitpunkt dieser Arbeit existieren circa 17 verschiedene Tools für formale Verifikation. Dabei sind \textbf{ACL2}, \textbf{Isabelle} und \textbf{Coq} die bekanntesten.\cite{WIEDIJK01:FP}
-In dieser Arbeit wird, wie bereits erwähnt, ausschließlich auf Coq eingegangen, da das Vergleichen den Umfang dieser Arbeit stark ausdehnen würde. Hintergrundwissen diesbezüglich ist ersichtlich im Paper von Freek Wiedijk und Dana Scott. Es ist unter \url{http://www.cs.ru.nl/~freek/comparison/comparison.pdf} veröffentlicht. 
-
-\section{Coq}
-Der Proof Assistent Coq wurde erstmals im Mai 1989 veröffentlicht. Das National Institute for Research in Computer Science and Automation (INRIA) hat dessen Entwicklung bereits seit 1984 unterstützt. \\
-Bestandteile in Coq-Projekt sind die funktionale Programmiersprache Coq selbst und eine Entwicklungsumgebung namens Coqide. Beides ist zum heutigen Zeitpunkt plattform-unabhängig und open-source erhältlich unter \url{https://github.com/coq/coq}. Die dort aktuell veröffentlichte Version ist 8.10.2.\cite{COQ01:FV}\\
-Coq ist zum Großteil in Ocaml geschrieben. Prüfen auf formale Richtigkeit von Beweisen ist das grundlegende Feature von der Programmiersprache. Dabei wird der Entwickler durch die eingebaute Entwicklungsumgebung interaktiv während des Schreiben eines Beweises unterstützt. Eine weitere interessante Funktionalität ist die Code Extraktion. Coq bietet diese für Ocaml, Haskel oder mit Hilfe von externen Bibliotheken auch für C an. Dies wird im Kapitel \ref{s:coq-and-code} detaillierter anhand eines Beispiels aufgegriffen. Dabei werden Funktionen formal verifiziert und anschließend in ausführbaren Ocaml Code extrahiert.
-
-\section{Coq Bewertung}
-Der Online-Dienst \textbf{Open Hub}, ehemals \textbf{Ohloh} genannt, katalogisiert open-source Softwareprojekte. Dabei werden Daten wie Projektname, Beschreibung und Sourcecode erfasst. Basierend auf diesen Daten erstellt Open Hub eine Statistik, die es ermöglicht, Codeanalyse, Projektmitarbeiter, Aktivitäten und eine Übersicht zu erhalten. Dabei werden auch viele weitere open source Projekte miteinander verglichen um aussagekräftige Statistiken und Aussagen treffen zu können.\\
+Die dabei verwendete Sprache ist mathematisch aufgebaut und erlaubt es somit Konstrukte, wie beispielsweise \textbf{für alle natürlichen Zahlen gilt} nieder zuschreiben.\\
 \\
-{In der Auswertung über OpenHAB steht beispielsweise, dass Coq aus über 30000 Beiträgen von 246 Entwicklern besteht. Weiterhin wird der Codestand mit qualitativ hochwertig beschrieben. Trotz der hohen Anzahl an Contributern, scheint die Anzahl an Beiträgen von diesem Jahr im Vergleich zum Vorjahr abzunehmen. Dies könnte einerseits bedeuten, dass das Interesse schwindet, andererseits ist es auch möglich, dass der Code weniger Bugfixes und Änderungen benötigt.}\cite{OH01:FV}\\
+Zum Zeitpunkt dieser Arbeit existieren circa 17 verschiedene Tools für formale Verifikation. Dabei sind \textbf{Coq}, \textbf{Isabelle} und \textbf{ACL2} die bekanntesten.\cite{WIEDIJK01:FP}
+In dieser Arbeit wird ausschließlich auf Coq eingegangen.
+
+\section{Einführung in Coq}
+\subsection{Begriffe}
+Ein \textbf{Theorem Prover} ist ein Programm.
+In diesem werden Aussagen definiert, die das Tool zu beweisen versucht, falls es möglich ist.\\
+\\
+Ein \textbf{Proof Assistent}, welcher auch interaktiver Theorem Prover genannt wird, ist ein Softwaretool, das hilft formale Beweise durchzuführen. Dabei wird ein interaktiver Editor verwendet, mit dem es möglich ist, programmatisch Schritt für Schritt Beweise zu schreiben. Die Software interagiert dabei mit dem Bediener.
+ 
+
+\subsection{Das Projekt Coq}
+Der Proof Assistent Coq wurde erstmals im Mai 1989 veröffentlicht. Das National Institute for Research in Computer Science and Automation (INRIA) hat dessen Entwicklung bereits seit 1984 unterstützt.\cite{COQ02:FV} Der Name leitet sich vom französischen Wort Coq (zu deutsch Hahn) ab. Traditionell werden Entwicklungswerkzeuge in Frankreich nach Tieren benannt. Außerdem erinnert der Name an den französischen Mathematiker und Informatiker Thierry Coquand. \\
+Bestandteile des Coq-Projekts sind die funktionale Programmiersprache Coq selbst und eine Entwicklungsumgebung namens CoqIde. Beides ist zum heutigen Zeitpunkt plattform-unabhängig und open-source erhältlich unter \url{https://github.com/coq/coq}. Die dort aktuell veröffentlichte Version ist 8.10.2.\cite{COQ01:FV}\\
+Coq ist zum größtenteils in Ocaml geschrieben. Das grundlegende Feature der Programmiersprache ist das Prüfen auf formale Richtigkeit von Beweisen. Dabei wird der Entwickler durch die eingebaute Entwicklungsumgebung CoqIde interaktiv während des Schreibens eines Beweises unterstützt. Eine weitere Funktionalität ist die Code Extraktion. Coq bietet diese für Ocaml, Haskel oder mit Hilfe von externen Bibliotheken auch für C an. Dies wird im Kapitel \ref{s:coq-and-code} detailliert anhand eines Beispiels aufgegriffen. Dabei werden Funktionen formal verifiziert und anschließend in ausführbaren Ocaml Code extrahiert.
+
+\subsection{Bewertung von Coq mittels Open Hub}
+Der Online-Dienst \textbf{Open Hub}, ehemals \textbf{Ohloh} genannt, katalogisiert open-source Softwareprojekte. Für jedes Projekt werden Daten wie Name, Beschreibung und Sourcecode erfasst. Basierend auf diesen Daten erstellt Open Hub eine Statistik, die es ermöglicht Codeanalyse, Projektmitarbeiter, Aktivitäten und eine Übersicht zu erhalten. Dabei fließen auch Daten weiterer open-source Projekte ein, um aussagekräftige Statistiken und Aussagen treffen zu können.\\
+\\
+{In der Auswertung steht beispielsweise, dass Coq aus über 30000 Beiträgen von 246 Entwicklern entstanden ist. Weiterhin wird der Codestand mit qualitativ hochwertig bewertet. Trotz der großen Menge an Contributern, scheint die Anzahl an Beiträgen von diesem Jahr im Vergleich zum Vorjahr abzunehmen. Dies könnte einerseits bedeuten, dass das Interesse schwindet, andererseits ist es auch möglich, dass der Code weniger Bugfixes und Änderungen benötigt.}\cite{OH01:FV}\\
 Im Großen und Ganzen ist es eine aktuell sehr weit verbreite Sprache für formale Verifikation. Dabei wird sowohl Programmcode verifiziert, als auch mathematische Theoreme bewiesen, welche auch teilweise unabhängig zum Fachbereich Informatik sind. Die Anwendungsbereiche sind im Kapitel \ref{s:current-usage} genauer erläutert.
 
 \section{Programmatische Coq-Grundlagen}
