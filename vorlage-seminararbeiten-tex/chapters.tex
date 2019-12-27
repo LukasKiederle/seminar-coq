@@ -486,13 +486,10 @@ Im Jahr 2005 wurde dieses Theorem erstmals durch die zwei Forscher Goerges Gonth
 \end{minipage}
 
 \section{Aufwand in der Praxis}
-\begin{itemize}
-	\item Für jede Zeile Code wurden >= 5 extra Zeilen Proofs geschrieben.
-	\item Code der geschrieben wurde, hat meistens sofort funktioniert. (Es ist eine neue Art zu programmieren)
-	\item Projekt Ironclad von Microsoft Research. Talk von Bryan Parno 2014 \url{https://www.usenix.org/node/186162}
-	\item Objektorientierung eher schwer, da direkte Umwandlung von funktionaler Sprache in eine funktionale Sprache einfacher ist. (Außerdem programmieren die Menschen, die das entwickeln eigentlich nicht wirklich objektorientiert)
-\end{itemize}
-
+Der Aufwand für formale Verifikation ist schwer abzuschätzen, da diese Art von Programmieren nicht für jedes Teilgebiet gleichmäßig erforscht ist oder überhaupt benötigt wird. Grundsätzlich nutzen vor allem große Firmen im Bereich der low-level Software diese Form der Verifizierung. Damit kann sichergestellt werden, dass der Prozessor immer korrekt angesteuert wird et cetera. Dabei werden meist funktionale Sprachen, wie beispielsweise C oder maschinennahe Sprachen verwendet. Dem entsprechenden, ist in diesen Bereichen die Forschung bereits sehr weit vorgedrungen im
+Vergleich zu anderen Programmiersprachen wie Java oder C\#.\\
+\\
+In einem Talk über das Projekt Ironclad von Microsoft Research sprach Bryan Parno 2014 über den Vorgang beim Einsetzen von Formaler Verifikation bei einer Ende-zu-Ende Sicherheits-Anwendung. Dabei nannte benannte er den Aufwand für das Programmieren mit etwa fünft Zeilen extra Beweis-Code pro richtiger Zeile Code. Außerdem sei es eine komplett neue Art zu Software zu entwickeln. Abschließend fügte er noch hinzu, dass der meiste neue Code "`out-of-the-box"' funktionierte und faktisch kaum Bugs enthielt.\cite{IRONCLAD01:FV}
 
 \section{Fazit}
 \begin{itemize}
