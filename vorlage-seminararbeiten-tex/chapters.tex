@@ -467,14 +467,14 @@ Zuerst muss ein C-Programm beispielsweise in einer Datei \textbf{F.c} vorhanden 
 
 \section{Aktuelle Anwendung}
 \label{s:current-usage}
-In diesem Kapitel werden ein paar neben der Princeton Toolchain existierenden Anwendungsfälle und Projekte aufgeführt und kurz vorgestellt.
+In diesem Kapitel werden einige Anwendungsfälle und Projekte kurz vorgestellt.
 
 \subsection{Proofed Stack}
-Mit Hilfe von VST inklusive CompCert wird versucht eine Art Stack aufzubauen, der von Maschinensprache über das Betriebssystem bis hin zu C-Programmcode formal verifiziert ist. Hierfür wird zusätzlich ein spezielles Coq-Framework namens \textbf{Kami} verwendet. Damit ist es möglich Hardware-Design formal zu beweisen. Diese Domain specific Language (DSL) ist hauptsächlich inspiriert von \textbf{Bluespec} und der open-source \textbf{RISC-V} Befehlssatzarchitektur.\cite{KAMI01:ST} Vereinfacht gesagt, beschreibt dies die Verhaltensweise eines Prozessors in Form von einer formalen Spezifikation.\\
+Mit Hilfe von VST inklusive CompCert wird versucht eine Art Stack aufzubauen, der von Maschinensprache über das Betriebssystem bis hin zu C-Programmcode formal verifiziert ist. Hierfür wird zusätzlich ein spezielles Coq-Framework namens \textbf{Kami} verwendet. Damit ist es möglich Hardware-Design formal zu beweisen. Diese Domain Specific Language (DSL) ist hauptsächlich inspiriert von \textbf{Bluespec} und der open-source \textbf{RISC-V} Befehlssatzarchitektur.\cite{KAMI01:ST} Vereinfacht gesagt, beschreibt dies die Verhaltensweise eines Prozessors in Form von einer formalen Spezifikation.\\
 Die zur Architektur passenden Chips werden beispielsweise durch \textbf{SiFive}, welche auch \textbf{Kami} entwickelt haben, hergestellt.\\
-Schlussendlich fehlt noch ein Betriebssystem, welches zum ein oder anderen Zeitpunkt mit Prozessoren und Speichern interagiert. Hierfür wurde \textbf{CertiKOS}, das erste formal verifizierten Betriebssystem, entwickelt. Es unterstützt \textbf{x86} inklusive Multiprozessing. Außerdem ist es möglich, einen Hypervisor zu hosten und dadurch mehrere Betriebssysteme gleichzeitig auf der selben Maschine zu verwenden.\cite{CERTIKOS01:FV}\cite{CERTIKOS02:FV}\\
+Schlussendlich fehlt noch ein Betriebssystem, welches zum ein oder anderen Zeitpunkt mit Prozessoren und Speichern interagiert. Hierfür wurde \textbf{CertiKOS}, das erste formal verifizierte Betriebssystem, entwickelt. Es unterstützt \textbf{x86} inklusive Multiprocessing. Außerdem ist es möglich, einen Hypervisor zu hosten und dadurch mehrere Betriebssysteme gleichzeitig auf der selben Maschine zu verwenden.\cite{CERTIKOS01:FV}\cite{CERTIKOS02:FV}\\
 \\
-Der ganze proof Stack könnte ungefähr wie in der folgenden Illustration \ref{fig:proofed-stack} dargestellt werden. Dabei wird Hardware-Komponenten in rot markiert. Der Softwareteil wird farblich unterschiedlich abgebildet mit dem Ziel, dass das Bild übersichtlicher ist.\\
+Der ganze Proofed Stack könnte ungefähr in den Ebenen wie in der folgenden Illustration \ref{fig:proofed-stack} dargestellt werden. Dabei sind Hardware-Komponenten in rot markiert. Der Softwareteil wird farblich unterschiedlich abgebildet mit dem Ziel, dass das Bild übersichtlicher ist.\\
 
 
 \begin{minipage}{\textwidth}
@@ -490,18 +490,18 @@ Der ganze proof Stack könnte ungefähr wie in der folgenden Illustration \ref{f
 JSCert ist eine maschinell in Coq geprüfte Spezifikation von JavaScript. Es wurde mit der Coq Version 8.4.6 geschrieben. Dabei wurde versucht, sich so nah wie möglich am englischen Standard ECMAScript 5 zu halten. Des Weiteren ist ein in Ocaml geschriebener Interpreter namens \textbf{JSRef} damit als korrekt bewiesen worden. Dies deckt 262 Testfälle ab.\cite{JSCERT01:FV}\cite{JSCERT012:FV}
 
 \subsection{CertiCoq}
-CertiCoq ist ein in Coq verifizierter Compiler für Coq. Genauer genommen beweist CertiCoq, dass die Kompilierung von typ-abhängigen Sprachen, wie Gallina korrekt verläuft.\cite{CERTICOQ01:FV}\cite{CERTICOQ02:FV} Weitere Informationen diesbezüglich sind auf der Website der Princeton University zu finden.
+CertiCoq ist ein in Coq verifizierter Compiler für Coq. Genau genommen beweist CertiCoq, dass die Kompilierung von typ-abhängigen Sprachen, wie Gallina korrekt verläuft.\cite{CERTICOQ01:FV}\cite{CERTICOQ02:FV}
 
 \subsection{Beweise für Probleme der Mathematik oder Informatik}
 Mit Coq kann nicht nur Programmcode verifiziert werden. Die Grundlage dafür sind schließlich mathematische Beweise inklusive Taktiken und der interaktiven Entwicklungsumgebung. Somit wird Coq auch von Theoretikern, welche vor allem aus den Fachbereichen der Mathematik und Informatik kommen, genutzt. Die folgenden zwei bekannten Probleme wurden mittels Coq bewiesen. 
 
 \subsubsection{Satz von Feit-Thompson}
-Das Odd-Order-Theorem, zu Deutsch Satz von Feit-Thopmson sagt aus, dass jede endliche Gruppe von ungeraden Ordnungen auflösbar ist. Dies wurde bereits durch Walter Feit und John Griggs Thompson 1963 bewiesen.\\
-Nach einer sechsjährigen Arbeit gelang Georges Gonthier von INRIA 2012 die Verifikation in Coq. Dies wurde als Forschung-Projekt zur Weiterentwicklung von Coq durchgeführt. Dabei sind über 150000 Zeilen an Beweis-Code entstanden, welche circa 4000 Definition und 13000 Theoreme enthalten.\cite{ODD01:FV}
+Das Odd-Order-Theorem, zu Deutsch Satz von Feit-Thompson sagt aus, dass jede endliche Gruppe von ungeraden Ordnungen auflösbar ist. Dies wurde bereits durch Walter Feit und John Griggs Thompson 1963 bewiesen.\cite{ODD01:FV}\\
+Nach einer sechsjährigen Arbeit gelang Georges Gonthier von INRIA 2012 die Verifikation in Coq. Dies wurde als Forschungs-Projekt zur Weiterentwicklung von Coq durchgeführt. Dabei sind über 150.000 Zeilen an Beweis-Code entstanden, welche circa 4.000 Definitionen und 13.000 Theoreme enthalten.\cite{ODD01:FV}
 
 \subsubsection{Vier-Farben-Theorem}
-Das Vier-Farben Theorem sagt aus, dass es immer möglich ist, mit Hilfe von vier Farben eine beliebige Landkarte in der euklidischen Ebene einzufärben. Dabei dürfen angrenzende Länder niemals gleich gefärbt sein. Weiterhin werden isolierte gemeinsame Punkte nicht als Grenze gewertet. Eine weitere Einschränkung ist, dass keine Exklaven vorhanden sein dürfen. Dies bedeutet, dass die Karte aus einer zusammenhängenden Fläche bestehen muss (siehe Grafik \ref{fig:four-color}).\cite{FOURCOLORS01:FV}\\
-Im Jahr 2005 wurde dieses Theorem erstmals durch die zwei Forscher Goerges Gonthier und Benjamin Werner vollständig mit Coq bewiesen.
+Das Vier-Farben Theorem sagt aus, dass es immer möglich ist, mit Hilfe von vier Farben eine beliebige Landkarte in der euklidischen Ebene einzufärben. Dabei dürfen angrenzende Länder niemals gleich gefärbt sein. Weiterhin werden isolierte gemeinsame Punkte nicht als Grenze gewertet. Eine weitere Einschränkung ist, dass keine Exklaven vorhanden sein dürfen. Dies bedeutet, dass die Karte aus einer zusammenhängenden Fläche bestehen muss (siehe Abbildung \ref{fig:four-color}).\cite{FOURCOLORS01:FV}\\
+Im Jahr 2005 wurde dieses Theorem erstmals durch die zwei Forscher Georges Gonthier und Benjamin Werner vollständig mit Coq bewiesen.
 \cite{FOURCOLORS02:FV}\\
 
 \begin{minipage}{\textwidth}
@@ -513,10 +513,10 @@ Im Jahr 2005 wurde dieses Theorem erstmals durch die zwei Forscher Goerges Gonth
 \end{minipage}
 
 \section{Aufwand in der Praxis}
-Der Aufwand für formale Verifikation ist schwer abzuschätzen, da diese Art von Programmieren nicht für jedes Teilgebiet gleichmäßig erforscht ist oder überhaupt benötigt wird. Grundsätzlich nutzen vor allem große Firmen im Bereich der low-level Software diese Form der Verifizierung. Damit kann sichergestellt werden, dass der Prozessor immer korrekt angesteuert wird et cetera. Dabei werden meist funktionale Sprachen, wie beispielsweise C oder maschinennahe Sprachen verwendet. Dem entsprechenden, ist in diesen Bereichen die Forschung bereits sehr weit vorgedrungen im
-Vergleich zu anderen Programmiersprachen wie Java oder C\#.\\
+Der Aufwand für formale Verifikation ist schwer abzuschätzen, da diese Art des Programmierens nicht für jedes Teilgebiet ausreichend erforscht ist oder überhaupt benötigt wird. Grundsätzlich nutzen vor allem große Firmen im Bereich der low-level Software diese Form der Verifizierung. Damit kann beispielsweise sichergestellt werden, dass ein Prozessor immer korrekt angesteuert wird et cetera. Dabei werden meist funktionale Sprachen, wie C oder maschinennahe Sprachen verwendet. Im
+Vergleich zu anderen Programmiersprachen wie Java oder C\#, ist in diesen Bereichen die Forschung bereits sehr weit vorgedrungen.\\
 \\
-In einem Talk über das Projekt Ironclad von Microsoft Research sprach Bryan Parno 2014 über den Vorgang beim Einsetzen von Formaler Verifikation bei einer Ende-zu-Ende Sicherheits-Anwendung. Dabei nannte benannte er den Aufwand für das Programmieren mit etwa fünf Zeilen extra Beweis-Code pro Zeile Programmcode. Außerdem sei es eine komplett neue Art zu Software zu entwickeln. Abschließend fügte er noch hinzu, dass der meiste neue Code "`out-of-the-box"' funktionierte und faktisch kaum Bugs enthielt.\cite{IRONCLAD01:FV}
+In einem Vortrag über das Projekt Ironclad von Microsoft Research sprach Bryan Parno 2014 über den Einsatz von Formaler Verifikation bei einer Ende-zu-Ende Sicherheits-Anwendung. Dabei benannte er den Aufwand für das Programmieren mit etwa fünf Zeilen extra Beweis-Code pro Zeile Programmcode. Außerdem sei es eine komplett neue Art Software zu entwickeln. Abschließend fügte er noch hinzu, dass der meiste neue Code "`out-of-the-box"' funktionierte und faktisch kaum Bugs enthielt.\cite{IRONCLAD01:FV}
 
 \section{Fazit}
 
