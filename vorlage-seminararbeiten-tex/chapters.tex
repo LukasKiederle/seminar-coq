@@ -255,30 +255,28 @@ Qed.
 
 \section{Coq und Programmcode}
 \label{s:coq-and-code}
-
-Beim Zusammenspiel von Beweisen in Coq und Programmcode gibt es zwei verschiedene Richtungen. Einerseits können Theoreme bewiesen und dann in Programmiersprachen extrahiert werden. Andererseits ist es auch möglich, erst ein Programm zu entwickeln und anschließend dieses in Coq zu verifizieren. \\
+Beweise in Coq können in zwei verschiedenen Richtungen in Verbindung mit Programmcode verwendet werden. Einerseits ist es möglich, Theoreme zuerst in Coq zu beweisen und anschließend in Programmiersprachen zu extrahieren. Andererseits kann auch erst ein Programm entwickelt werden, um es anschließend in Coq zu verifizieren. \\
 Das dabei verwendete Prinzip lautet vereinfacht gesagt:
 \textbf{Es gibt eine Liste von Dingen, die eine Software tun soll. Hierfür wird Logik verwendet, um zu beweisen, dass diese Software auch genau diese Dinge tut.}
 \\
-In den folgenden Unterkapiteln sind beide Wege beschrieben. Dabei wird die Richtung Proof zu Programm anhand eines genauen Codebeispiels erläutert.
+In den folgenden Unterkapiteln sind beide Wege beschrieben. Dabei wird die Richtung Proof in Coq zu Programm anhand eines genauen Codebeispiels erläutert.
 
 \subsection{Proof -> Programm}
-\subsubsection{theoretisch}
-{Wie bereits zuvor erwähnt, ist der erste Schritt die Erstellung einer Spezifikation, welche die Software beschreibt. Anschließend muss diese in mathematischer Form in ein Proof Tool geschrieben und bewiesen werden. Fehlerhafte Beweise lässt das Tool nicht zu.
-Sobald jetzt ein Fehler in der realen Welt auftritt, sollte dieser mit diesem beschrieben Model abgefangen werden. \\
-Schlussendlich müssen die bewiesenen Anforderungen der Spezifikation in Programmcode konvertiert werden. Dieser Prozess wird in folgendem Kapitel genauer erklärt.}\cite{HELWER01:FV}
+\subsubsection{Theorie}
+{Wie bereits erwähnt, ist der erste Schritt die Erstellung einer Spezifikation, welche die Software beschreibt. Anschließend muss diese in mathematischer Form in Coq geschrieben und bewiesen werden. Fehlerhafte Beweise lässt der Proof-Assistent nicht zu.
+Dadurch sollten alle Fälle, welche in der realen Welt auftreten, mit diesem beschriebenen Modell abdeckt sein.\\
+Schlussendlich müssen die bewiesenen Anforderungen der Spezifikation von Coq-Code in Programmcode konvertiert werden. Dieser Prozess wird in folgendem Kapitel genauer erklärt.}\cite{HELWER01:FV}
 
-\subsubsection{praktisch}
-In diesem Kapitel wird erklärt, wie Funktionen formal mit Coq bewiesen werden und anschließend in Ocaml extrahiert und ausgeführt werden. Ocaml ("`Categorical Abstract Machine + ML"') ist eine sowohl funktionale als auch objektorientierte Programmiersprache. ML bedeutet Meta-Language. Dies ist allerdings für diese Arbeit weniger relevant, da Ocaml lediglich als Beispiel für Code-Extraktion genutzt wird. Der Fokus dieser Arbeit liegt auf dem Prinzip und nicht auf einer speziellen Programmiersprache.\\
-Bei dem Ansatz von Proof zum Programmcode musst zu Beginn eine \textbf{.v}-Datei erstellt werden. Darin wird der Coq-Code geschrieben. Das verwendete Beispiel \ref{lst:practical-functions} stellt ein Datentyp Paar von natürlichen Zahlen dar. Hierfür sollen verschiedenste Funktionalitäten implementiert werden. Dabei sind Funktionen wie \textbf{fst}, \textbf{snd} und \textbf{swap\_pair}. Anschließend sind Beweise, die verschiedenste Eigenschaften der einzelnen Funktionen prüfen, dargestellt.
+\subsubsection{Praxis}
+In diesem Kapitel wird erklärt, wie Funktionen formal mit Coq bewiesen werden und anschließend in Ocaml extrahiert und ausgeführt werden. Ocaml ("`Categorical Abstract Machine + ML"') ist eine sowohl funktionale als auch objektorientierte Programmiersprache. ML bedeutet Meta-Language. In dieser Arbeit dient Ocaml lediglich als Beispiel für die Code-Extraktion aus Coq. Allerdings ist der Coq-Code zu Ocaml Extraktor nicht formal verifiziert. Die Korrektheit wird trotzdem angenommen, da Coq größtenteils in Ocaml geschrieben ist.\\
+Das verwendete Beispiel \ref{lst:practical-functions} stellt einen Datentyp Paar von natürlichen Zahlen dar. Hierfür sollen verschiedene Funktionalitäten implementiert werden, die die Ausgabe des ersten und zweiten Wertes und das Vertauschen ermöglicht.
+Zunächst muss eine \textbf{.v}-Datei erstellt werden, in welche der Coq-Code geschrieben wird. Anschließend sind sowohl die Funktionen als auch die dazugehörigen Beweise, die die Eigenschaften der einzelnen Funktionen prüfen, dargestellt.
 
-\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Funktionen für Paare aus natürlichen Zahlen,label=lst:practical-functions]
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Funktionen für Paare aus natürlichen Zahlen (PaperPair.v),label=lst:practical-functions]
 From LF Require Export Induction.
 
 Inductive natprod : Type :=
 	| pair (n1 n2 : nat).
-
-Check (pair 3 5).
 
 Definition fst (p : natprod) : nat :=
 match p with
@@ -302,18 +300,18 @@ match p with
 	| (x,y) => (y,x)
 end.
 \end{lstlisting}
-Zu Beginn wird der \textbf{induktive Typ natprod} definiert, welcher ein Paar repräsentiert. Im darauffolgenden Teil des Codebeispiels werden immer wieder die Schlüsselwörter \textbf{Check} und \textbf{Compute} verwendet. Mit Hilfe dieser Funktionen können stichprobenartig einzelne Werte in die Definitionen oder Typen eingesetzt werden. Anschließend wird das daraus resultierende Ergebnis ausgegeben.\\
-Die Funktionen \textbf{fst} und \textbf{snd} geben jeweils x oder y eines Paares zurück. Weiterhin ist eine Notation für die Definition von Paaren dargestellt. Diese dient ausschließlich dafür, dass anstelle von 
-\textbf{(pair x y)} auch \textbf{(x , y)} verwendet werden darf. Wenn eine solche Notation nicht vorhanden wäre, müsse eine komplett neue Funktion \textbf{fst'} für den Syntax von \textbf{(x , y )} geschrieben werden. Notationen sind prinzipiell Aliase und tragen zur Kürzung des Aufwands bei.\\
-Zuletzt wird die \textbf{swap\_pair} Funktion, die den X- und Y-Wert eines Paares vertauscht zurückgibt, definiert.\\
+Zu Beginn wird der \textbf{induktive Typ natprod} definiert, welcher ein Paar natürlicher Zahlen repräsentiert. Die Funktionen \textbf{fst} und \textbf{snd} geben jeweils x oder y eines Paares zurück. Im darauffolgenden Teil des Codebeispiels wird mehrmals das Schlüsselwort \textbf{Compute} verwendet. Mit Hilfe dieser Funktion können stichprobenartig einzelne Werte in die Definitionen eingesetzt werden. Dies dient zu Test- und Debugging-Zwecken. Beispielsweise Compute aus der Zeile 16 zeigt den Wert 3 in der CoqIde Ausgabe.\\
+Weiterhin ist eine Notation für die Definition von Paaren in Zeile 19 dargestellt. Diese dient ausschließlich dafür, dass anstelle von 
+\textbf{(pair x y)} auch \textbf{(x , y)} verwendet werden darf, wie in Zeile 21 zu sehen ist. Ohne eine solche Notation müsste eine komplett neue Funktion \textbf{fst'} für die Syntax von \textbf{(x , y)} geschrieben werden. Notationen sind prinzipiell Aliase und tragen zur Kürzung des Programmieraufwands bei.\\
+Zuletzt wird die \textbf{swap\_pair} Funktion definiert, die den x- und y-Wert eines Paares vertauscht zurückgibt.\\
 \\
-Anschließend müssen Eigenschaften, die diese Funktionen erfüllen sollen, bewiesen werden.
-Zuerst wird mit Hilfe der Theoreme surjective\_pairing und surjective\_pairing\_stuck bewiesen, dass das Erstellen von einem neuen Paar demselben entspricht, wenn man fst und snd von diesem Paar nimmt und somit ein neues Paar bildet. Die zwei Funktionen unterscheiden sich lediglich in der Verwendung der Syntax von Paaren. Bei surjective\_pairing\_stuck wird außerdem die \textbf{destruct} Taktik benötigt.\\
-Diese teilt normalerweise das Hauptziel des Beweises in die einzelnen Subgoals \textbf{n = O} und \textbf{n = S n'} auf. Sobald beide Ziele bewiesen wurden, akzeptiert Coq dieses Theorem. Hierbei ist der Unterschied zur Induktion, dass dabei \textbf{n = 0, n + 1} gecheckt wird und anschließend die Schlussfolgerung auf Korrektheit möglich ist.\\
-Im Beispiel wird \textbf{destruct} jedoch nur zur Aufteilung von \textbf{p} in die natürlichen Zahlen n und m verwendet.
-Ab dieser Zeile entspricht dieser Beweis exakt dem Ersten, welcher von Anfang an natürliche Zahlen verwendet. 
+Anschließend werden die Eigenschaften in Codebeispiel \ref{lst:practical-proof} bewiesen, welche diese Funktionen erfüllen sollen.
+Zuerst wird mit Hilfe der Theoreme \textbf{surjective\_pairing} und \textbf{surjective\_pairing\_stuck} bewiesen, dass das Erstellen von einem neuen Paar demselben entspricht, wenn man fst und snd von diesem Paar nimmt und daraus ein neues Paar bildet. Die zwei Funktionen unterscheiden sich lediglich in der Verwendung der Syntax von Paaren. Beim Beweis von \textbf{surjective\_pairing\_stuck} wird außerdem die \textbf{destruct} Taktik benötigt.\\
+Diese teilt normalerweise das Hauptziel des Beweises in die einzelnen Subgoals \textbf{n = 0} und \textbf{n = S n'} auf. Sobald beide Ziele bewiesen wurden, akzeptiert Coq dieses Theorem. Hierbei ist der Unterschied der Induktion, dass dabei \textbf{n = 0} und \textbf{n + 1} gecheckt wird und anschließend die Schlussfolgerung auf Korrektheit möglich ist.\\
+Im Beispiel wird \textbf{destruct} jedoch nur zur Aufteilung von dem Paar \textbf{p} in die natürlichen Zahlen n und m verwendet.
+Ab dieser Zeile entspricht der Beweis exakt dem Ersten, welcher von Anfang an natürliche Zahlen verwendet.
 
-\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beweise für Paar Funktionen,label=lst:practical-proof]
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beweise für Paar Funktionen (PaperPair.v),label=lst:practical-proof]
 Theorem surjective_pairing' : forall (n m : nat),
 (n,m) = (fst (n,m), snd (n,m)).
 Proof.
@@ -349,15 +347,15 @@ Proof.
 Qed.
 \end{lstlisting}
 
-Die nächsten zwei Theorem prüfen bestimmte Eigenschaften der \textbf{swap\_pair} Funktion. Zuerst wird bewiesen, dass das zweite Element eines Paares in Verbindung mit dem ersten, das Ergebnis der Definition \textbf{swap\_pair} ist. Letzterer Beweis stellt sicher, dass für jeden \textbf{natprod} das erste Element eines Paares nach einem Aufruf von \textbf{swap\_pair} dem ursprünglich zweiten Wert des Paares entspricht.\\
-Beide Theoreme werden identisch zu surjective\_pairing\_stuck bewiesen. Dabei wird der \textbf{natprod}-Typ ebenfalls mit Hilfe von \textbf{destruct} in zwei natürliche Zahlen aufgeteilt.\\
+Die letzten zwei Theoreme prüfen bestimmte Eigenschaften der \textbf{swap\_pair} Funktion. Zuerst wird mit \textbf{snd\_fst\_is\_swap} bewiesen, dass das zweite Element eines Paares in Verbindung mit dem ersten das Ergebnis der Definition \textbf{swap\_pair} ist. Der letzte Beweis \textbf{fst\_swap\_is\_snd} stellt sicher, dass für jeden \textbf{natprod} das erste Element eines Paares nach einem Aufruf von \textbf{swap\_pair} dem ursprünglich zweiten Wert des Paares entspricht.\\
+Beide Theoreme werden identisch zu \textbf{surjective\_pairing\_stuck} bewiesen. Dabei wird der \textbf{natprod}-Typ ebenfalls mit Hilfe von \textbf{destruct} in zwei natürliche Zahlen aufgeteilt.\\
 \\
-Um anschließend die formal bewiesenen Funktionen in Programmen nutzen zu können, muss die Datei, in der die Beweise geschrieben wurden, in Coq compiliert werden. Dafür muss folgender Befehl in die Kommandozeile eingeben werden:
-\textbf{coqc -Q . LF PaperPair.v}. \\
-\textbf{Coqc} ist hierbei der Aufruf des Coq-Compilers. \textbf{-Q . LF} sorgt dafür, dass alle .v-Dateien aus dem Paket LF in andere Coq-Dateien importiert werden können. Ein Paket in Coq ist ähnlich zu anderen Programmiersprachen wie beispielsweise Java.
+Um anschließend die formal bewiesenen Funktionen in Programmen nutzen zu können, muss die Datei, in der die Beweise geschrieben wurden, in Coq compiliert werden. Dafür muss folgender Befehl in die Kommandozeile eingeben werden:\\
+\textbf{coqc -Q . LF PaperPair.v} \\
+\textbf{Coqc} ist hierbei der Aufruf des Coq-Compilers. \textbf{-Q . LF} sorgt dafür, dass alle .v-Dateien aus dem Paket LF in andere Coq-Dateien importiert werden können. Ein Paket in Coq ist ähnlich zu anderen Programmiersprachen wie beispielsweise Java. \textbf{PaperPair.v} repräsentiert die Datei mit den Inhalten von den zuvor gezeigten Codeblöcken \ref{lst:practical-functions} und \ref{lst:practical-proof}.
 \\
-Für den nächsten Schritt in der Extraktion wird eine Coq-Datei benötigt, welche definiert, wie und was in welcher Sprache extrahiert werden soll. Diese muss ebenfalls über die Kommandozeile, wie zuvor beschrieben, compiliert werden.
-\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Code extrahieren,label=lst:practical-proof-extraction]
+Für den nächsten Schritt in der Extraktion muss eine weitere Coq-Datei mit dem Code aus aus Codeblock \ref{lst:practical-proof-extraction} erstellt werden, welche definiert, wie und was in welcher Sprache extrahiert werden soll.
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Code extrahieren (PaperPairExtraction.v),label=lst:practical-proof-extraction]
 Require Extraction.
 Extraction Language OCaml.
 Require Import ExtrOcamlBasic.
@@ -369,12 +367,13 @@ Extract Inductive nat => int [ "0" "Pervasives.succ" ]
 
 Extraction "paperimpl.ml" fst snd swap_pair.
 \end{lstlisting}
-Im Codeblock \ref{lst:practical-proof-extraction} ist zu sehen, dass verschiedene Dateien mit \textbf{Require} und \textbf{Require Import} importiert werden. \textbf{Extraction} und \textbf{ExtraOcamlBasic} sind beispielweise Standard-Features von Coq, um Funktionen von Coq-Code in Ocaml-Code umzuwandeln.\\
-Weiterhin wird in der Zeile \textbf{Extract Inductive nat => \dots} ein Ausdruck verwendet, sodass OCaml den Typ der natürlichen Zahlen aus Coq verwenden kann. Allerdings ist der Coq-Code zu Ocaml Extraktor nicht formal verifiziert. Die Korrektheit wird trotzdem angenommen, da Coq großteils Ocaml geschrieben ist.
-Damit schlussendlich eine ausführbare Datei entsteht, muss definiert werden, welche Funktionen in welche Datei extrahiert werden sollen.\\
+Darin ist zu sehen, dass verschiedene Dateien mit \textbf{Require} und \textbf{Require Import} importiert werden. \textbf{Extraction} und \textbf{ExtraOcamlBasic} sind beispielsweise Standard-Features von Coq, um Funktionen von Coq-Code in Ocaml-Code umzuwandeln.\\
+Weiterhin wird in der Zeile 7 und 8 \textbf{Extract Inductive nat => \dots} ein Ausdruck verwendet, sodass Ocaml den Typ der natürlichen Zahlen aus Coq verwenden kann. 
+Damit schlussendlich eine ausführbare Datei entsteht, muss definiert werden, welche Funktionen in welche Datei extrahiert werden sollen, was mit Zeile 10 geschieht.\\
+Anschließend muss diese Datei ebenfalls über die Kommandozeile, wie zuvor beschrieben, compiliert werden.
 \\
-Der folgende Code \ref{lst:practical-generated-code} ist das Resultat, des zuvor gezeigten Coq-Codes. 
-\begin{lstlisting}[language=coq,firstnumber=1,caption=Ocaml Code anpassen,label=lst:practical-generated-code]
+Der folgende Ocaml-Code \ref{lst:practical-generated-code} und \ref{lst:practical-generated-code-header} ist das Resultat des zuvor gezeigten Coq-Codes. Dieser wurde mittels CoqIde ausgeführt und in den Dateien \textbf{paperimpl.ml} und \textbf{paperimpl.mli} gespeichert. \textbf{.ml} enthält dabei die Programmlogik und \textbf{.mli} ist eine Header-Datei, welche diese Logik beschreibt.
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Ocaml Code Resultat (paperimpl.ml),label=lst:practical-generated-code]
 type natprod =
 | Pair of int * int
 
@@ -393,8 +392,18 @@ let snd = function
 let swap_pair = function
 | Pair (x, y) -> Pair (y, x)
 \end{lstlisting}
-Dadurch das der Coq-To-Ocaml-Extraktor nicht komplett formal verifiziert ist, kann es sein, dass der Code nicht 100\% korrekt ist. Um sicherzustellen, dass dies der Fall ist, wurden im Nachhinein ein paar Tests geschrieben, welche im Codebeispiel \ref{lst:practical-code-adjustment} dargestellt werden. Diese Tests beschreiben einfache Funktionsaufrufe, wie zum Beispiel das Erhalten des ersten und zweiten Wertes eines Paares. Anschließend werden dieselben Funktionen noch einmal aufgerufen - allerdings auf ein neues Paar, dass du die swap\_	pair Funktion entstanden ist. Zur Nachvollziehbarkeit werden dabei die jeweiligen Ergebnisse auf der Kommandozeile ausgegeben.
-\begin{lstlisting}[language=coq,firstnumber=1,caption=Ocaml Code anpassen,label=lst:practical-code-adjustment]
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Ocaml Code Resultat (paperimpl.mli),label=lst:practical-generated-code-header]
+type natprod =
+| Pair of int * int
+
+val fst : natprod -> int
+
+val snd : natprod -> int
+
+val swap_pair : natprod -> natprod
+\end{lstlisting}
+Dadurch dass der Coq-To-Ocaml-Extraktor nicht komplett formal verifiziert ist, kann es sein, dass der Code nicht zu 100\% korrekt ist. Um die Korrektheit sicherzustellen, wurde im Nachhinein ein paar Tests in Ocaml geschrieben, welche im Codebeispiel \ref{lst:practical-code-adjustment} dargestellt werden. Diese Tests beschreiben einfache Funktionsaufrufe, wie zum Beispiel das Erhalten des ersten und zweiten Wertes eines Paares in Zeile 2 und 3. Anschließend werden dieselben Funktionen noch einmal aufgerufen - allerdings auf ein neues Paar (Zeile 8-10), dass durch die \textbf{swap\_pair} Funktion entstanden ist. Zur Nachvollziehbarkeit werden dabei die jeweiligen Ergebnisse auf der Kommandozeile ausgegeben.
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Ocaml Code testen (paperimpl.ml),label=lst:practical-code-adjustment]
 let pair = Pair(3, 4);;
 let resultfst = fst pair;;
 let resultsnd = snd pair;;
@@ -409,20 +418,20 @@ let resultsnd2 = snd pair2;;
 Printf.printf "Result fst: %d \n%!" resultfst2;;
 Printf.printf "Result snd: %d \n%!" resultsnd2;;
 \end{lstlisting}
-Ocaml-Code muss genauso wie C-Code compiliert werden. Folgender Befehl ermöglicht es aus der \textbf{paperimpl.ml} und der \textbf{paperimpl.mli} Datei funktionierenden compilierten Code zu erhalten. Dieser wird unter dem Namen \textbf{paperimp} im selben Verzeichnis abgelegt.
+Ocaml-Code muss genauso wie Coq- und C-Code compiliert werden. Folgender Befehl in Codebeispiel \ref{lst:practical-code-compilation} ermöglicht es aus der \textbf{paperimpl.ml} und der \textbf{paperimpl.mli} Datei funktionierenden compilierten Code zu erhalten. Dieser wird unter dem Namen \textbf{paperimp} im selben Verzeichnis abgelegt.
 \\
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Ocaml Code compilieren,label=lst:practical-code-compilation]
 ocamlc -w -20 -w -26 -o paperimp paperimpl.mli paperimpl.ml
 \end{lstlisting}
 
-\begin{lstlisting}[language=coq,firstnumber=1,caption=Ocaml code ausführen,label=lst:practical-code-execution]
+In Codeblock \ref{lst:practical-code-execution} werden die Ausgaben der Tests dargestellt. Die ersten zwei Zeilen zeigen den x- und y- Wert eines Paares, dass durch \textbf{x: 3} und \textbf{y: 4} initialisiert wurde. Die Ausgaben in Zeile 4 und 5 stellen \textbf{fst} und \textbf{snd} des invertierten Paars dar.
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Ocaml Code ausführen,label=lst:practical-code-execution]
 lukas@luk-ubuntu@~/Documents/coq-test/lf: ./paperimp
 Result fst: 3 
 Result snd: 4 
 Result fst: 4 
 Result snd: 3 
 \end{lstlisting}
-In Codeblock \ref{lst:practical-code-execution} werden die Ausgaben der Tests dargestellt. Die ersten zwei Ergebnisse sind die Werte, welches mit den Werten \textbf{fst: 3} und \textbf{snd: 4} initiiert wurde. Die zweiten zwei Ausgaben stellen \textbf{fst} und \textbf{snd} des invertierten Paars dar.
 
 \subsection{Programm -> Proof}
 Generell ist es möglich fast jeden Programmcode formal zu verifizieren. Der Aufwand, der dafür aufzubringen ist, unterscheidet sich gewaltig. Um den Code einer Sprache vollständig formal beweisen zu können, muss theoretisch auch der Compiler der Sprache formal bewiesen sein. Ansonsten wäre zwar der Programmcode formal verifiziert, allerdings kann nicht garantiert werden, dass der Compiler dennoch Fehler beim Übersetzen macht. Des Weiteren ist noch zu erwähnen, dass der Compiler nicht die niedrigste Software-Ebene repräsentiert. In den Schichten darunter sind beispielsweise noch Hardwarebeschreibungssprachen. Sobald dort ein gravierender Bug enthalten ist, kann der high-level Programmcode formal bewiesen sein und trotzdem fehlerhaft laufen.\\
@@ -448,7 +457,7 @@ CompCert wandelt schlussendlich den Verifiable C Code in Maschinensprache um.
 	\label{fig:vst}
 \end{minipage}
 
-\subsubsection{Wie benutzt man die VST?}
+\subsubsection{Benutzung VST}
 Im vorherigen Unterkapitel wurde erklärt, aus welchen Komponenten die Princeton Tool Chain besteht. Der Compiler CompCert ist dabei bereits komplett formal verifiziert. Dies bedeutet, dass jeder in verifiable C geschriebene Programmcode in den entsprechenden Assemblercode übersetzt wird. Es stell sich die Frage, wie und wo die selbstgeschriebenen Funktionen auf mathematische Korrektheit geprüft werden.\\
 \\
 {Hierfür wird aus dem Paper "´\textbf{Verifiable C} Applying the Verified Software Toolchain to C programs"' das Vorgehen beschrieben.\\
