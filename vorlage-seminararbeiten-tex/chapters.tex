@@ -12,8 +12,9 @@ Daher ist es wichtig, dass sowohl die Bauteile als auch das Zusammenspiel von Ha
 Heutzutage gehen die meisten Computer-Nutzer davon aus, dass ein Betriebssystem, ein Compiler oder andere Software zu 100\% korrekt funktionieren. Doch wie ist sichergestellt, dass das Speichern in einem Editor oder das Kompilieren von C Code auch in jedem Fall das gewünschte Ergebnis liefert? \\
 Sehr wahrscheinlich wurden viele verschiedene Tests bereits vor der Veröffentlichung der jeweiligen Software durchgeführt. Die bekanntesten sind Unit-, Integration- und manuelle Tests. Dabei versucht man sowohl Standard- als auch Grenz- und Sonderfälle abzudecken, aber natürlich nicht jeden Einzelfall. Würde man einen kompletten Test durchführen, müsste beispielsweise für eine simple Funktion, die zwei Integer addiert, jeder beliebige Wert, den dieser annehmen könnte, getestet werden. Dies ist nicht in annehmbarer Laufzeit mit den oben genannten Testformen durchführbar.\\
 Nichts desto trotz schränken viel Tests ein Fehlverhalten der jeweiligen Software ein. Dies ist für vielerlei Anwendungen bereits ausreichend. Allerdings vor allem in sicherheitskritischen und intensiv genutzten Systemen sollte diese zu 100\% korrekt funktionieren.
-Um allerdings alle Fälle abzudecken, muss eine andere Syntax verwendet werden. Hier kommt die formale Verifikation zum Einsatz. 
+Um alle Fälle abzudecken, muss eine andere Syntax verwendet werden. Hier kommt die formale Verifikation zum Einsatz. 
 Die dabei verwendete Sprache ist mathematisch aufgebaut und erlaubt es somit Konstrukte, wie beispielsweise \textbf{für alle natürlichen Zahlen gilt} niederzuschreiben.\\
+Generell ist es möglich fast jeden Programmcode formal zu verifizieren. Der Aufwand, der dafür aufzubringen ist, unterscheidet sich von Fall zu Fall. Um den Code einer Sprache vollständig formal beweisen zu können, muss theoretisch auch der Compiler der Sprache formal bewiesen sein. Ansonsten wäre zwar der Programmcode formal verifiziert, allerdings kann nicht garantiert werden, dass der Compiler dennoch keine Fehler beim Übersetzen macht. Des Weiteren ist noch zu erwähnen, dass der Compiler nicht die niedrigste Software-Ebene repräsentiert. In den Schichten darunter sind beispielsweise noch Hardwarebeschreibungssprachen. Sobald dort ein gravierender Bug enthalten ist, kann der high-level Programmcode formal bewiesen sein und trotzdem fehlerhaft laufen.
 \\
 Zum Zeitpunkt dieser Arbeit existieren circa 17 verschiedene Tools für formale Verifikation. Dabei sind \textbf{Coq}, \textbf{Isabelle} und \textbf{ACL2} die bekanntesten.\cite{WIEDIJK01:FP}
 In dieser Arbeit wird ausschließlich auf Coq eingegangen.
@@ -255,11 +256,11 @@ Qed.
 
 \section{Coq und Programmcode}
 \label{s:coq-and-code}
-Beweise in Coq können in zwei verschiedenen Richtungen in Verbindung mit Programmcode verwendet werden. Einerseits ist es möglich, Theoreme zuerst in Coq zu beweisen und anschließend in Programmiersprachen zu extrahieren. Andererseits kann auch erst ein Programm entwickelt werden, um es anschließend in Coq zu verifizieren. \\
-Das dabei verwendete Prinzip lautet vereinfacht gesagt:
+Beweise in Coq können in zwei verschiedenen Richtungen in Verbindung mit Programmcode verwendet werden. Einerseits ist es möglich, Theoreme zuerst in Coq zu beweisen und anschließend in Programmiersprachen zu extrahieren. Andererseits kann auch erst ein Programm entwickelt werden, um es anschließend in Coq zu verifizieren. Das dabei verwendete Prinzip lautet vereinfacht gesagt:
 \textbf{Es gibt eine Liste von Dingen, die eine Software tun soll. Hierfür wird Logik verwendet, um zu beweisen, dass diese Software auch genau diese Dinge tut.}
 \\
 In den folgenden Unterkapiteln sind beide Wege beschrieben. Dabei wird die Richtung Proof in Coq zu Programm anhand eines genauen Codebeispiels erläutert.
+
 
 \subsection{Proof -> Programm}
 \subsubsection{Theorie}
@@ -434,20 +435,11 @@ Result snd: 3
 \end{lstlisting}
 
 \subsection{Programm -> Proof}
-Generell ist es möglich fast jeden Programmcode formal zu verifizieren. Der Aufwand, der dafür aufzubringen ist, unterscheidet sich gewaltig. Um den Code einer Sprache vollständig formal beweisen zu können, muss theoretisch auch der Compiler der Sprache formal bewiesen sein. Ansonsten wäre zwar der Programmcode formal verifiziert, allerdings kann nicht garantiert werden, dass der Compiler dennoch Fehler beim Übersetzen macht. Des Weiteren ist noch zu erwähnen, dass der Compiler nicht die niedrigste Software-Ebene repräsentiert. In den Schichten darunter sind beispielsweise noch Hardwarebeschreibungssprachen. Sobald dort ein gravierender Bug enthalten ist, kann der high-level Programmcode formal bewiesen sein und trotzdem fehlerhaft laufen.\\
-\\
+Die folgenden Unterkapitel erläutern den theoretischen und praktischen Weg, um Programmcode im Nachhinein mit Coq zu verifizieren. Dies wird anhand von der Programmiersprache C erläutert. Dabei wird die \textbf{Verified Software Toolchain (VST)}, auch Princeton Tool Chain genannt, verwendet, welche von Forschern von INRIA und der Princeton University entwickelt wurde.
+
 \subsubsection{Beispiel Programmiersprache C}
-Der Code aus der Programmiersprache C wird zum Beispiel in Maschinencode umgewandelt. 
-Um diese Konvertierung durchführen zu können, haben Forscher von INRIA und der Princeton University die Verified Software Toolchain (VST), oder auch Princeton Tool Chain genannt, entwickelt. Auf folgender Illustration \ref{fig:vst} sind die einzelnen Komponenten von der VST abgebildet. Zuerst wird dabei das C-Source-Programm in Verifiable C übersetzt. \\
-"`Verifiable C ist grundsätzlich korrekt. Das heißt, es ist nachgewiesen (mit einem maschinell geprüften
-Beweis im Coq-Proof-Assistenten), dass:\\
-\textbf{Egal welche beobachtbare Eigenschaft eines C-Programms Sie auch immer beweisen wollen. Unter Verwendung der Verifiable C-Programmlogik, wird diese Eigenschaft
-tatsächlich im Assemblerprogramm enthalten sein, welches der C-Compiler generiert.}"'\\
-Mit \textbf{program logic} ist eine Art Hoare Logik gemeint, die ein leichteres Beweisen von Programmcode mit Pointern, Funktions-Pointern, Datenabstraktion und Datenstrukturen ermöglicht.\cite{Appel02:VST} Die Hoare Logik wurde durch den britischen Informatiker C. A. R. Hoare entwickelt und dient generell als Hilfsmittel für das Beweisen von Programmcode. Dabei werden logische Regeln aufgestellt, die es erlauben, Aussage in mathematischer Form über Computer-Programme zu treffen.\\
-Die in orange dargestellte Komponente bezüglich der \textbf{VST retargetable Seperation Logic} ergänzt die \textbf{program logic}. Außerdem können dadurch zusätzliche \textbf{verified program analysis tools} integriert werden.\\
-\\
-Der nächste Schritt in der Princeton Tool Chain ist der \textbf{verified Compiler CompCert}. Dieser wurde von INRIA entwickelt und ist wie die VST open-source auf GitHub erhältlich unter \url{https://github.com/PrincetonUniversity/VST} und \url{https://github.com/PrincetonUniversity/VST/tree/master/compcert}. 
-CompCert wandelt schlussendlich den Verifiable C Code in Maschinensprache um.
+Ein C-Programm kann nicht einfach in Coq kopiert und anschließend bewiesen werden. Dafür wird das Hilfsmittel \textbf{VST} benötigt. Diese ermöglicht es, ein C-Programm über \textbf{Verifiable C} in verifizierten Maschinencode zu übersetzen.
+In folgender Abbildung \ref{fig:vst} sind die einzelnen Komponenten von der VST zu sehen.
 
 \begin{minipage}{\textwidth}
 	\centering
@@ -457,10 +449,22 @@ CompCert wandelt schlussendlich den Verifiable C Code in Maschinensprache um.
 	\label{fig:vst}
 \end{minipage}
 
+Zuerst wird dabei das C-Source-Programm in Verifiable C übersetzt.
+"`Verifiable C ist grundsätzlich korrekt. Das heißt, es ist nachgewiesen (mit einem maschinell geprüften Beweis im Coq-Proof-Assistenten), dass:\\
+\textbf{Egal welche beobachtbare Eigenschaft eines C-Programms Sie auch immer beweisen wollen. Unter Verwendung der Verifiable C-Programmlogik, wird diese Eigenschaft
+	tatsächlich im Assemblerprogramm enthalten sein, welches der C-Compiler generiert.}"'(übersetzt aus \cite{Appel02:VST})\\
+Mit \textbf{program logic} ist eine Art Hoare Logik gemeint, die ein leichteres Beweisen von Programmcode mit Pointern, Funktions-Pointern, Datenabstraktion und Datenstrukturen ermöglicht.\cite{Appel02:VST} Die Hoare Logik wurde durch den britischen Informatiker C. A. R. Hoare entwickelt und dient generell als Hilfsmittel für das Beweisen von Programmcode. Dabei werden logische Regeln aufgestellt, die es erlauben, Aussage in mathematischer Form über Computer-Programme zu treffen.\\
+Die in orange dargestellte Komponente bezüglich der \textbf{VST retargetable Seperation Logic} ergänzt die \textbf{program logic}. Außerdem können dadurch zusätzliche \textbf{verified program analysis tools} integriert werden.\\
+\\
+Der nächste Schritt in der Princeton Tool Chain ist der \textbf{verified Compiler CompCert}. Dieser wurde von INRIA entwickelt und ist wie die VST open-source auf GitHub erhältlich unter \url{https://github.com/PrincetonUniversity/VST} und \url{https://github.com/PrincetonUniversity/VST/tree/master/compcert}. 
+CompCert wandelt schlussendlich den Verifiable C Code in Maschinensprache um.
+
+
+
 \subsubsection{Benutzung VST}
 Im vorherigen Unterkapitel wurde erklärt, aus welchen Komponenten die Princeton Tool Chain besteht. Der Compiler CompCert ist dabei bereits komplett formal verifiziert. Dies bedeutet, dass jeder in verifiable C geschriebene Programmcode in den entsprechenden Assemblercode übersetzt wird. Es stell sich die Frage, wie und wo die selbstgeschriebenen Funktionen auf mathematische Korrektheit geprüft werden.\\
 \\
-{Hierfür wird aus dem Paper "´\textbf{Verifiable C} Applying the Verified Software Toolchain to C programs"' das Vorgehen beschrieben.\\
+{Hierfür wird aus dem Paper "`\textbf{Verifiable C} Applying the Verified Software Toolchain to C programs"' das Vorgehen beschrieben.\\
 Zuerst muss ein C-Programm in eine Datei \textbf{F.c} geschrieben werden. Anschließend muss der normale C-Code in Verifiable C übersetzt werden. Dies ist mit Hilfe des Command Line Interface (CLI) Kommandos \textbf{clightgen -normalize F.c} möglich. Dadurch entsteht eine Coq-Datei \textbf{F.v}. Um die darinstehenden Funktionen zu beweisen, muss eine Datei mit beispielsweise dem Name \textbf{verif\_F.v} erstellt werden. Wichtig dabei ist, dass in der Datei sowohl \textbf{F.v} als auch das VST Floya Programm-Verifikationssystem \textbf{VST.floyd.proofauto} importiert werden. Wenn ein Beweisen aller Funktionen gelingt, ist das C-Programm korrekt geschrieben und somit maschinell formal verifiziert.}\cite{Appel01:VST}
 
 
