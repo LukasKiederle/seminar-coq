@@ -475,7 +475,7 @@ Der ganze proof Stack könnte ungefähr wie in der folgenden Illustration \ref{f
 
 
 \subsection{JSCert}
-JSCert ist eine maschinell in Coq geprüfte Spezifikation von JavaScript. Es wurde mit der Coq Version 8.4.6 geschrieben. Dabei wurde versucht sich so nah wie möglichst am englischen Standard ECMAScript 5 zu halten. Damit wurde ein Ocaml geschriebener Interpreter namens \textbf{JSRef} als korrekt bewiesen. Dabei wurden 262 Testfälle abgedeckt.\cite{JSCERT01:FV}\cite{JSCERT012:FV}
+JSCert ist eine maschinell in Coq geprüfte Spezifikation von JavaScript. Es wurde mit der Coq Version 8.4.6 geschrieben. Dabei wurde versucht, sich so nah wie möglich am englischen Standard ECMAScript 5 zu halten. Des Weiteren ist ein in Ocaml geschriebener Interpreter namens \textbf{JSRef} damit als korrekt bewiesen worden. Dies deckt 262 Testfälle ab.\cite{JSCERT01:FV}\cite{JSCERT012:FV}
 
 \subsection{CertiCoq}
 CertiCoq ist ein in Coq verifizierter Compiler für Coq. Genauer genommen beweist CertiCoq, dass die Compilierung von typ-abhängigen Sprachen, wie Gallina korrekt verläuft.\cite{CERTICOQ01:FV}\cite{CERTICOQ02:FV} Weitere Informationen diesbezüglich sind auf der Website der Princeton University zu finden.
@@ -507,21 +507,32 @@ Vergleich zu anderen Programmiersprachen wie Java oder C\#.\\
 In einem Talk über das Projekt Ironclad von Microsoft Research sprach Bryan Parno 2014 über den Vorgang beim Einsetzen von Formaler Verifikation bei einer Ende-zu-Ende Sicherheits-Anwendung. Dabei nannte benannte er den Aufwand für das Programmieren mit etwa fünf Zeilen extra Beweis-Code pro Zeile Programmcode. Außerdem sei es eine komplett neue Art zu Software zu entwickeln. Abschließend fügte er noch hinzu, dass der meiste neue Code "`out-of-the-box"' funktionierte und faktisch kaum Bugs enthielt.\cite{IRONCLAD01:FV}
 
 \section{Fazit}
+
+\subsection{Zusammenfassung}
+Diese Arbeit stellt die Grundlagen der formalen Verifikation, welche auf Programmcode angewendet werden kann, vor. Dabei wird zuerst auf die Relevanz eingegangen. Weitere Kapitel führen den Leser in maschinelles Beweisen mit Hilfe von Coq und der CoqIde ein. Das Herzstück dieser Arbeit ist die Programmcodeverifikation, welche auf zwei Wegen durchführbar ist. Einerseits kann zuerst ein Beweis für ein Theorem geschrieben und anschließend extrahiert werden. Andererseits ist es auch möglich, geschriebenen Programmcode im Nachhinein formal zu verifizieren. Beides wird in dieser Arbeit sowohl theoretisch als auch praktisch erläutert. Die Extraktion von Beweisen in Ocaml Code wird dabei anhand eines konkreten Codebeispiels detaillierter beschrieben. Abschließend werden konkrete Anwendungsfälle von formaler Verifikation mit Coq und eine Aufwandsschätzung für dessen praktische Anwendung präsentiert.
+
+\subsection{Schlussfolgerung}
+Fazit:
 \begin{itemize}
+	\item Ziel: Programmcodeverifikation mit Coq erklären.
+	
 	\item \url{https://medium.com/background-thread/the-future-of-programming-is-dependent-types-programming-word-of-the-day-fcd5f2634878}
 	\item Programmcodeverifikation nimmt vor allem in sicherheitskritischen Bereichen zu
 	\item Programmcodeverifikation ist deutlich zeitintensiver (5mal)
 	\item Mit dieser Verifikation kann 100\%tige Garantie für funktionierende Software gewährleistet werden. Weil Assertions bereits zu Compilezeit durchgeführt werden und nicht mehr zur Laufzeit.
-	\item Es hat großes Potential
-	\item Wird sehr stark durch die Community weiterentwickelt
 	\item Große Firmen nutzen es immer aktiver
+	\item Es hat großes Potential und ist eine neue Art zu programmieren
+	\item Wird sehr stark durch die Community weiterentwickelt
+
+	\item 100\% korrekter Code wird nicht in jedem Fachbereich benötigt und ist auch nicht immer bezahlbar.
 	\item nur Software kann sicher gemacht werden. Hardware ist immer noch fehlbar!
-	\item Referenz auf weiterführende Artikel
+	\item Code ist nur so gut, wie dessen Spezifikation
+	\item Referenz auf weiterführende Artikel 
 \end{itemize}
 
-\begin{itemize}
-	\item 
-\end{itemize}
+Programmcodeverifikation ist zum aktuellen Zeitpunkt ein weniger bekanntes Thema in der Informatik. Weil es damit möglich ist 100\% korrekte Software zu entwickeln, setzten vor allem große Firmen, die sicherheitskritische oder viel verwendete Systeme bauen, auf diese Technologie. Der Aufwand für formal verifizierte Software ist dabei vergleichsweise deutlich höher. Entwickler von Microsoft Research schätzen den Aufwand auf circa 5 Zeilen Beweis-Code für jede Zeile Programmcode basierend auf ihrem durchgeführten Forschungsprojekt Ironclad. Außerdem nannten sie es eine neue Art für die Entwicklung der Software. Der Programmcode funktionierte meistens bereits beim ersten Mal und enthielt nur wenige Fehler. Dies kann durch das spezielle Typ-System von Coq, den dependet Types, erzielt werden. Dadurch sind Checks auf korrekten Code, welche normalerweise erst bei der Laufzeit passieren, bereits bei der Compilierung durchführbar.\\
+Obwohl ein zu 100\% funktionierender Programmcode in jedem Fachbereich ideal wäre, stehen Aufwand und Kosten nicht immer im passenden Verhältnis zum gewonnen Nutzen.
+
 
 \section{Glossar}
 
