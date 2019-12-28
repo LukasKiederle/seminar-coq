@@ -437,7 +437,7 @@ Result snd: 3
 \subsection{Programm -> Proof}
 Die folgenden Unterkapitel erläutern den theoretischen und praktischen Weg, um Programmcode im Nachhinein mit Coq zu verifizieren. Dies wird anhand von der Programmiersprache C erläutert. Dabei wird die \textbf{Verified Software Toolchain (VST)}, auch Princeton Tool Chain genannt, verwendet, welche von Forschern von INRIA und der Princeton University entwickelt wurde.
 
-\subsubsection{Beispiel Programmiersprache C}
+\subsubsection{Beispiel Programmiersprache C und VST}
 Ein C-Programm kann nicht einfach in Coq kopiert und anschließend bewiesen werden. Dafür wird das Hilfsmittel \textbf{VST} benötigt. Diese ermöglicht es, ein C-Programm über \textbf{Verifiable C} in verifizierten Maschinencode zu übersetzen.
 In folgender Abbildung \ref{fig:vst} sind die einzelnen Komponenten von der VST zu sehen.
 
@@ -452,20 +452,17 @@ In folgender Abbildung \ref{fig:vst} sind die einzelnen Komponenten von der VST 
 Zuerst wird dabei das C-Source-Programm in Verifiable C übersetzt.
 "`Verifiable C ist grundsätzlich korrekt. Das heißt, es ist nachgewiesen (mit einem maschinell geprüften Beweis im Coq-Proof-Assistenten), dass:\\
 \textbf{Egal welche beobachtbare Eigenschaft eines C-Programms Sie auch immer beweisen wollen. Unter Verwendung der Verifiable C-Programmlogik, wird diese Eigenschaft
-	tatsächlich im Assemblerprogramm enthalten sein, welches der C-Compiler generiert.}"'(übersetzt aus \cite{Appel02:VST})\\
-Mit \textbf{program logic} ist eine Art Hoare Logik gemeint, die ein leichteres Beweisen von Programmcode mit Pointern, Funktions-Pointern, Datenabstraktion und Datenstrukturen ermöglicht.\cite{Appel02:VST} Die Hoare Logik wurde durch den britischen Informatiker C. A. R. Hoare entwickelt und dient generell als Hilfsmittel für das Beweisen von Programmcode. Dabei werden logische Regeln aufgestellt, die es erlauben, Aussage in mathematischer Form über Computer-Programme zu treffen.\\
-Die in orange dargestellte Komponente bezüglich der \textbf{VST retargetable Seperation Logic} ergänzt die \textbf{program logic}. Außerdem können dadurch zusätzliche \textbf{verified program analysis tools} integriert werden.\\
+tatsächlich im Assemblerprogramm enthalten sein, welches der C-Compiler generiert.}"'(übersetzt aus \cite{Appel02:VST})\\
+Mit \textbf{program logic} ist eine Art Hoare Logik gemeint, die ein leichteres Beweisen von Programmcode mit Pointern, Funktions-Pointern, Datenabstraktion und Datenstrukturen ermöglicht.\cite{Appel02:VST} Die Hoare Logik wurde durch den britischen Informatiker C. A. R. Hoare entwickelt und dient generell als Hilfsmittel für das Beweisen von Programmcode. Dabei werden logische Regeln aufgestellt, die es erlauben Aussage in mathematischer Form über Computer-Programme zu treffen.\\
+Die in orange dargestellte Komponente \textbf{VST retargetable Separation Logic} ergänzt die \textbf{program logic}. Außerdem können dadurch zusätzliche \textbf{verified program analysis tools} integriert werden.\\
 \\
-Der nächste Schritt in der Princeton Tool Chain ist der \textbf{verified Compiler CompCert}. Dieser wurde von INRIA entwickelt und ist wie die VST open-source auf GitHub erhältlich unter \url{https://github.com/PrincetonUniversity/VST} und \url{https://github.com/PrincetonUniversity/VST/tree/master/compcert}. 
+Der nächste Schritt in der Princeton Tool Chain ist der \textbf{verified Compiler CompCert}. Dieser wurde ebenfalls von INRIA entwickelt und ist wie die VST open-source auf GitHub erhältlich unter \url{https://github.com/PrincetonUniversity/VST} und \url{https://github.com/PrincetonUniversity/VST/tree/master/compcert}. 
 CompCert wandelt schlussendlich den Verifiable C Code in Maschinensprache um.
-
-
+Der Compiler CompCert ist bereits komplett formal durch Coq verifiziert. Dies bedeutet, dass jeder in Verifiable C geschriebene Programmcode korrekt in den entsprechenden verifizierten Assemblercode übersetzt wird. Es stellt sich die Frage, wie und wo die selbstgeschriebenen Funktionen auf mathematische Korrektheit geprüft werden.
 
 \subsubsection{Benutzung VST}
-Im vorherigen Unterkapitel wurde erklärt, aus welchen Komponenten die Princeton Tool Chain besteht. Der Compiler CompCert ist dabei bereits komplett formal verifiziert. Dies bedeutet, dass jeder in verifiable C geschriebene Programmcode in den entsprechenden Assemblercode übersetzt wird. Es stell sich die Frage, wie und wo die selbstgeschriebenen Funktionen auf mathematische Korrektheit geprüft werden.\\
-\\
-{Hierfür wird aus dem Paper "`\textbf{Verifiable C} Applying the Verified Software Toolchain to C programs"' das Vorgehen beschrieben.\\
-Zuerst muss ein C-Programm in eine Datei \textbf{F.c} geschrieben werden. Anschließend muss der normale C-Code in Verifiable C übersetzt werden. Dies ist mit Hilfe des Command Line Interface (CLI) Kommandos \textbf{clightgen -normalize F.c} möglich. Dadurch entsteht eine Coq-Datei \textbf{F.v}. Um die darinstehenden Funktionen zu beweisen, muss eine Datei mit beispielsweise dem Name \textbf{verif\_F.v} erstellt werden. Wichtig dabei ist, dass in der Datei sowohl \textbf{F.v} als auch das VST Floya Programm-Verifikationssystem \textbf{VST.floyd.proofauto} importiert werden. Wenn ein Beweisen aller Funktionen gelingt, ist das C-Programm korrekt geschrieben und somit maschinell formal verifiziert.}\cite{Appel01:VST}
+Das Vorgehen zur Überprüfung der mathematischen Korrektheit von selbst geschriebenen C-Code ist im Paper "`\textbf{Verifiable C} Applying the Verified Software Toolchain to C programs"' beschrieben.\cite{Appel01:VST}\\
+Zuerst muss ein C-Programm in eine Datei \textbf{F.c} geschrieben werden. Anschließend muss der normale C-Code in Verifiable C übersetzt werden. Dies ist mit Hilfe des Command Line Interface (CLI) Kommandos \textbf{clightgen -normalize F.c} möglich. Dadurch entsteht eine Coq-Datei \textbf{F.v}. Um die darinstehenden Funktionen zu beweisen, muss eine Datei mit beispielsweise dem Name \textbf{verif\_F.v} erstellt werden. Wichtig dabei ist, dass in der Datei sowohl \textbf{F.v} als auch das VST Floya Programm-Verifikationssystem \textbf{VST.floyd.proofauto} importiert werden. Wenn ein Beweisen aller Funktionen gelingt, ist das C-Programm korrekt geschrieben und somit maschinell formal verifiziert.
 
 
 \section{Aktuelle Anwendung}
