@@ -9,11 +9,11 @@ Diese Seminararbeit soll einen tieferen Einblick in den Themenbereich der Progra
 Es existieren unzählige Beispiele für die Relevanz von formaler Verifikation. Jeder Computer besteht beispielsweise aus vielen elektronischen Hardwareteilen wie Prozessoren, Grafikkarte et cetera. Zur Benutzung wird eine Hardware Description Language (HDL) eingesetzt, welche sowohl die Struktur als auch das Verhalten der elektronischen Bauteile beschreibt. Falls eine Firma nun einen Computer mit einer fehlerhaften HDL-Software verkauft, kann dies gravierende Folgen nach sich ziehen.
 Daher ist es wichtig, dass sowohl die Bauteile als auch das Zusammenspiel von Hardware und Software ausgiebig getestet werden.\\
 \\
-Heutzutage gehen die meisten Computer-Nutzer davon aus, dass ein Betriebssystem, ein Compiler oder andere Software zu 100\% korrekt funktionieren. Doch wie ist sichergestellt, dass das Speichern in einem Editor oder das Compilieren von C Code auch in jedem Fall das gewünschte Ergebnis liefert? \\
+Heutzutage gehen die meisten Computer-Nutzer davon aus, dass ein Betriebssystem, ein Compiler oder andere Software zu 100\% korrekt funktionieren. Doch wie ist sichergestellt, dass das Speichern in einem Editor oder das Kompilieren von C Code auch in jedem Fall das gewünschte Ergebnis liefert? \\
 Sehr wahrscheinlich wurden viele verschiedene Tests bereits vor der Veröffentlichung der jeweiligen Software durchgeführt. Die bekanntesten sind Unit-, Integration- und manuelle Tests. Dabei versucht man sowohl Standard- als auch Grenz- und Sonderfälle abzudecken, aber natürlich nicht jeden Einzelfall. Würde man einen kompletten Test durchführen, müsste beispielsweise für eine simple Funktion, die zwei Integer addiert, jeder beliebige Wert, den dieser annehmen könnte, getestet werden. Dies ist nicht in annehmbarer Laufzeit mit den oben genannten Testformen durchführbar.\\
-Nichts desto trotz schränken viel Tests ein Fehlverhalten der jeweiligen Software ein. Dies ist für vielerlei Anwendungen bereits ausreichend. Allerdings vor allem in sicherheitskritischen und intensiv genutzte Systemen sollte diese zu 100\% korrekt funktionieren.
+Nichts desto trotz schränken viel Tests ein Fehlverhalten der jeweiligen Software ein. Dies ist für vielerlei Anwendungen bereits ausreichend. Allerdings vor allem in sicherheitskritischen und intensiv genutzten Systemen sollte diese zu 100\% korrekt funktionieren.
 Um allerdings alle Fälle abzudecken, muss eine andere Syntax verwendet werden. Hier kommt die formale Verifikation zum Einsatz. 
-Die dabei verwendete Sprache ist mathematisch aufgebaut und erlaubt es somit Konstrukte, wie beispielsweise \textbf{für alle natürlichen Zahlen gilt} nieder zuschreiben.\\
+Die dabei verwendete Sprache ist mathematisch aufgebaut und erlaubt es somit Konstrukte, wie beispielsweise \textbf{für alle natürlichen Zahlen gilt} niederzuschreiben.\\
 \\
 Zum Zeitpunkt dieser Arbeit existieren circa 17 verschiedene Tools für formale Verifikation. Dabei sind \textbf{Coq}, \textbf{Isabelle} und \textbf{ACL2} die bekanntesten.\cite{WIEDIJK01:FP}
 In dieser Arbeit wird ausschließlich auf Coq eingegangen.
@@ -27,10 +27,10 @@ Ein \textbf{Proof Assistent}, welcher auch interaktiver Theorem Prover genannt w
  
 
 \subsection{Das Projekt Coq}
-Der Proof Assistent Coq wurde erstmals im Mai 1989 veröffentlicht. Das National Institute for Research in Computer Science and Automation (INRIA) hat dessen Entwicklung bereits seit 1984 unterstützt.\cite{COQ02:FV} Der Name leitet sich vom französischen Wort Coq (zu deutsch Hahn) ab. Traditionell werden Entwicklungswerkzeuge in Frankreich nach Tieren benannt. Außerdem erinnert der Name an den französischen Mathematiker und Informatiker Thierry Coquand. \\
+Der Proof Assistent Coq wurde erstmals im Mai 1989 veröffentlicht. Das National Institute for Research in Computer Science and Automation (INRIA) hat dessen Entwicklung bereits seit 1984 unterstützt.\cite{COQ02:FV} Der Name leitet sich vom französischen Wort Coq (zu Deutsch Hahn) ab. Traditionell werden Entwicklungswerkzeuge in Frankreich nach Tieren benannt. Außerdem erinnert der Name an den französischen Mathematiker und Informatiker Thierry Coquand. \\
 Bestandteile des Coq-Projekts sind die funktionale Programmiersprache Coq selbst und eine Entwicklungsumgebung namens CoqIde. Beides ist zum heutigen Zeitpunkt plattform-unabhängig und open-source erhältlich unter \url{https://github.com/coq/coq}. Die dort aktuell veröffentlichte Version ist 8.10.2.\cite{COQ01:FV}\\
 Coq ist zum größtenteils in Ocaml geschrieben. Das grundlegende Feature der Programmiersprache ist das Prüfen auf formale Richtigkeit von Beweisen. Dabei wird der Entwickler durch die eingebaute Entwicklungsumgebung CoqIde interaktiv während des Schreibens eines Beweises unterstützt. Eine weitere Funktionalität ist die Code Extraktion. Coq bietet diese für Ocaml, Haskel oder mit Hilfe von externen Bibliotheken auch für C an. Dies wird im Kapitel \ref{s:coq-and-code} detailliert anhand eines Beispiels aufgegriffen. Dabei werden Funktionen formal verifiziert und anschließend in ausführbaren Ocaml Code extrahiert.\\
-Im Großen und Ganzen ist es eine aktuell sehr weit verbreite Sprache für formale Verifikation. Dabei wird sowohl Programmcode verifiziert, als auch mathematische Theoreme bewiesen, welche auch teilweise unabhängig zum Fachbereich Informatik sind. Die Anwendungsbereiche sind im Kapitel \ref{s:current-usage} genauer erläutert.
+Im Großen und Ganzen ist es eine aktuell sehr weit verbreite Sprache für formale Verifikation. Dabei wird sowohl Programmcode verifiziert als auch mathematische Theoreme bewiesen, welche auch teilweise unabhängig zum Fachbereich Informatik sind. Die Anwendungsbereiche sind im Kapitel \ref{s:current-usage} genauer erläutert.
 
 \subsection{Bewertung von Coq mittels Open Hub}
 Der Online-Dienst \textbf{Open Hub}, ehemals \textbf{Ohloh} genannt, katalogisiert open-source Softwareprojekte. Für jedes Projekt werden Daten wie Name, Beschreibung und Sourcecode erfasst. Basierend auf diesen Daten erstellt Open Hub eine Statistik, die es ermöglicht Codeanalyse, Projektmitarbeiter, Aktivitäten und eine Übersicht zu erhalten. Dabei fließen auch Daten weiterer open-source Projekte ein, um aussagekräftige Statistiken und Aussagen treffen zu können.\\
@@ -38,10 +38,10 @@ Der Online-Dienst \textbf{Open Hub}, ehemals \textbf{Ohloh} genannt, katalogisie
 {In der Auswertung steht beispielsweise, dass Coq aus über 30000 Beiträgen von 246 Entwicklern entstanden ist. Weiterhin wird der Codestand mit qualitativ hochwertig bewertet. Trotz der großen Menge an Contributern, scheint die Anzahl an Beiträgen in diesem Jahr im Vergleich zum Vorjahr abzunehmen. Dies könnte einerseits bedeuten, dass das Interesse schwindet, andererseits ist es auch möglich, dass der Code weniger Bugfixes und Änderungen benötigt.}\cite{OH01:FV}\\
 
 \section{Programmatische Coq-Grundlagen}
-In diesem Kapitel werden die Grundlagen der Programmiersprache Coq erläutert. Es wird zuerst auf das spezielle Type-System eingegangen. Das dabei verwendete Konzept stellt die Basis für programmatische formale Verifikation dar. Weiterhin werden die darauf aufbauenden Coq-Features und das Zusammenspiel von Coq und der interaktien CoqIde erklärt.\\
+In diesem Kapitel werden die Grundlagen der Programmiersprache Coq erläutert. Es wird zuerst auf das spezielle Type-System eingegangen. Das dabei verwendete Konzept stellt die Basis für programmatische formale Verifikation dar. Weiterhin werden die darauf aufbauenden Coq-Features und das Zusammenspiel von Coq und der interaktiven CoqIde erklärt.\\
 
 \subsection{Dependent Type Language}
-Java, C\# und PHP verwenden Objekte als universellen Datentyp. C und Go nutzen hingegen Strukturen. Das Typ-System von Coq basiert weder auf Objekten, noch auf Strukturen - es ist eine dependent Type(zu deutsch typ-abhängige) Sprache.\\
+Java, C\# und PHP verwenden Objekte als universellen Datentyp. C und Go nutzen hingegen Strukturen. Das Typ-System von Coq basiert weder auf Objekten, noch auf Strukturen - es ist eine dependent Type (zu Deutsch typ-abhängige) Sprache.\\
 Angenommen es gäbe eine Funktion, die irgendetwas mit einem User-Objekt/einer User-Struktur macht. In den häufig verwendeten Sprachen, wie beispielsweise Java, sollten die ersten Zeilen einen Check beinhalten, ob das User-Objekt null ist. (siehe Codeblock \ref{lst:java-function}).
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Java Funktion für den initialen Check auf null des User Objektes,label=lst:java-function]
 public void doSomething(User user) {
@@ -51,14 +51,14 @@ public void doSomething(User user) {
 ...
 }
 \end{lstlisting}
-Dadurch ist gewährleistet, dass, wenn es zu einem Fehler während der Laufzeit kommen sollte, dieser kontrolliert abgefangen wird. Allerdings bedeutet dies auch, dass die Funktion den Status eines User-Objekts, welches null ist, als gültiges Objekt entgegen nimmt.\\
+Dadurch ist gewährleistet, dass, wenn es zu einem Fehler während der Laufzeit kommen sollte, dieser kontrolliert abgefangen wird. Allerdings bedeutet dies auch, dass die Funktion den Status eines User-Objekts, welches null ist, als gültiges Objekt entgegennimmt.\\
 Praktischer wären Funktionen, welche bereits zum Compilierungs-Zeitpunkt prüfen, ob das übergebene Objekt korrekt ist.
 Dies ist mit Hilfe von typ-abhängigen Sprachen umsetzbar. In Coq heißt diese \textbf{Gallina}. Dabei muss zuerst definiert werden, was einen \textbf{korrekten User} charakterisiert. Beispielsweise könnte es bedeuten, dass er ungleich null oder einer bestimmte Rolle zugeordnet ist. Dadurch könnte die folgende Funktion in Form von Pseudocode geschrieben werden.
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Pseudocode Check auf null des User Objektes,label=lst:pseudocode-checked-function]
 setRole: (user: User, role: String) -> userWithRole: User,
 			where userWithRole.role == role;
 \end{lstlisting}
-Es muss noch eine weitere grundlegende Voraussetzung erfüllt sein, damit diese Funktion bereits beim Compilieren auf Korrektheit geprüft werden kann. Ein Typ repräsentiert normalerweise unterschiedliche Ausprägungen. Allerdings wird für typ-abhängige Sprachen für jede Ausprägung ein eigener Typ benötigt.\\
+Es muss noch eine weitere grundlegende Voraussetzung erfüllt sein, damit diese Funktion bereits beim Kompilieren auf Korrektheit geprüft werden kann. Ein Typ repräsentiert normalerweise unterschiedliche Ausprägungen. Allerdings wird für typ-abhängige Sprachen für jede Ausprägung ein eigener Typ benötigt.\\
 Unter der Annahme, dass es beispielsweise insgesamt drei verschiedene Rollen (UserWithAdminRole, UserWithSupportRole, UserWithUserRole) gibt, können einzelne Typen für jede Rolle erstellt werden.
 Jetzt ist es möglich, dass bereits der Compiler sicherstellen kann, dass die Funktion aus Codeblock \ref{lst:pseudocode-checked-function} korrekt abläuft. Zur Erklärung hilft folgendes Beispiel:
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Pseudocode Check auf null des User Objektes,label=lst:pseudocode-checked-function-usage]
@@ -70,7 +70,7 @@ Zusammenfassend gesagt, ist es durch typ-abhängige Sprachen möglich zu prüfen
 Diese Art von Typ-System benötigt einerseits für jeden Wert einen eigenen Typ, andererseits entstehen dadurch viele neue Optionen. Die viele Arbeit zur Erstellung eines Typs pro Wert, übernimmt der Compiler.\\
 Der größte Vorteil ist die Vermeidung von Bugs. Zugriffe auf nicht existente Array Indizes, Nullpointer-Exceptions oder nicht endlicher Code sind faktisch keine Probleme in typ-abhängigen Sprachen, falls die korrekten Beweise durchgeführt wurden.\\
 \\
-Generell ist es möglich fast alles mit dependent Types darzustellen. Beispielsweise eine Login Funktion, die keine Leerstrings erlaubt, oder eine Funktion, die natürliche Zahlen dividiert ohne eine Null zu erlauben, sind dadurch problemlos umsetzbar.
+Generell ist es möglich fast alles mit dependent Types darzustellen. Beispielsweise eine Login-Funktion, die keine Leerstrings erlaubt, oder eine Funktion, die natürliche Zahlen dividiert ohne eine Null zu erlauben, ist dadurch problemlos umsetzbar.
 \subsection{Basisbegriffe}
 \subsubsection{Typdefinition}
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Typedefinition,label=lst:typedefinition]
@@ -93,7 +93,7 @@ Inductive nat : Type :=
 \end{lstlisting}
 
 Die Beispiele aus dem Codeblock \ref{lst:typedefinition} stellen drei Typedefinitionen in Coq dar. Ersteres ist ein klassischer Bool, der true oder false annehmen kann. Der zweite Typ day repräsentiert alle Wochentage. \\
-Die letzte Definition wird verwendet um alle natürlichen Zahlen darzustellen. \textbf{S (n : nat)} stellt den Successor, zu deutsch die Nachfolgefunktion, dar. Dadurch kann jeder Zahlenwert der natürlichen Zahlen dargestellt werden. Eine 4 würde beispielsweise durch die vierte Nachfolgefunktion von 0 wie folgt dargestellt werden. \textbf{(S (S (S (S O)))) => 0 + 1 + 1 + 1 + 1 => 4}.\\
+Die letzte Definition wird verwendet, um alle natürlichen Zahlen darzustellen. \textbf{S (n : nat)} stellt den Successor, zu Deutsch die Nachfolgefunktion, dar. Dadurch kann jeder Zahlenwert der natürlichen Zahlen dargestellt werden. Eine 4 würde beispielsweise durch die vierte Nachfolgefunktion von 0 wie folgt dargestellt werden. \textbf{(S (S (S (S O)))) => 0 + 1 + 1 + 1 + 1 => 4}.\\
 Durch das Schlüsselwort \textbf{Inductive} ist es möglich Komposition abzubilden.
 
 \subsubsection{Funktionen}
@@ -170,11 +170,11 @@ Qed.
 Im Codeblock \ref{lst:sample-proof1} sind zwei Theoreme bewiesen. \textbf{Theorem plus\_1\_l} prüft ob \textbf{1 + n} der Nachfolger-Funktion von \textbf{n} entspricht.
 Für den Beweise werden zwei Taktiken genutzt. \textbf{Intros} in Verbindung mit allen verwendeten Variablen des Theorems, setzt diese in den Kontext. Dies ist vergleichbar mit: "`Gegeben sei n, eine natürliche Zahl"'.\\
 Ein anschließendes Anwenden von \textbf{reflexivity} sorgt dafür, dass das Programm überprüft, ob die linke und rechte Seite identisch sind. Dabei führt \textbf{reflexivity} auch ein \textbf{simpl} zur Vereinfachung (z.B.: 0 + n => n) aus. \textbf{Reflexivity} muss somit immer am Ende eines Beweises stehen, sodass er abgeschlossen werden kann.\\
-Die zweite Funktion \textbf{plus\_n\_O} validiert das \textbf{n = n + 0} gilt und wird mit Hilfe der Taktik \textbf{induction} gelöst. Diese teilt die Aussage in zwei Subgoals (zu deutsch Teilziele) auf, passend zu Induktion. Dabei wird geprüft, dass sowohl \textbf{n = 0} (Zeile 11) und \textbf{n + 1} (Zeile 12-13) gilt.
+Die zweite Funktion \textbf{plus\_n\_O} validiert das \textbf{n = n + 0} gilt und wird mit Hilfe der Taktik \textbf{induction} gelöst. Diese teilt die Aussage in zwei Subgoals (zu Deutsch Teilziele) auf, passend zu Induktion. Dabei wird geprüft, dass sowohl \textbf{n = 0} (Zeile 11) und \textbf{n + 1} (Zeile 12-13) gilt.
 Anschließend muss jedes einzelne Ziel überprüft werden. Dies verschiedenen Ebenen von Subgoals sind mit Hilfe von \textbf{-, +, *} gekennzeichnet. Der \textbf{*}-Operator ist dabei nicht mit der vorher beschriebenen Kommentar-Notation \textbf{(* *)} zu verwechseln. Ein \textbf{-} wird bei der ersten Teilziel-Ebene verwendet. Für das Adressieren weiterer Subgoals von Subgoals werden \textbf{+} und \textbf{*} genutzt. Das Schlüsselwort \textbf{rewrite} wird in folgendem Unterkapitel erläutert.
 
 \subsection{Anwendung von Coq}
-Dieses Kapitel beinhaltet einen Beispielbeweis und geht somit auf den praktischen Einsatz von Coq ein. Dabei wird die interaktive Entwicklungsumgebung CoqIde verwendet. Das bedeutet, dass der Nutzer während des Beweisvorgangs Informationen vom Programm erhält. Dies können sowohl Hinweise, als auch Fehlermeldungen sein. Um sich die CoqIde genauer vorstellen zu können, wird folgende Illustration \ref{fig:coqide-sample} verwendet.\\
+Dieses Kapitel beinhaltet einen Beispielbeweis und geht somit auf den praktischen Einsatz von Coq ein. Dabei wird die interaktive Entwicklungsumgebung CoqIde verwendet. Das bedeutet, dass der Nutzer während des Beweisvorgangs Informationen vom Programm erhält. Dies können sowohl Hinweise als auch Fehlermeldungen sein. Um sich die CoqIde genauer vorstellen zu können, wird folgende Illustration \ref{fig:coqide-sample} verwendet.\\
 
 \begin{minipage}{\textwidth}
 	\centering
@@ -190,12 +190,12 @@ Im Screenshot ist ein Beweis zu sehen. Dabei wird überprüft, wenn die natürli
 Zunächst fällt auf, dass der Coq-Code teilweise grün markiert ist. Dies symbolisiert den bereits erfolgreich ausgeführten Teil. Das Ausgabefenster rechts oben zeigt, hierfür die passende Ausgabe. Dabei werden über dem Trennstrich die gegebenen Variablen und Hypothesen angezeigt. Zusätzlich ist noch die Anzahl an Zielen abgebildet. Den darunter stehenden Ausdruck gilt es zu beweisen.\\
 Das dritte Fenster rechts unten dient zur Meldung von Hinweisen, Fehlern und Konsolenausgaben, wie beispielsweise von einer Suche.\\
 \\
-Im Anschluss folgt die detailliert Version des in Abbildung \ref{fig:coqide-sample} gezeigten Beispiels. Dabei wird in Codeblock \ref{lst:sample-proof2} die Ausgabe der Coqide nach jedem Schritt dargestellt.
+Im Anschluss folgt die detaillierte Version des in Abbildung \ref{fig:coqide-sample} gezeigten Beispiels. Dabei wird in Codeblock \ref{lst:sample-proof2} die Ausgabe der Coqide nach jedem Schritt dargestellt.
 Diese ist durch die Kommentarblöcke, welche durch \textbf{(* result:} eingeleitet und durch \textbf{*)} beendet werden, gekennzeichnet.
 Wie bereits zuvor erklärt, gilt es \textbf{n + m = m + o} zu beweisen. Die gegebenen Hypothesen sind \textbf{n = m} und \textbf{m = o}. Nachdem das Theorem durch die CoqIde eingelesen (grün markiert) wurde, ergibt sich die Ausgabe von Zeile 7 - 11. Darin ist das fast unveränderte Theorem abgebildet. Wie bereits im vorherigen Kapitel erklärt, gilt es alles unter der dem Trennstrich zu beweisen.\\
-Als nächstes wird der Beweis durch das Schlüsselwort \textbf{Proof} in Zeile 13 gestartet. Mit Hilfe von \textbf{intros} in Zeile 15 sind die drei Variablen n m o in den Kontext gesetzt. Das Resultat dieser Operation ist in Zeile 19 zu erkennen. Die Variablen werden nun als gegeben angesehen. Ein weiteres Nutzen des selben Kommandos ermöglicht es die zwei Hypothesen \textbf{H} und \textbf{H2} aufzustellen. Somit ergibt sich die Ausgabe in den Zeilen 27 bis 33. Das einzige zu beweisende Ziel ist \textbf{n + m = m + o}. Die gegebenen Variablen und Hypothesen sind oberhalb der Linie aufgelistet. Die in den nächsten zwei Zeilen 36 und 43 verwendet Taktik \textbf{rewrite} nutzt die \textbf{H1} und \textbf{H2}.
+Als nächstes wird der Beweis durch das Schlüsselwort \textbf{Proof} in Zeile 13 gestartet. Mit Hilfe von \textbf{intros} in Zeile 15 sind die drei Variablen n m o in den Kontext gesetzt. Das Resultat dieser Operation ist in Zeile 19 zu erkennen. Die Variablen werden nun als gegeben angesehen. Ein weiteres Nutzen desselben Kommandos ermöglicht es die zwei Hypothesen \textbf{H} und \textbf{H2} aufzustellen. Somit ergibt sich die Ausgabe in den Zeilen 27 bis 33. Das einzige zu beweisende Ziel ist \textbf{n + m = m + o}. Die gegebenen Variablen und Hypothesen sind oberhalb der Linie aufgelistet. Die in den nächsten zwei Zeilen 36 und 43 verwendet Taktik \textbf{rewrite} nutzt die \textbf{H1} und \textbf{H2}.
 \textbf{Rewrite} bedeutet vereinfacht ausgedrückt, dass je nach Richtung des Pfeils die eine oder die andere Seite eingesetzt wird. In Zeile 41 ist das Ergebnis nach dem Einsetzen von der Hypothese \textbf{H} dargestellt, wobei alle \textbf{n}'s durch \textbf{m}'s ersetzt wurden. Selbiges Resultat entsteht nach der Verwendung von \textbf{H2}. Allerdings werden dabei alle \textbf{o}'s durch \textbf{m}'s ersetzt. In beiden Ausgaben sind nur \dots zu sehen, da der gegebene Teil unverändert bleibt.
-Abschließend kann das Ziel mit \textbf{reflexivity} bewiesen werden, da \textbf{m + m} das selbe ist, wie \textbf{m + m}.
+Abschließend kann das Ziel mit \textbf{reflexivity} bewiesen werden, da \textbf{m + m} dasselbe ist, wie \textbf{m + m}.
 
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beispielbeweis,label=lst:sample-proof2]
 (* Initiating the theorem to proof. *)
@@ -262,12 +262,12 @@ In den folgenden Unterkapiteln sind beide Wege beschrieben. Dabei wird die Richt
 
 \subsection{Proof -> Programm}
 \subsubsection{theoretisch}
-{Wie bereits zuvor erwähnt, ist der erste Schritt die Erstellung einer Spezifikation, welche die Software beschreibt. Anschließend muss diese in mathematischer Form in ein Proof Tool geschrieben und bewiesen werden. Auf fehlerhafte Beweise weißt dieses Tool hin.
+{Wie bereits zuvor erwähnt, ist der erste Schritt die Erstellung einer Spezifikation, welche die Software beschreibt. Anschließend muss diese in mathematischer Form in ein Proof Tool geschrieben und bewiesen werden. Fehlerhafte Beweise lässt das Tool nicht zu.
 Sobald jetzt ein Fehler in der realen Welt auftritt, sollte dieser mit diesem beschrieben Model abgefangen werden. \\
 Schlussendlich müssen die bewiesenen Anforderungen der Spezifikation in Programmcode konvertiert werden. Dieser Prozess wird in folgendem Kapitel genauer erklärt.}\cite{HELWER01:FV}
 
 \subsubsection{praktisch}
-In diesem Kapitel wird erklärt, wie Funktionen formal mit Coq bewiesen werden und anschließend in Ocaml extrahiert und ausgeführt werden. Ocaml ("`Categorical Abstract Machine + ML"') ist eine sowohl funktionale, als auch objektorientierte Programmiersprache. ML bedeutet Meta-Language. Dies ist allerdings für diese Arbeit weniger relevant, da Ocaml lediglich als Beispiel für Code-Extraktion genutzt wird. Der Fokus dieser Arbeit liegt auf dem Prinzip und nicht auf einer speziellen Programmiersprache.\\
+In diesem Kapitel wird erklärt, wie Funktionen formal mit Coq bewiesen werden und anschließend in Ocaml extrahiert und ausgeführt werden. Ocaml ("`Categorical Abstract Machine + ML"') ist eine sowohl funktionale als auch objektorientierte Programmiersprache. ML bedeutet Meta-Language. Dies ist allerdings für diese Arbeit weniger relevant, da Ocaml lediglich als Beispiel für Code-Extraktion genutzt wird. Der Fokus dieser Arbeit liegt auf dem Prinzip und nicht auf einer speziellen Programmiersprache.\\
 Bei dem Ansatz von Proof zum Programmcode musst zu Beginn eine \textbf{.v}-Datei erstellt werden. Darin wird der Coq-Code geschrieben. Das verwendete Beispiel \ref{lst:practical-functions} stellt ein Datentyp Paar von natürlichen Zahlen dar. Hierfür sollen verschiedenste Funktionalitäten implementiert werden. Dabei sind Funktionen wie \textbf{fst}, \textbf{snd} und \textbf{swap\_pair}. Anschließend sind Beweise, die verschiedenste Eigenschaften der einzelnen Funktionen prüfen, dargestellt.
 
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Funktionen für Paare aus natürlichen Zahlen,label=lst:practical-functions]
@@ -300,13 +300,13 @@ match p with
 	| (x,y) => (y,x)
 end.
 \end{lstlisting}
-Zu Beginn wird der \textbf{induktive Typ natprod} definiert, welcher ein Paar repräsentiert. Im darauf folgenden Teil des Codebeispiels werden immer wieder die Schlüsselwörter \textbf{Check} und \textbf{Compute} verwendet. Mit Hilfe dieser Funktionen können stichprobenartig einzelne Werte in die Definitionen oder Typen eingesetzt werden. Anschließend wird das daraus resultierende Ergebnis ausgegeben.\\
+Zu Beginn wird der \textbf{induktive Typ natprod} definiert, welcher ein Paar repräsentiert. Im darauffolgenden Teil des Codebeispiels werden immer wieder die Schlüsselwörter \textbf{Check} und \textbf{Compute} verwendet. Mit Hilfe dieser Funktionen können stichprobenartig einzelne Werte in die Definitionen oder Typen eingesetzt werden. Anschließend wird das daraus resultierende Ergebnis ausgegeben.\\
 Die Funktionen \textbf{fst} und \textbf{snd} geben jeweils x oder y eines Paares zurück. Weiterhin ist eine Notation für die Definition von Paaren dargestellt. Diese dient ausschließlich dafür, dass anstelle von 
 \textbf{(pair x y)} auch \textbf{(x , y)} verwendet werden darf. Wenn eine solche Notation nicht vorhanden wäre, müsse eine komplett neue Funktion \textbf{fst'} für den Syntax von \textbf{(x , y )} geschrieben werden. Notationen sind prinzipiell Aliase und tragen zur Kürzung des Aufwands bei.\\
 Zuletzt wird die \textbf{swap\_pair} Funktion, die den X- und Y-Wert eines Paares vertauscht zurückgibt, definiert.\\
 \\
-Anschließend müssen Eigenschaften die diese Funktionen erfüllen sollen, bewiesen werden.
-Zuerst wird mit Hilfe der Theoreme surjective\_pairing und surjective\_pairing\_stuck bewiesen, dass das Erstellen von einem neuem Paar demselben entspricht, wenn man fst und snd von diesem Paar nimmt und somit ein neues Paar bildet. Die zwei Funktionen unterscheiden sich lediglich in der Verwendung des Syntax von Paaren. Bei surjective\_pairing\_stuck wird außerdem die \textbf{destruct} Taktik benötigt.\\
+Anschließend müssen Eigenschaften, die diese Funktionen erfüllen sollen, bewiesen werden.
+Zuerst wird mit Hilfe der Theoreme surjective\_pairing und surjective\_pairing\_stuck bewiesen, dass das Erstellen von einem neuen Paar demselben entspricht, wenn man fst und snd von diesem Paar nimmt und somit ein neues Paar bildet. Die zwei Funktionen unterscheiden sich lediglich in der Verwendung der Syntax von Paaren. Bei surjective\_pairing\_stuck wird außerdem die \textbf{destruct} Taktik benötigt.\\
 Diese teilt normalerweise das Hauptziel des Beweises in die einzelnen Subgoals \textbf{n = O} und \textbf{n = S n'} auf. Sobald beide Ziele bewiesen wurden, akzeptiert Coq dieses Theorem. Hierbei ist der Unterschied zur Induktion, dass dabei \textbf{n = 0, n + 1} gecheckt wird und anschließend die Schlussfolgerung auf Korrektheit möglich ist.\\
 Im Beispiel wird \textbf{destruct} jedoch nur zur Aufteilung von \textbf{p} in die natürlichen Zahlen n und m verwendet.
 Ab dieser Zeile entspricht dieser Beweis exakt dem Ersten, welcher von Anfang an natürliche Zahlen verwendet. 
@@ -347,7 +347,7 @@ Proof.
 Qed.
 \end{lstlisting}
 
-Die nächsten zwei Theorem prüfen bestimmte Eigenschaften der \textbf{swap\_pair} Funktion. Zuerst wird Bewiesen, dass das zweite Element eines Paares in Verbindung mit dem ersten, das Ergebnis der Definition \textbf{swap\_pair} ist. Letzterer Beweis stellt sicher, dass für jeden \textbf{natprod} das erste Element eines Paares nach einem Aufruf von \textbf{swap\_pair} dem ursprünglich zweiten Wert des Paares entspricht.\\
+Die nächsten zwei Theorem prüfen bestimmte Eigenschaften der \textbf{swap\_pair} Funktion. Zuerst wird bewiesen, dass das zweite Element eines Paares in Verbindung mit dem ersten, das Ergebnis der Definition \textbf{swap\_pair} ist. Letzterer Beweis stellt sicher, dass für jeden \textbf{natprod} das erste Element eines Paares nach einem Aufruf von \textbf{swap\_pair} dem ursprünglich zweiten Wert des Paares entspricht.\\
 Beide Theoreme werden identisch zu surjective\_pairing\_stuck bewiesen. Dabei wird der \textbf{natprod}-Typ ebenfalls mit Hilfe von \textbf{destruct} in zwei natürliche Zahlen aufgeteilt.\\
 \\
 Um anschließend die formal bewiesenen Funktionen in Programmen nutzen zu können, muss die Datei, in der die Beweise geschrieben wurden, in Coq compiliert werden. Dafür muss folgender Befehl in die Kommandozeile eingeben werden:
@@ -367,7 +367,7 @@ Extract Inductive nat => int [ "0" "Pervasives.succ" ]
 
 Extraction "paperimpl.ml" fst snd swap_pair.
 \end{lstlisting}
-Im Codeblock \ref{lst:practical-proof-extraction} ist zu sehen, dass verschiedene Dateien mit \textbf{Require} und \textbf{Require Import} importiert werden. \textbf{Extraction} und \textbf{ExtraOcamlBasic} sind beispielweise Standard-Features von Coq um Funktionen von Coq-Code in Ocaml-Code umzuwandeln.\\
+Im Codeblock \ref{lst:practical-proof-extraction} ist zu sehen, dass verschiedene Dateien mit \textbf{Require} und \textbf{Require Import} importiert werden. \textbf{Extraction} und \textbf{ExtraOcamlBasic} sind beispielweise Standard-Features von Coq, um Funktionen von Coq-Code in Ocaml-Code umzuwandeln.\\
 Weiterhin wird in der Zeile \textbf{Extract Inductive nat => \dots} ein Ausdruck verwendet, sodass OCaml den Typ der natürlichen Zahlen aus Coq verwenden kann. Allerdings ist der Coq-Code zu Ocaml Extraktor nicht formal verifiziert. Die Korrektheit wird trotzdem angenommen, da Coq großteils Ocaml geschrieben ist.
 Damit schlussendlich eine ausführbare Datei entsteht, muss definiert werden, welche Funktionen in welche Datei extrahiert werden sollen.\\
 \\
@@ -391,7 +391,7 @@ let snd = function
 let swap_pair = function
 | Pair (x, y) -> Pair (y, x)
 \end{lstlisting}
-Dadurch das der Coq-To-Ocaml-Extraktor nicht komplett formal verifiziert ist, kann es sein, dass der Code nicht 100\% korrekt ist. Um sicherzustellen, dass dies der Fall ist, wurden im Nachhinein ein paar Tests geschrieben, welche im Codebeispiel \ref{lst:practical-code-adjustment} dargestellt werden. Diese Tests beschreiben einfache Funktionsaufrufe wie zum Beispiel das Erhalten des ersten und zweiten Wertes eines Paares. Anschließend werden die selben Funktionen noch einmal aufgerufen - allerdings auf ein neues Paar, dass du die swap\_	pair Funktion entstanden ist. Zur Nachvollziehbarkeit werden dabei die jeweiligen Ergebnisse auf der Kommandozeile ausgegeben.
+Dadurch das der Coq-To-Ocaml-Extraktor nicht komplett formal verifiziert ist, kann es sein, dass der Code nicht 100\% korrekt ist. Um sicherzustellen, dass dies der Fall ist, wurden im Nachhinein ein paar Tests geschrieben, welche im Codebeispiel \ref{lst:practical-code-adjustment} dargestellt werden. Diese Tests beschreiben einfache Funktionsaufrufe, wie zum Beispiel das Erhalten des ersten und zweiten Wertes eines Paares. Anschließend werden dieselben Funktionen noch einmal aufgerufen - allerdings auf ein neues Paar, dass du die swap\_	pair Funktion entstanden ist. Zur Nachvollziehbarkeit werden dabei die jeweiligen Ergebnisse auf der Kommandozeile ausgegeben.
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Ocaml Code anpassen,label=lst:practical-code-adjustment]
 let pair = Pair(3, 4);;
 let resultfst = fst pair;;
@@ -423,7 +423,7 @@ Result snd: 3
 In Codeblock \ref{lst:practical-code-execution} werden die Ausgaben der Tests dargestellt. Die ersten zwei Ergebnisse sind die Werte, welches mit den Werten \textbf{fst: 3} und \textbf{snd: 4} initiiert wurde. Die zweiten zwei Ausgaben stellen \textbf{fst} und \textbf{snd} des invertierten Paars dar.
 
 \subsection{Programm -> Proof}
-Generell ist es möglich fast jeden Programmcode formal zu verifizieren. Der Aufwand, der dafür aufzubringen ist, unterscheidet sich gewaltig. Um den Code einer Sprache vollständig formal beweisen zu können, muss theoretisch auch der Compiler der Sprache formal bewiesen sein. Ansonsten wäre zwar der Programmcode formal verifiziert, allerdings kann nicht garantiert werden, dass der Compiler dennoch Fehler beim übersetzen macht. Des Weiteren ist noch zu erwähnen, dass der Compiler nicht die niedrigste Software-Ebene repräsentiert. In den Schichten darunter sind beispielsweise noch Hardwarebeschreibungssprachen. Sobald dort ein gravierender Bug enthalten ist, kann der high-level Programmcode formal bewiesen sein und trotzdem fehlerhaft laufen.\\
+Generell ist es möglich fast jeden Programmcode formal zu verifizieren. Der Aufwand, der dafür aufzubringen ist, unterscheidet sich gewaltig. Um den Code einer Sprache vollständig formal beweisen zu können, muss theoretisch auch der Compiler der Sprache formal bewiesen sein. Ansonsten wäre zwar der Programmcode formal verifiziert, allerdings kann nicht garantiert werden, dass der Compiler dennoch Fehler beim Übersetzen macht. Des Weiteren ist noch zu erwähnen, dass der Compiler nicht die niedrigste Software-Ebene repräsentiert. In den Schichten darunter sind beispielsweise noch Hardwarebeschreibungssprachen. Sobald dort ein gravierender Bug enthalten ist, kann der high-level Programmcode formal bewiesen sein und trotzdem fehlerhaft laufen.\\
 \\
 \subsubsection{Beispiel Programmiersprache C}
 Der Code aus der Programmiersprache C wird zum Beispiel in Maschinencode umgewandelt. 
@@ -450,7 +450,7 @@ CompCert wandelt schlussendlich den Verifiable C Code in Maschinensprache um.
 Im vorherigen Unterkapitel wurde erklärt, aus welchen Komponenten die Princeton Tool Chain besteht. Der Compiler CompCert ist dabei bereits komplett formal verifiziert. Dies bedeutet, dass jeder in verifiable C geschriebene Programmcode in den entsprechenden Assemblercode übersetzt wird. Es stell sich die Frage, wie und wo die selbstgeschriebenen Funktionen auf mathematische Korrektheit geprüft werden.\\
 \\
 {Hierfür wird aus dem Paper "´\textbf{Verifiable C} Applying the Verified Software Toolchain to C programs"' das Vorgehen beschrieben.\\
-Zuerst muss ein C-Programm in eine Datei \textbf{F.c} geschrieben werden. Anschließend muss der normale C-Code in Verifiable C übersetzt werden. Dies ist mit Hilfe des Command Line Interface (CLI) Kommandos \textbf{clightgen -normalize F.c} möglich. Dadurch entsteht eine Coq-Datei \textbf{F.v}. Um die darin stehenden Funktionen zu beweisen, muss eine Datei mit beispielsweise dem Name \textbf{verif\_F.v} erstellt werden. Wichtig dabei ist, dass in der Datei sowohl \textbf{F.v} als auch das VST Floya Programm-Verifikationssystem \textbf{VST.floyd.proofauto} importiert werden. Wenn ein Beweisen aller Funktionen gelingt, ist das C-Programm korrekt geschrieben und somit maschinell formal verifiziert.}\cite{Appel01:VST}
+Zuerst muss ein C-Programm in eine Datei \textbf{F.c} geschrieben werden. Anschließend muss der normale C-Code in Verifiable C übersetzt werden. Dies ist mit Hilfe des Command Line Interface (CLI) Kommandos \textbf{clightgen -normalize F.c} möglich. Dadurch entsteht eine Coq-Datei \textbf{F.v}. Um die darinstehenden Funktionen zu beweisen, muss eine Datei mit beispielsweise dem Name \textbf{verif\_F.v} erstellt werden. Wichtig dabei ist, dass in der Datei sowohl \textbf{F.v} als auch das VST Floya Programm-Verifikationssystem \textbf{VST.floyd.proofauto} importiert werden. Wenn ein Beweisen aller Funktionen gelingt, ist das C-Programm korrekt geschrieben und somit maschinell formal verifiziert.}\cite{Appel01:VST}
 
 
 \section{Aktuelle Anwendung}
@@ -478,17 +478,17 @@ Der ganze proof Stack könnte ungefähr wie in der folgenden Illustration \ref{f
 JSCert ist eine maschinell in Coq geprüfte Spezifikation von JavaScript. Es wurde mit der Coq Version 8.4.6 geschrieben. Dabei wurde versucht, sich so nah wie möglich am englischen Standard ECMAScript 5 zu halten. Des Weiteren ist ein in Ocaml geschriebener Interpreter namens \textbf{JSRef} damit als korrekt bewiesen worden. Dies deckt 262 Testfälle ab.\cite{JSCERT01:FV}\cite{JSCERT012:FV}
 
 \subsection{CertiCoq}
-CertiCoq ist ein in Coq verifizierter Compiler für Coq. Genauer genommen beweist CertiCoq, dass die Compilierung von typ-abhängigen Sprachen, wie Gallina korrekt verläuft.\cite{CERTICOQ01:FV}\cite{CERTICOQ02:FV} Weitere Informationen diesbezüglich sind auf der Website der Princeton University zu finden.
+CertiCoq ist ein in Coq verifizierter Compiler für Coq. Genauer genommen beweist CertiCoq, dass die Kompilierung von typ-abhängigen Sprachen, wie Gallina korrekt verläuft.\cite{CERTICOQ01:FV}\cite{CERTICOQ02:FV} Weitere Informationen diesbezüglich sind auf der Website der Princeton University zu finden.
 
 \subsection{Beweise für Probleme der Mathematik oder Informatik}
 Mit Coq kann nicht nur Programmcode verifiziert werden. Die Grundlage dafür sind schließlich mathematische Beweise inklusive Taktiken und der interaktiven Entwicklungsumgebung. Somit wird Coq auch von Theoretikern, welche vor allem aus den Fachbereichen der Mathematik und Informatik kommen, genutzt. Die folgenden zwei bekannten Probleme wurden mittels Coq bewiesen. 
 
 \subsubsection{Satz von Feit-Thompson}
-Das Odd-Order-Theorem, zu deutsch Satz von Feit-Thopmson sagt aus, dass jede endliche Gruppe von ungeraden Ordnungen auflösbar ist. Dies wurde bereits durch Walter Feit und John Griggs Thompson 1963 bewiesen.\\
+Das Odd-Order-Theorem, zu Deutsch Satz von Feit-Thopmson sagt aus, dass jede endliche Gruppe von ungeraden Ordnungen auflösbar ist. Dies wurde bereits durch Walter Feit und John Griggs Thompson 1963 bewiesen.\\
 Nach einer sechsjährigen Arbeit gelang Georges Gonthier von INRIA 2012 die Verifikation in Coq. Dies wurde als Forschung-Projekt zur Weiterentwicklung von Coq durchgeführt. Dabei sind über 150000 Zeilen an Beweis-Code entstanden, welche circa 4000 Definition und 13000 Theoreme enthalten.\cite{ODD01:FV}
 
 \subsubsection{Vier-Farben-Theorem}
-Das Vier-Farben Theorem sagt aus, dass es immer möglich ist, mit Hilfe von vier Farben eine beliebige Landkarte in der euklidischen Ebene einzufärben. Dabei dürfen angrenzende Länder niemals gleich gefärbt sein. Weiterhin werden isolierte gemeinsame Punkte nicht als Grenze gewertet. Eine weitere Einschränkung ist, dass keine Exklaven vorhanden sein dürfen. Dies bedeutet, dass die Karte aus einer zusammenhängenden Fläche bestehen muss(siehe Grafik \ref{fig:four-color}).\cite{FOURCOLORS01:FV}\\
+Das Vier-Farben Theorem sagt aus, dass es immer möglich ist, mit Hilfe von vier Farben eine beliebige Landkarte in der euklidischen Ebene einzufärben. Dabei dürfen angrenzende Länder niemals gleich gefärbt sein. Weiterhin werden isolierte gemeinsame Punkte nicht als Grenze gewertet. Eine weitere Einschränkung ist, dass keine Exklaven vorhanden sein dürfen. Dies bedeutet, dass die Karte aus einer zusammenhängenden Fläche bestehen muss (siehe Grafik \ref{fig:four-color}).\cite{FOURCOLORS01:FV}\\
 Im Jahr 2005 wurde dieses Theorem erstmals durch die zwei Forscher Goerges Gonthier und Benjamin Werner vollständig mit Coq bewiesen.
 \cite{FOURCOLORS02:FV}\\
 
@@ -512,27 +512,12 @@ In einem Talk über das Projekt Ironclad von Microsoft Research sprach Bryan Par
 Diese Arbeit stellt die Grundlagen der formalen Verifikation, welche auf Programmcode angewendet werden kann, vor. Dabei wird zuerst auf die Relevanz eingegangen. Weitere Kapitel führen den Leser in maschinelles Beweisen mit Hilfe von Coq und der CoqIde ein. Das Herzstück dieser Arbeit ist die Programmcodeverifikation, welche auf zwei Wegen durchführbar ist. Einerseits kann zuerst ein Beweis für ein Theorem geschrieben und anschließend extrahiert werden. Andererseits ist es auch möglich, geschriebenen Programmcode im Nachhinein formal zu verifizieren. Beides wird in dieser Arbeit sowohl theoretisch als auch praktisch erläutert. Die Extraktion von Beweisen in Ocaml Code wird dabei anhand eines konkreten Codebeispiels detaillierter beschrieben. Abschließend werden konkrete Anwendungsfälle von formaler Verifikation mit Coq und eine Aufwandsschätzung für dessen praktische Anwendung präsentiert.
 
 \subsection{Schlussfolgerung}
-Fazit:
-\begin{itemize}
-	\item Ziel: Programmcodeverifikation mit Coq erklären.
-	
-	\item \url{https://medium.com/background-thread/the-future-of-programming-is-dependent-types-programming-word-of-the-day-fcd5f2634878}
-	\item Programmcodeverifikation nimmt vor allem in sicherheitskritischen Bereichen zu
-	\item Programmcodeverifikation ist deutlich zeitintensiver (5mal)
-	\item Mit dieser Verifikation kann 100\%tige Garantie für funktionierende Software gewährleistet werden. Weil Assertions bereits zu Compilezeit durchgeführt werden und nicht mehr zur Laufzeit.
-	\item Große Firmen nutzen es immer aktiver
-	\item Es hat großes Potential und ist eine neue Art zu programmieren
-	\item Wird sehr stark durch die Community weiterentwickelt
 
-	\item 100\% korrekter Code wird nicht in jedem Fachbereich benötigt und ist auch nicht immer bezahlbar.
-	\item nur Software kann sicher gemacht werden. Hardware ist immer noch fehlbar!
-	\item Code ist nur so gut, wie dessen Spezifikation
-	\item Referenz auf weiterführende Artikel 
-\end{itemize}
-
-Programmcodeverifikation ist zum aktuellen Zeitpunkt ein weniger bekanntes Thema in der Informatik. Weil es damit möglich ist 100\% korrekte Software zu entwickeln, setzten vor allem große Firmen, die sicherheitskritische oder viel verwendete Systeme bauen, auf diese Technologie. Der Aufwand für formal verifizierte Software ist dabei vergleichsweise deutlich höher. Entwickler von Microsoft Research schätzen den Aufwand auf circa 5 Zeilen Beweis-Code für jede Zeile Programmcode basierend auf ihrem durchgeführten Forschungsprojekt Ironclad. Außerdem nannten sie es eine neue Art für die Entwicklung der Software. Der Programmcode funktionierte meistens bereits beim ersten Mal und enthielt nur wenige Fehler. Dies kann durch das spezielle Typ-System von Coq, den dependet Types, erzielt werden. Dadurch sind Checks auf korrekten Code, welche normalerweise erst bei der Laufzeit passieren, bereits bei der Compilierung durchführbar.\\
-Obwohl ein zu 100\% funktionierender Programmcode in jedem Fachbereich ideal wäre, stehen Aufwand und Kosten nicht immer im passenden Verhältnis zum gewonnen Nutzen.
-
+Programmcodeverifikation ist zum aktuellen Zeitpunkt ein weniger bekanntes Thema in der Informatik. Weil es damit möglich ist 100\% korrekte Software zu entwickeln, setzten vor allem große Firmen, die sicherheitskritische oder viel verwendete Systeme bauen, auf diese Technologie. Der Aufwand für formal verifizierte Software ist dabei vergleichsweise deutlich höher. Entwickler von Microsoft Research schätzen den Aufwand auf circa 5 Zeilen Beweis-Code für jede Zeile Programmcode basierend auf ihrem durchgeführten Forschungsprojekt Ironclad. Außerdem nannten sie es eine neue Art für die Entwicklung der Software. Der Programmcode funktionierte meistens bereits beim ersten Mal und enthielt nur wenige Fehler. Dies kann durch das spezielle Typ-System von Coq, den dependent Types, erzielt werden. Dadurch sind Checks auf korrekten Code, welche normalerweise erst bei der Laufzeit passieren, bereits bei der Compilierung durchführbar.\\
+Obwohl ein zu 100\% funktionierender Programmcode in jedem Fachbereich ideal wäre, stehen Aufwand und Kosten nicht immer im passenden Verhältnis zum gewonnenen Nutzen.
+Des Weiteren ist zur erwähnen, dass nur eine gute Spezifikation zu gutem Code führt. Mit Hilfe der formalen Verifikation kann zwar bewiesen werden, dass der Programmcode der Spezifikation entspricht, allerdings nicht, ob die Spezifikation selbst richtig ist.
+Dadurch, dass eine Software immer auf Hardware läuft, kann zusätzlich keine wirkliche 100\%-tige Korrektheit eines Systems mit verifizierter Software garantiert werden. Hardware ist immer ab einem gewissen Zeitpunkt fehlbar und muss komplett ausgetauscht oder repariert werden.\\
+Zusammenfassend wird Coq und formale Verifikation von Programmcode als sehr interessantes Thema mit viel Potential durch den Autor dieser Arbeit bewertet. Weiterführende Artikel, Talks und anderweitige Quellen sind im Kapitel \ref{a:append} des Anhangs zu finden. 
 
 \section{Glossar}
 
