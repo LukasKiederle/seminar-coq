@@ -74,6 +74,42 @@ Zusammenfassend gesagt, ist es durch dependent type Sprachen möglich zu prüfen
 Diese Art von Typ-System benötigt einerseits für jeden Wert einen eigenen Typ, andererseits entstehen dadurch viele neue Optionen. Die viele Arbeit zur Erstellung eines Typs pro Wert, übernimmt der Compiler.\\
 Der größte Vorteil ist die Vermeidung von Bugs. Zugriffe auf nicht existente Array Indizes, Nullpointer-Exceptions oder nicht endlicher Code sind faktisch keine Probleme in dependent type Sprachen, falls die korrekten Beweise durchgeführt wurden.\\
 Generell ist es möglich fast alles mit dependent Types darzustellen. Beispielsweise eine Login-Funktion, die keine Leerstrings erlaubt, oder eine Funktion, die natürliche Zahlen dividiert ohne eine Null zu erlauben, ist dadurch problemlos umsetzbar.
+
+\subsection{Verwendung in Coq von Dependent Type Sprache}
+Coq verwendet dependent type Sprache um logische Aussagen auf Typen abzubilden.
+Eine Aussage ist ein Typ und diese ist wahr, wenn eine
+Instanz des Typs hingeschrieben werden kann.
+Dafür existieren in Coq die zwei induktiven Typen \textbf{True} und \textbf{False}.
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Basis Typen,label=lst:base-types]
+Inductive True : Type := I.
+
+Inductive False : Type := .
+
+Inductive and (A B : Type) : Type :=
+conj : A -> B -> and A B.
+
+Inductive or (A B : Type) : Type :=
+or_introl : A -> or A B
+| or_intror : B -> or A B.
+\end{lstlisting}
+Im Codeblock \ref{lst:base-types} sind diese in den Zeilen 1 und 3 beschrieben. Ein Type True kann durch den Konstruktor \textbf{I} instantiiert werden. Ein Typ False hingegen besitzt keine Konstruktoren.\\
+Weiterhin nutzen logische Aussagen Verbindungen, wie beispielsweise \textbf{Und} und \textbf{Oder}. Die in Coq verwendeten Definition sind die induktiven Typen \textbf{and} und \textbf{or}. Um ein \textbf{and}-Typen instantiieren zu können, muss ein Instanz beider Typen A und B angegeben werden. Bei Oder hingegen reicht eine der beiden Aussagen. In Coq ist es hierbei nicht möglich falschen Aussagen anzugeben.\\
+\\
+Ein Theorem ist eine Funktion, die aus den forall-Werten (zum Beispiel: forall n: nat) und Voraussetzungen eine Instanz der Theoremausgabe kreiert. Ein Beispiel hierfür ist das Theorem \textbf{nat\_rect}, das die Induktion über natürliche Zahlen darstellt (siehe Codeblock \ref{lst:base-types-induction}).
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Induktion der natürlichen Zahlen,label=lst:base-types-induction]
+nat_rect : forall P : nat -> Type,
+P 0 ->
+(forall n : nat, P n -> P (S n)) ->
+forall n : nat, P n
+\end{lstlisting}
+Es bedeutet, dass für alle Aussagen P über natürlich Zahlen folgendes
+gilt:\\
+"`Wenn die Aussage für 0 gilt und wenn für alle n aus der Aussage
+für n die Aussage für (S n) folgt, so gilt die Aussage für alle n."'\\
+\\
+Zusammenfassend bedeutet dies, dass in Coq die Induktion nur über einfache rekursive Funktionen abgebildet werden. Diese wird von Coq selbst für jeden Induktiven Type erstellt. Bei einer Anwendung der Taktik \textbf{induction}, wird zu einem bestimmten Zeitpunkt diese Funktion aufgerufen.\\
+Außerdem ist die Induktion nur mittels dependent Type Sprache abzubilden. Denn nur so ist gewährleistet, dass zum Beispiel eine \textbf{and}-Aussage von den beiden Teilaussagen A und B abhängig ist.
+
 \subsection{Basisbegriffe}
 \subsubsection{Typdefinition}
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Typedefinition,label=lst:typedefinition]
@@ -150,7 +186,7 @@ by the first clause of the match
 Zum besseren Verständnis für den Ablauf der Rekursion in Coq, sind im Codeblock \ref{lst:functions-executed} die einzelnen Schritte in einem Kommentar-block (gekennzeichnet durch (* *)) abgebildet. In Zeile stellt Coq, wie bereits bei den Typdefinitionen der natürlichen Zahlen gezeigt, die Zahlen zwei und drei mittels der Nachfolger-Funktion dar. Anschließend beginnt die Rekursion. Solange \textbf{n > 0}, wird 1 mehr zum Endergebnis gezählt. Wenn \textbf{n = 0}, dann wird, wie in den letzten zwei Zeilen im Codeblock dargestellt, das plus durch \textbf{m} ersetzt. Somit ergibt \textbf{plus 3 2 => 5}.
 
 \subsection{Beweise und Taktiken}
-Úm zu prüfen, dass die definierten Funktionen mathematisch korrekt sind, stellt der Proof Assistent verschiedene Taktiken zur Verfügung. Diese werden zwischen den \textbf{Proof.} und \textbf{Qed.} Schlüsselworten angegeben.\\\
+Um zu prüfen, dass die definierten Funktionen mathematisch korrekt sind, stellt der Proof Assistent verschiedene Taktiken zur Verfügung. Diese werden zwischen den \textbf{Proof.} und \textbf{Qed.}.\\
 Eine grundlegende Beweismethode ist die Induktion, welche nur für die natürlichen Zahlen verwendet werden kann. Dabei wird zuerst geprüft, ob beim Einsetzen in die zu beweisende Funktion der kleinste Wert gültig ist. Anschließend soll die Aussage für \textbf{n + 1} bewiesen werden. Wenn beides zu einem gültigen Ergebnis führt, ist die Funktion mathematisch valide.
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Beispielbeweis,label=lst:sample-proof1]
 Theorem plus_1_l : forall n:nat, 1 + n = S n.
@@ -174,41 +210,6 @@ Für den Beweise werden zwei Taktiken genutzt. \textbf{Intros} in Verbindung mit
 Ein anschließendes Anwenden von \textbf{reflexivity} sorgt dafür, dass das Programm überprüft, ob die linke und rechte Seite identisch sind. Dabei führt \textbf{reflexivity} auch ein \textbf{simpl} zur Vereinfachung (z.B.: 0 + n => n) aus. \textbf{Reflexivity} steht somit meistens am Ende eines Beweises mit dem Format \textbf{links = rechts}, sodass er abgeschlossen werden kann. Dafür gibt es auch anderweitige Möglichkeiten.\\
 Die zweite Funktion \textbf{plus\_n\_O} validiert das \textbf{n = n + 0} gilt und wird mit Hilfe der Taktik \textbf{induction} gelöst. Diese teilt die Aussage in zwei Subgoals (zu Deutsch Teilziele) auf, passend zu Induktion. Dabei wird geprüft, dass \textbf{n = 0} (Zeile 11) gilt und das aus der Aussage für \textbf{n} \textbf{n + 1} (Zeile 12-13) folgt.
 Anschließend muss jedes einzelne Ziel überprüft werden. Dies verschiedenen Ebenen von Subgoals sind mit Hilfe von \textbf{-, +, *} gekennzeichnet. Der \textbf{*}-Operator ist dabei nicht mit der vorher beschriebenen Kommentar-Notation \textbf{(* *)} zu verwechseln. Ein \textbf{-} wird bei der ersten Teilziel-Ebene verwendet. Für das Adressieren weiterer Subgoals von Subgoals werden \textbf{+} und \textbf{*} genutzt. Das Schlüsselwort \textbf{rewrite} wird in folgendem Unterkapitel erläutert.
-
-\subsection{Verwendung in Coq von Dependent Type Sprache}
-Coq verwendet dependent type Sprache um logische Aussagen auf Typen abzubilden.
-Eine Aussage ist ein Typ und diese ist wahr, wenn eine
-Instanz des Typs hingeschrieben werden kann.
-Dafür existieren in Coq die zwei induktiven Typen \textbf{True} und \textbf{False}.
-\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Basis Typen,label=lst:base-types]
-Inductive True : Type := I.
-
-Inductive False : Type := .
-
-Inductive and (A B : Type) : Type :=
-conj : A -> B -> and A B.
-
-Inductive or (A B : Type) : Type :=
-or_introl : A -> or A B
-| or_intror : B -> or A B.
-\end{lstlisting}
-Im Codeblock \ref{lst:base-types} sind diese in den Zeilen 1 und 3 beschrieben. Ein Type True kann durch den Konstruktor \textbf{I} instantiiert werden. Ein Typ False hingegen besitzt keine Konstruktoren.\\
-Weiterhin nutzen logische Aussagen Verbindungen, wie beispielsweise \textbf{Und} und \textbf{Oder}. Die in Coq verwendeten Definition sind die induktiven Typen \textbf{and} und \textbf{or}. Um ein \textbf{and}-Typen instantiieren zu können, muss ein Instanz beider Typen A und B angegeben werden. Bei Oder hingegen reicht eine der beiden Aussagen. In Coq ist es hierbei nicht möglich falschen Aussagen anzugeben.\\
-\\
-Ein Theorem ist eine Funktion, die aus den forall-Werten (zum Beispiel: forall n: nat) und Voraussetzungen eine Instanz der Theoremausgabe kreiert. Ein Beispiel hierfür ist das Theorem \textbf{nat\_rect}, das die Induktion über natürliche Zahlen darstellt (siehe Codeblock \ref{lst:base-types-induction}).
-\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Induktion der natürlichen Zahlen,label=lst:base-types-induction]
-nat_rect : forall P : nat -> Type,
-P 0 ->
-(forall n : nat, P n -> P (S n)) ->
-forall n : nat, P n
-\end{lstlisting}
-Es bedeutet, dass für alle Aussagen P über natürlich Zahlen folgendes
-gilt:\\
-"`Wenn die Aussage für 0 gilt und wenn für alle n aus der Aussage
-für n die Aussage für (S n) folgt, so gilt die Aussage für alle n."'\\
-\\
-Zusammenfassend bedeutet dies, dass in Coq die Induktion nur über einfache rekursive Funktionen abgebildet werden. Diese wird von Coq selbst für jeden Induktiven Type erstellt. Bei einer Anwendung der Taktik \textbf{induction}, wird zu einem bestimmten Zeitpunkt diese Funktion aufgerufen.\\
-Außerdem ist die Induktion nur mittels dependent Type Sprache abzubilden. Denn nur so ist gewährleistet, dass zum Beispiel eine \textbf{and}-Aussage von den beiden Teilaussagen A und B abhängig ist.
 
 
 \subsection{Anwendung von Coq}
@@ -551,7 +552,7 @@ Im Jahr 2005 wurde dieses Theorem erstmals durch die zwei Forscher Georges Gonth
 \end{minipage}
 
 \section{Aufwand in der Praxis}
-Der Aufwand für formale Verifikation ist schwer abzuschätzen, da diese Art des Programmierens nicht für jedes Teilgebiet ausreichend erforscht ist oder überhaupt benötigt wird. Grundsätzlich nutzen vor allem große Firmen im Bereich der low-level Software diese Form der Verifizierung. Damit kann beispielsweise sichergestellt werden, dass ein Prozessor immer korrekt angesteuert wird et cetera. Dabei werden meist funktionale Sprachen, wie C oder maschinennahe Sprachen verwendet. Im
+Der Aufwand für formale Verifikation ist schwer abzuschätzen, da diese Art des Programmierens nicht für jedes Teilgebiet ausreichend erforscht ist oder überhaupt benötigt wird. Grundsätzlich nutzen vor allem große Firmen im Bereich der low-level Software diese Form der Verifizierung. Damit kann beispielsweise sichergestellt werden, dass ein Prozessor immer korrekt angesteuert wird et cetera. Dabei werden meist funktionale Sprachen, wie C, oder maschinennahe Sprachen verwendet. Im
 Vergleich zu anderen Programmiersprachen wie Java oder C\#, ist in diesen Bereichen die Forschung bereits sehr weit vorgedrungen.\\
 \\
 In einem Vortrag über das Projekt Ironclad von Microsoft Research sprach Bryan Parno 2014 über den Einsatz von Formaler Verifikation bei einer Ende-zu-Ende Sicherheits-Anwendung. Dabei benannte er den Aufwand für das Programmieren mit etwa fünf Zeilen extra Beweis-Code pro Zeile Programmcode. Außerdem sei es eine komplett neue Art Software zu entwickeln. Abschließend fügte er noch hinzu, dass der meiste neue Code "`out-of-the-box"' funktionierte und faktisch kaum Bugs enthielt.\cite{IRONCLAD01:FV}\\
