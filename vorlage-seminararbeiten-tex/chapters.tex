@@ -96,14 +96,13 @@ Inductive nat : Type :=
 \end{lstlisting}
 
 Die Beispiele aus dem Codeblock \ref{lst:typedefinition} stellen drei Typedefinitionen in Coq dar. Ersteres ist ein klassischer Bool, der true oder false annehmen kann. Der zweite Typ day repräsentiert alle Wochentage. \\
-Die letzte Definition wird verwendet, um alle natürlichen Zahlen darzustellen. \textbf{S (n : nat)} stellt den Successor, zu Deutsch die Nachfolgefunktion, dar. Dadurch kann jeder Zahlenwert der natürlichen Zahlen dargestellt werden. Eine 4 würde beispielsweise durch die vierte Nachfolgefunktion von 0 wie folgt dargestellt werden. \textbf{(S (S (S (S O)))) => 0 + 1 + 1 + 1 + 1 => 4}.\\
+Die letzte Definition wird verwendet, um alle natürlichen Zahlen darzustellen. \textbf{S (n : nat)} stellt den Successor, zu Deutsch die Nachfolgefunktion, dar, welche eine Konstruktorfunktion ist. Dadurch kann jeder Zahlenwert der natürlichen Zahlen dargestellt werden. Eine 4 würde beispielsweise durch die vierte Nachfolgefunktion von 0 wie folgt dargestellt werden. \textbf{(S (S (S (S O)))) => 0 + 1 + 1 + 1 + 1 => 4}.\\
 Durch das Schlüsselwort \textbf{Inductive} ist es möglich Komposition abzubilden.
 
 \subsubsection{Funktionen}
 In Coq gibt es mehrere Arten von Funktionstypen. Mit dem Keyword \textbf{Definition} können einfache Funktionen dargestellt werden.
-Ein \textbf{Theorem} ermöglichen es in Coq mittels des Allquantors die Korrektheit einer Funktion für alle Elemente einer Menge zu beweisen. 
-Anstelle dessen, können auch \textbf{Example, Lemma, Fact oder Remark} stehen.
-Rekursionen hingegen werden sind mit \textbf{Fixpoint} oder ähnlichen Wörtern beschrieben.
+Rekursionen hingegen sind mit \textbf{Fixpoint} oder ähnlichen Wörtern beschrieben. Anstelle dessen, können auch \textbf{Example, Lemma, Fact oder Remark} stehen.
+Auch \textbf{Theoreme} sind Funktionen in Coq - sie bilden Werte auf Aussagen ab. Dabei wird mithilfe des Allquantors die Korrektheit einer Funktion für alle Elemente einer Menge bewiesen. 
 Im Codeblock \ref{lst:functions} ist für die unterschiedlichen Funktionstypen jeweils ein Beispiel dargestellt.
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Funktionen,label=lst:functions]
 Definition pred (n : nat) : nat :=
@@ -119,7 +118,7 @@ match n with
 	| S (S n') => n'
 end.
 
-Theorem plus_O_n' : forall n : nat,
+Theorem plus_O_n' (n : nat) :
 0 + n = n.
 
 Fixpoint plus (n : nat) (m : nat) : nat :=
@@ -172,8 +171,8 @@ Qed.
 \end{lstlisting}
 Im Codeblock \ref{lst:sample-proof1} sind zwei Theoreme bewiesen. \textbf{Theorem plus\_1\_l} prüft ob \textbf{1 + n} der Nachfolger-Funktion von \textbf{n} entspricht.
 Für den Beweise werden zwei Taktiken genutzt. \textbf{Intros} in Verbindung mit allen verwendeten Variablen des Theorems, setzt diese in den Kontext. Dies ist vergleichbar mit: "`Gegeben sei n, eine natürliche Zahl"'.\\
-Ein anschließendes Anwenden von \textbf{reflexivity} sorgt dafür, dass das Programm überprüft, ob die linke und rechte Seite identisch sind. Dabei führt \textbf{reflexivity} auch ein \textbf{simpl} zur Vereinfachung (z.B.: 0 + n => n) aus. \textbf{Reflexivity} muss somit immer am Ende eines Beweises stehen, sodass er abgeschlossen werden kann.\\
-Die zweite Funktion \textbf{plus\_n\_O} validiert das \textbf{n = n + 0} gilt und wird mit Hilfe der Taktik \textbf{induction} gelöst. Diese teilt die Aussage in zwei Subgoals (zu Deutsch Teilziele) auf, passend zu Induktion. Dabei wird geprüft, dass sowohl \textbf{n = 0} (Zeile 11) und \textbf{n + 1} (Zeile 12-13) gilt.
+Ein anschließendes Anwenden von \textbf{reflexivity} sorgt dafür, dass das Programm überprüft, ob die linke und rechte Seite identisch sind. Dabei führt \textbf{reflexivity} auch ein \textbf{simpl} zur Vereinfachung (z.B.: 0 + n => n) aus. \textbf{Reflexivity} steht somit meistens am Ende eines Beweises mit dem Format \textbf{links = rechts}, sodass er abgeschlossen werden kann. Dafür gibt es auch anderweitige Möglichkeiten.\\
+Die zweite Funktion \textbf{plus\_n\_O} validiert das \textbf{n = n + 0} gilt und wird mit Hilfe der Taktik \textbf{induction} gelöst. Diese teilt die Aussage in zwei Subgoals (zu Deutsch Teilziele) auf, passend zu Induktion. Dabei wird geprüft, dass \textbf{n = 0} (Zeile 11) gilt und das aus der Aussage für \textbf{n} \textbf{n + 1} (Zeile 12-13) folgt.
 Anschließend muss jedes einzelne Ziel überprüft werden. Dies verschiedenen Ebenen von Subgoals sind mit Hilfe von \textbf{-, +, *} gekennzeichnet. Der \textbf{*}-Operator ist dabei nicht mit der vorher beschriebenen Kommentar-Notation \textbf{(* *)} zu verwechseln. Ein \textbf{-} wird bei der ersten Teilziel-Ebene verwendet. Für das Adressieren weiterer Subgoals von Subgoals werden \textbf{+} und \textbf{*} genutzt. Das Schlüsselwort \textbf{rewrite} wird in folgendem Unterkapitel erläutert.
 
 \subsection{Anwendung von Coq}
@@ -271,7 +270,7 @@ Dadurch sollten alle Fälle, welche in der realen Welt auftreten, mit diesem bes
 Schlussendlich müssen die bewiesenen Anforderungen der Spezifikation von Coq-Code in Programmcode konvertiert werden. Dieser Prozess wird in folgendem Kapitel genauer erklärt.}\cite{HELWER01:FV}
 
 \subsubsection{Praxis}
-In diesem Kapitel wird erklärt, wie Funktionen formal mit Coq bewiesen werden und anschließend in Ocaml extrahiert und ausgeführt werden. Ocaml ("`Categorical Abstract Machine + ML"') ist eine sowohl funktionale als auch objektorientierte Programmiersprache. ML bedeutet Meta-Language. In dieser Arbeit dient Ocaml lediglich als Beispiel für die Code-Extraktion aus Coq. Allerdings ist der Coq-Code zu Ocaml Extraktor nicht formal verifiziert. Die Korrektheit wird trotzdem angenommen, da Coq größtenteils in Ocaml geschrieben ist.\\
+In diesem Kapitel wird erklärt, wie Funktionen formal mit Coq bewiesen werden und anschließend in Ocaml extrahiert und ausgeführt werden. Ocaml ("`Objective Categorical Abstract Machine + ML"') ist eine sowohl funktionale als auch objektorientierte Programmiersprache. Früher bedeutete ML Meta-Language, heutzutage Maschine Learning. In dieser Arbeit dient Ocaml lediglich als Beispiel für die Code-Extraktion aus Coq. Allerdings ist der Coq-Code zu Ocaml Extraktor nicht formal verifiziert. Die Korrektheit wird trotzdem angenommen, da Coq größtenteils in Ocaml geschrieben ist.\\
 Das verwendete Beispiel \ref{lst:practical-functions} stellt einen Datentyp Paar von natürlichen Zahlen dar. Hierfür sollen verschiedene Funktionalitäten implementiert werden, die die Ausgabe des ersten und zweiten Wertes und das Vertauschen ermöglicht.
 Zunächst muss eine \textbf{.v}-Datei erstellt werden, in welche der Coq-Code geschrieben wird. Anschließend sind sowohl die Funktionen als auch die dazugehörigen Beweise, die die Eigenschaften der einzelnen Funktionen prüfen, dargestellt.
 
@@ -352,6 +351,7 @@ Qed.
 
 Die letzten zwei Theoreme prüfen bestimmte Eigenschaften der \textbf{swap\_pair} Funktion. Zuerst wird mit \textbf{snd\_fst\_is\_swap} bewiesen, dass das zweite Element eines Paares in Verbindung mit dem ersten das Ergebnis der Definition \textbf{swap\_pair} ist. Der letzte Beweis \textbf{fst\_swap\_is\_snd} stellt sicher, dass für jeden \textbf{natprod} das erste Element eines Paares nach einem Aufruf von \textbf{swap\_pair} dem ursprünglich zweiten Wert des Paares entspricht.\\
 Beide Theoreme werden identisch zu \textbf{surjective\_pairing\_stuck} bewiesen. Dabei wird der \textbf{natprod}-Typ ebenfalls mit Hilfe von \textbf{destruct} in zwei natürliche Zahlen aufgeteilt.\\
+In der Praxis ergeben sich meist die Theorem aus einem Modul, welche zu beweisen sind, automatisch indem geprüft wird, wie ein anderes Modul dieses eine benötigt.\\
 \\
 Um anschließend die formal bewiesenen Funktionen in Programmen nutzen zu können, muss die Datei, in der die Beweise geschrieben wurden, in Coq compiliert werden. Dafür muss folgender Befehl in die Kommandozeile eingeben werden:\\
 \textbf{coqc -Q . LF PaperPair.v} \\
@@ -371,7 +371,7 @@ Extract Inductive nat => int [ "0" "Pervasives.succ" ]
 Extraction "paperimpl.ml" fst snd swap_pair.
 \end{lstlisting}
 Darin ist zu sehen, dass verschiedene Dateien mit \textbf{Require} und \textbf{Require Import} importiert werden. \textbf{Extraction} und \textbf{ExtraOcamlBasic} sind beispielsweise Standard-Features von Coq, um Funktionen von Coq-Code in Ocaml-Code umzuwandeln.\\
-Weiterhin wird in der Zeile 7 und 8 \textbf{Extract Inductive nat => \dots} ein Ausdruck verwendet, sodass Ocaml den Typ der natürlichen Zahlen aus Coq verwenden kann. 
+Weiterhin wird in der Zeile 7 und 8 \textbf{Extract Inductive nat => \dots} ein Ausdruck verwendet, der die natürlichen Zahlen  auf integers in Ocaml mappet. Dieser Vorgang ist nicht zu 100\% sicher, da Integer in Ocaml beschränkt sind.
 Damit schlussendlich eine ausführbare Datei entsteht, muss definiert werden, welche Funktionen in welche Datei extrahiert werden sollen, was mit Zeile 10 geschieht.\\
 Anschließend muss diese Datei ebenfalls über die Kommandozeile, wie zuvor beschrieben, compiliert werden.
 \\
@@ -437,7 +437,7 @@ Result snd: 3
 \end{lstlisting}
 
 \subsection{Programm -> Proof}
-Die folgenden Unterkapitel erläutern den theoretischen und praktischen Weg, um Programmcode im Nachhinein mit Coq zu verifizieren. Dies wird anhand von der Programmiersprache C erläutert. Dabei wird die \textbf{Verified Software Toolchain (VST)}, auch Princeton Tool Chain genannt, verwendet, welche von Forschern von INRIA und der Princeton University entwickelt wurde.
+Die folgenden Unterkapitel erläutern den theoretischen und praktischen Weg, um Programmcode im Nachhinein mit Coq zu verifizieren. Dies wird anhand von der Programmiersprache C erläutert. Dabei wird die \textbf{Verified Software Toolchain (VST)}, auch Princeton Tool Chain genannt, verwendet, welche hauptsächlich von der Princeton University entwickelt wurde.
 
 \subsubsection{Beispiel Programmiersprache C und VST}
 Ein C-Programm kann nicht einfach in Coq kopiert und anschließend bewiesen werden. Dafür wird das Hilfsmittel \textbf{VST} benötigt. Diese ermöglicht es, ein C-Programm über \textbf{Verifiable C} in verifizierten Maschinencode zu übersetzen.
@@ -451,20 +451,20 @@ In folgender Abbildung \ref{fig:vst} sind die einzelnen Komponenten von der VST 
 	\label{fig:vst}
 \end{minipage}
 
-Zuerst wird dabei das C-Source-Programm in Verifiable C übersetzt.
+Zuerst wird dabei das C-Source-Programm durch die \textbf{Clight}-Technologie von \textbf{CompCert} in Verifiable C übersetzt.
 "`Verifiable C ist grundsätzlich korrekt. Das heißt, es ist nachgewiesen (mit einem maschinell geprüften Beweis im Coq-Proof-Assistenten), dass:\\
 \textbf{Egal welche beobachtbare Eigenschaft eines C-Programms Sie auch immer beweisen wollen. Unter Verwendung der Verifiable C-Programmlogik, wird diese Eigenschaft
 tatsächlich im Assemblerprogramm enthalten sein, welches der C-Compiler generiert.}"'(übersetzt aus \cite{Appel02:VST})\\
 Mit \textbf{program logic} ist eine Art Hoare Logik gemeint, die ein leichteres Beweisen von Programmcode mit Pointern, Funktions-Pointern, Datenabstraktion und Datenstrukturen ermöglicht.\cite{Appel02:VST} Die Hoare Logik wurde durch den britischen Informatiker C. A. R. Hoare entwickelt und dient generell als Hilfsmittel für das Beweisen von Programmcode. Dabei werden logische Regeln aufgestellt, die es erlauben Aussage in mathematischer Form über Computer-Programme zu treffen.\\
 Die in orange dargestellte Komponente \textbf{VST retargetable Separation Logic} ergänzt die \textbf{program logic}. Außerdem können dadurch zusätzliche \textbf{verified program analysis tools} integriert werden.\\
 \\
-Der nächste Schritt in der Princeton Tool Chain ist der \textbf{verified Compiler CompCert}. Dieser wurde ebenfalls von INRIA entwickelt und ist wie die VST open-source auf GitHub erhältlich unter \url{https://github.com/PrincetonUniversity/VST} und \url{https://github.com/PrincetonUniversity/VST/tree/master/compcert}. 
+Der nächste Schritt in der Princeton Tool Chain ist der \textbf{verified Compiler CompCert}. Dieser wurde von INRIA entwickelt und ist wie die VST open-source auf GitHub erhältlich unter \url{https://github.com/PrincetonUniversity/VST} und \url{https://github.com/PrincetonUniversity/VST/tree/master/compcert}. Um CompCert allerdings kommerziell nutzen zu können, wird ein kostenpflichtige Lizenz benötigt.
 CompCert wandelt schlussendlich den Verifiable C Code in Maschinensprache um.
 Der Compiler CompCert ist bereits komplett formal durch Coq verifiziert. Dies bedeutet, dass jeder in Verifiable C geschriebene Programmcode korrekt in den entsprechenden verifizierten Assemblercode übersetzt wird. Es stellt sich die Frage, wie und wo die selbstgeschriebenen Funktionen auf mathematische Korrektheit geprüft werden.
 
 \subsubsection{Benutzung VST}
 Das Vorgehen zur Überprüfung der mathematischen Korrektheit von selbst geschriebenen C-Code ist im Paper "`\textbf{Verifiable C} Applying the Verified Software Toolchain to C programs"' beschrieben.\cite{Appel01:VST}\\
-Zuerst muss ein C-Programm beispielsweise in einer Datei \textbf{F.c} vorhanden sein. Anschließend muss der normale C-Code mit Hilfe von VST in Verifiable C übersetzt werden. Dies ist mit Hilfe des Command Line Interface (CLI) Kommandos \textbf{clightgen -normalize F.c} möglich. Dadurch entsteht eine Coq-Datei \textbf{F.v}. Um die enthaltenen Funktionen zu beweisen, muss eine Datei mit beispielsweise dem Namen \textbf{verif\_F.v} erstellt werden. Wichtig dabei ist, dass in der Datei sowohl \textbf{F.v} als auch das VST Floyd Programm-Verifikationssystem \textbf{VST.floyd.proofauto} importiert werden (siehe Codebeispiel \ref{lst:practical-proof-extraction} für Import). Wenn ein Beweisen in der Datei \textbf{verif\_F.v} aller Funktionen gelingt, ist das C-Programm korrekt geschrieben, kann kompiliert werden und ist somit maschinell formal verifiziert.
+Zuerst muss ein C-Programm beispielsweise in einer Datei \textbf{F.c} vorhanden sein. Anschließend muss der normale C-Code mit Hilfe von \textbf{Clightgen} von CompCert in Verifiable C übersetzt werden. Dies ist mit Hilfe des Command Line Interface (CLI) Kommandos \textbf{clightgen -normalize F.c} möglich. Dadurch entsteht eine Coq-Datei \textbf{F.v}. Um die enthaltenen Funktionen zu beweisen, muss eine Datei mit beispielsweise dem Namen \textbf{verif\_F.v} erstellt werden. Wichtig dabei ist, dass in der Datei sowohl \textbf{F.v} als auch das VST Floyd Programm-Verifikationssystem \textbf{VST.floyd.proofauto} importiert werden (siehe Codebeispiel \ref{lst:practical-proof-extraction} für Import). Wenn ein Beweisen in der Datei \textbf{verif\_F.v} aller Funktionen gelingt, ist das C-Programm korrekt geschrieben, kann kompiliert werden und ist somit maschinell formal verifiziert.
 
 
 \section{Aktuelle Anwendung}
@@ -472,9 +472,9 @@ Zuerst muss ein C-Programm beispielsweise in einer Datei \textbf{F.c} vorhanden 
 In diesem Kapitel werden einige Anwendungsfälle und Projekte kurz vorgestellt.
 
 \subsection{Proofed Stack}
-Mit Hilfe von VST inklusive CompCert wird versucht eine Art Stack aufzubauen, der von Maschinensprache über das Betriebssystem bis hin zu C-Programmcode formal verifiziert ist. Hierfür wird zusätzlich ein spezielles Coq-Framework namens \textbf{Kami} verwendet. Damit ist es möglich Hardware-Design formal zu beweisen. Diese Domain Specific Language (DSL) ist hauptsächlich inspiriert von \textbf{Bluespec} und der open-source \textbf{RISC-V} Befehlssatzarchitektur.\cite{KAMI01:ST} Vereinfacht gesagt, beschreibt dies die Verhaltensweise eines Prozessors in Form von einer formalen Spezifikation.\\
+Mit Hilfe von VST inklusive CompCert wird versucht eine Art Stack aufzubauen, der von Maschinensprache über das Betriebssystem bis hin zu C-Programmcode formal verifiziert ist. Hierfür wird zusätzlich ein spezielles Coq-Framework namens \textbf{Kami} verwendet. Damit ist es möglich Hardware-Design formal zu beweisen. Diese Domain Specific Language (DSL) ist hauptsächlich inspiriert von \textbf{Bluespec}. Mit Hilfe von Kami ist es zum Beispiel möglich einen formal verifizierten Prozessor zu entwickeln. Die Firma SiFive arbeitet zur Zeit an einem Formal verifizierten RiscV Prozessor. \textbf{RISC-V} ist eine Befehlssatzarchitektur.\cite{KAMI01:ST} Vereinfacht gesagt, beschreibt dies die Verhaltensweise eines Prozessors in Form von einer formalen Spezifikation.\\
 Die zur Architektur passenden Chips werden beispielsweise durch \textbf{SiFive}, welche auch \textbf{Kami} entwickelt haben, hergestellt.\\
-Schlussendlich fehlt noch ein Betriebssystem, welches zum ein oder anderen Zeitpunkt mit Prozessoren und Speichern interagiert. Hierfür wurde \textbf{CertiKOS}, das erste formal verifizierte Betriebssystem, entwickelt. Es unterstützt \textbf{x86} inklusive Multiprocessing. Außerdem ist es möglich, einen Hypervisor zu hosten und dadurch mehrere Betriebssysteme gleichzeitig auf der selben Maschine zu verwenden.\cite{CERTIKOS01:FV}\cite{CERTIKOS02:FV}\\
+Schlussendlich fehlt noch ein Betriebssystem, welches zum ein oder anderen Zeitpunkt mit Prozessoren und Speichern interagiert. Hierfür wurde \textbf{CertiKOS}, eines der ersten formal verifizierte Betriebssystem, entwickelt. Es unterstützt \textbf{x86} inklusive Multiprocessing. Außerdem ist es möglich, einen Hypervisor zu hosten und dadurch mehrere Betriebssysteme gleichzeitig auf der selben Maschine zu verwenden.\cite{CERTIKOS01:FV}\cite{CERTIKOS02:FV}\\
 \\
 Der ganze Proofed Stack könnte ungefähr in den Ebenen wie in der folgenden Illustration \ref{fig:proofed-stack} dargestellt werden. Dabei sind Hardware-Komponenten in rot markiert. Der Softwareteil wird farblich unterschiedlich abgebildet mit dem Ziel, dass das Bild übersichtlicher ist.\\
 
@@ -518,7 +518,9 @@ Im Jahr 2005 wurde dieses Theorem erstmals durch die zwei Forscher Georges Gonth
 Der Aufwand für formale Verifikation ist schwer abzuschätzen, da diese Art des Programmierens nicht für jedes Teilgebiet ausreichend erforscht ist oder überhaupt benötigt wird. Grundsätzlich nutzen vor allem große Firmen im Bereich der low-level Software diese Form der Verifizierung. Damit kann beispielsweise sichergestellt werden, dass ein Prozessor immer korrekt angesteuert wird et cetera. Dabei werden meist funktionale Sprachen, wie C oder maschinennahe Sprachen verwendet. Im
 Vergleich zu anderen Programmiersprachen wie Java oder C\#, ist in diesen Bereichen die Forschung bereits sehr weit vorgedrungen.\\
 \\
-In einem Vortrag über das Projekt Ironclad von Microsoft Research sprach Bryan Parno 2014 über den Einsatz von Formaler Verifikation bei einer Ende-zu-Ende Sicherheits-Anwendung. Dabei benannte er den Aufwand für das Programmieren mit etwa fünf Zeilen extra Beweis-Code pro Zeile Programmcode. Außerdem sei es eine komplett neue Art Software zu entwickeln. Abschließend fügte er noch hinzu, dass der meiste neue Code "`out-of-the-box"' funktionierte und faktisch kaum Bugs enthielt.\cite{IRONCLAD01:FV}
+In einem Vortrag über das Projekt Ironclad von Microsoft Research sprach Bryan Parno 2014 über den Einsatz von Formaler Verifikation bei einer Ende-zu-Ende Sicherheits-Anwendung. Dabei benannte er den Aufwand für das Programmieren mit etwa fünf Zeilen extra Beweis-Code pro Zeile Programmcode. Außerdem sei es eine komplett neue Art Software zu entwickeln. Abschließend fügte er noch hinzu, dass der meiste neue Code "`out-of-the-box"' funktionierte und faktisch kaum Bugs enthielt.\cite{IRONCLAD01:FV}\\
+\\
+Generell ist heutzutage vor allem in sicherheitskritischen Bereichen das Testen um einiges teurer als die eigentliche Entwicklung der Software. Durch formale Verifikation entstehen erstens weniger Bugs und zweiten senkt sich dadurch der Testaufwand enorm. Zusätzlich ist der Programmcode qualitativ hochwertiger als bei herkömmlichen Techniken, denn der Code wurde bereits zur Compilezeit und nicht erst zu Laufzeit auf Korrektheit geprüft.
 
 \section{Fazit}
 
@@ -530,6 +532,8 @@ Diese Arbeit stellt die Grundlagen der formalen Verifikation vor, welche auf Pro
 Programmcodeverifikation ist zum aktuellen Zeitpunkt ein weniger bekanntes Thema in der Informatik. Da es damit möglich ist 100\% korrekte Software zu entwickeln, setzen momentan vor allem große Firmen, die sicherheitskritische oder viel verwendete Systeme bauen, auf diese Technologie. Der Aufwand für formal verifizierte Software ist dabei vergleichsweise deutlich höher. Entwickler von Microsoft Research schätzen den Aufwand auf circa 5 Zeilen Beweis-Code für jede Zeile Programmcode basierend auf ihrem durchgeführten Forschungsprojekt Ironclad. Außerdem nannten sie es eine neue Art für die Entwicklung der Software. Der Programmcode funktionierte meistens bereits beim ersten Mal und enthielt nur wenige Fehler.\cite{IRONCLAD01:FV} Dies kann durch das spezielle Typ-System von Coq, den dependent Types, erzielt werden. Dadurch sind Checks auf korrekten Code, welche normalerweise erst während der Laufzeit passieren, bereits bei der Kompilierung durchführbar.\\
 Obwohl ein zu 100\% funktionierender Programmcode in jedem Fachbereich ideal wäre, stehen Aufwand und Kosten nicht immer im passenden Verhältnis zum gewonnenen Nutzen.
 Des Weiteren ist zu erwähnen, dass nur ein Code nur so gut sein kann, wie sein Spezifikation. Mit Hilfe der formalen Verifikation kann zwar bewiesen werden, dass der Programmcode der Spezifikation entspricht, allerdings nicht, ob die Spezifikation selbst richtig ist.\\
+Ein  weiterer interessanter Punkt ist, dass alle inneren Spezifikationen heraus fallen. Solange beide Seiten einer Schnittstelle mit der Spezifikation leben können (das heißt gegen die Spezifikation verifiziert werden), ist es egal, was die Spezifikation ist. Das trifft zum Beispiel auf die Spezifikation von C in der Kombination VST + CompCert zu. Beide verwenden die selbe Spezifikation von C. Daher ist es egal, ob diese dem ANSI Standard entspricht. Die Verbindung abstrakte Logik zu Maschinencode ist trotzdem richtig.\\
+\\
 Dadurch, dass eine Software immer auf Hardware läuft, kann zusätzlich keine wirkliche komplette Korrektheit eines Systems mit verifizierter Software garantiert werden. Hardware ist immer ab einem gewissen Zeitpunkt fehlbar und muss komplett ausgetauscht oder repariert werden.\\
 Zusammenfassend wird Coq und formale Verifikation von Programmcode als sehr interessantes Thema mit viel Potential durch den Autor dieser Arbeit bewertet. Weiterführende Artikel, Vorträge und anderweitige Quellen sind im Kapitel \ref{a:append} des Anhangs zu finden. 
 
