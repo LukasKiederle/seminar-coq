@@ -12,7 +12,7 @@ Daher ist es wichtig, dass sowohl die Bauteile als auch das Zusammenspiel von Ha
 Heutzutage gehen die meisten Computer-Nutzer davon aus, dass ein Betriebssystem, ein Compiler oder andere Software zu 100\% korrekt funktionieren. Doch wie ist sichergestellt, dass das Speichern in einem Editor oder das Kompilieren von C Code auch in jedem Fall das gewünschte Ergebnis liefert? \\
 Sehr wahrscheinlich wurden viele verschiedene Tests bereits vor der Veröffentlichung der jeweiligen Software durchgeführt. Die bekanntesten sind Unit-, Integration- und manuelle Tests. Dabei versucht man sowohl Standard- als auch Grenz- und Sonderfälle abzudecken, aber natürlich nicht jeden Einzelfall. Würde man einen kompletten Test durchführen, müsste beispielsweise für eine simple Funktion, die zwei Integer addiert, jeder beliebige Wert, den dieser annehmen könnte, getestet werden. Dies ist nicht in annehmbarer Laufzeit mit den oben genannten Testformen durchführbar.\\
 Nichts desto trotz schränken viel Tests ein Fehlverhalten der jeweiligen Software ein. Dies ist für vielerlei Anwendungen bereits ausreichend. Allerdings vor allem in sicherheitskritischen und intensiv genutzten Systemen sollte diese zu 100\% korrekt funktionieren.
-Um alle Fälle abzudecken, muss eine andere Syntax verwendet werden. Hier kommt die formale Verifikation zum Einsatz. 
+Um alle Fälle abzudecken, muss eine andere Technik verwendet werden. Hier kommt die formale Verifikation zum Einsatz. 
 Die dabei verwendete Sprache ist mathematisch aufgebaut und erlaubt es somit Konstrukte, wie beispielsweise \textbf{für alle natürlichen Zahlen gilt} niederzuschreiben.\\
 Generell ist es möglich fast jeden Programmcode formal zu verifizieren. Der Aufwand, der dafür aufzubringen ist, unterscheidet sich von Fall zu Fall. Um den Code einer Sprache vollständig formal beweisen zu können, muss theoretisch auch der Compiler der Sprache formal bewiesen sein. Ansonsten wäre zwar der Programmcode formal verifiziert, allerdings kann nicht garantiert werden, dass der Compiler dennoch keine Fehler beim Übersetzen macht. Des Weiteren ist noch zu erwähnen, dass der Compiler nicht die niedrigste Software-Ebene repräsentiert. In den Schichten darunter sind beispielsweise noch Hardwarebeschreibungssprachen. Sobald dort ein gravierender Bug enthalten ist, kann der high-level Programmcode formal bewiesen sein und trotzdem fehlerhaft laufen.
 \\
@@ -24,13 +24,13 @@ In dieser Arbeit wird ausschließlich auf Coq eingegangen.
 Ein \textbf{Theorem Prover} ist ein Programm.
 In diesem werden Aussagen definiert, die das Tool zu beweisen versucht, falls es möglich ist.\\
 \\
-Ein \textbf{Proof Assistent}, welcher auch interaktiver Theorem Prover genannt wird, ist ein Softwaretool, das hilft formale Beweise durchzuführen. Dabei wird ein interaktiver Editor verwendet, mit dem es möglich ist, programmatisch Schritt für Schritt Beweise zu schreiben. Die Software interagiert dabei mit dem Bediener.
+Ein \textbf{Proof Assistent}, welcher auch interaktiver Theorem Prover genannt wird, ist ein Softwaretool, das hilft formale Beweise durchzuführen. Dabei wird ein interaktiver Editor verwendet, mit dem es möglich ist, programmatisch Schritt für Schritt maschinell Beweise zu prüfen. Die Software interagiert dabei mit dem Bediener.
  
 
 \subsection{Das Projekt Coq}
 Der Proof Assistent Coq wurde erstmals im Mai 1989 veröffentlicht. Das National Institute for Research in Computer Science and Automation (INRIA) hat dessen Entwicklung bereits seit 1984 unterstützt.\cite{COQ02:FV} Der Name leitet sich vom französischen Wort Coq (zu Deutsch Hahn) ab. Traditionell werden Entwicklungswerkzeuge in Frankreich nach Tieren benannt. Außerdem erinnert der Name an den französischen Mathematiker und Informatiker Thierry Coquand. \\
 Bestandteile des Coq-Projekts sind die funktionale Programmiersprache Coq selbst und eine Entwicklungsumgebung namens CoqIde. Beides ist zum heutigen Zeitpunkt plattform-unabhängig und open-source erhältlich unter \url{https://github.com/coq/coq}. Die dort aktuell veröffentlichte Version ist 8.10.2.\cite{COQ01:FV}\\
-Coq ist zum größtenteils in Ocaml geschrieben. Das grundlegende Feature der Programmiersprache ist das Prüfen auf formale Richtigkeit von Beweisen. Dabei wird der Entwickler durch die eingebaute Entwicklungsumgebung CoqIde interaktiv während des Schreibens eines Beweises unterstützt. Eine weitere Funktionalität ist die Code Extraktion. Coq bietet diese für Ocaml, Haskel oder mit Hilfe von externen Bibliotheken auch für C an. Dies wird im Kapitel \ref{s:coq-and-code} detailliert anhand eines Beispiels aufgegriffen. Dabei werden Funktionen formal verifiziert und anschließend in ausführbaren Ocaml Code extrahiert.\\
+Coq ist größtenteils in Ocaml geschrieben. Das grundlegende Feature der Programmiersprache ist das Prüfen auf formale Richtigkeit von Beweisen. Dabei wird der Entwickler durch die eingebaute Entwicklungsumgebung CoqIde interaktiv während des Schreibens eines Beweises unterstützt. Eine weitere Funktionalität ist die Code Extraktion. Coq bietet diese für Ocaml, Haskel oder mit Hilfe von externen Bibliotheken auch für C an. Dies wird im Kapitel \ref{s:coq-and-code} detailliert anhand eines Beispiels aufgegriffen. Dabei werden Funktionen formal verifiziert und anschließend in ausführbaren Ocaml Code extrahiert.\\
 Im Großen und Ganzen ist es eine aktuell sehr weit verbreite Sprache für formale Verifikation. Dabei wird sowohl Programmcode verifiziert als auch mathematische Theoreme bewiesen, welche auch teilweise unabhängig zum Fachbereich Informatik sind. Die Anwendungsbereiche sind im Kapitel \ref{s:current-usage} genauer erläutert.
 
 \subsection{Bewertung von Coq mittels Open Hub}
@@ -42,7 +42,7 @@ Der Online-Dienst \textbf{Open Hub}, ehemals \textbf{Ohloh} genannt, katalogisie
 In diesem Kapitel werden die Grundlagen der Programmiersprache Coq erläutert. Es wird zuerst auf das spezielle Type-System eingegangen. Das dabei verwendete Konzept stellt die Basis für programmatische formale Verifikation dar. Weiterhin werden die darauf aufbauenden Coq-Features und das Zusammenspiel von Coq und der interaktiven CoqIde erklärt.\\
 
 \subsection{Dependent Type Language}
-Java, C\# und PHP verwenden Objekte als universellen Datentyp. C und Go nutzen hingegen Strukturen. Das Typ-System von Coq basiert weder auf Objekten, noch auf Strukturen - es ist eine dependent Type (zu Deutsch typ-abhängige) Sprache.\\
+Java, C\# und PHP verwenden Objekte als universellen Datentyp. C und Go nutzen hingegen Strukturen. Das Typ-System von Coq basiert weder auf Objekten, noch auf Strukturen - es ist eine dependent Type Sprache (zu Deutsch Typen die von etwas abhängen).\\
 Angenommen es gäbe eine Funktion, die irgendetwas mit einem User-Objekt/einer User-Struktur macht. In den häufig verwendeten Sprachen, wie beispielsweise Java, sollten die ersten Zeilen einen Check beinhalten, ob das User-Objekt null ist. (siehe Codeblock \ref{lst:java-function}).
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Java Funktion für den initialen Check auf null des User Objektes,label=lst:java-function]
 public void doSomething(User user) {
@@ -54,23 +54,25 @@ public void doSomething(User user) {
 \end{lstlisting}
 Dadurch ist gewährleistet, dass, wenn es zu einem Fehler während der Laufzeit kommen sollte, dieser kontrolliert abgefangen wird. Allerdings bedeutet dies auch, dass die Funktion den Status eines User-Objekts, welches null ist, als gültiges Objekt entgegennimmt.\\
 Praktischer wären Funktionen, welche bereits zum Compilierungs-Zeitpunkt prüfen, ob das übergebene Objekt korrekt ist.
-Dies ist mit Hilfe von typ-abhängigen Sprachen umsetzbar. In Coq heißt diese \textbf{Gallina}. Dabei muss zuerst definiert werden, was einen \textbf{korrekten User} charakterisiert. Beispielsweise könnte es bedeuten, dass er ungleich null oder einer bestimmte Rolle zugeordnet ist. Dadurch könnte die folgende Funktion in Form von Pseudocode geschrieben werden.
+Dies ist mit Hilfe von dependent type Sprachen umsetzbar. In Coq heißt diese \textbf{Gallina}. Dabei muss zuerst definiert werden, was einen \textbf{korrekten User} charakterisiert. Beispielsweise könnte es bedeuten, dass er ungleich null oder einer bestimmte Rolle zugeordnet ist. Dadurch könnte die folgende Funktion in Form von Pseudocode geschrieben werden.
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Pseudocode Check auf null des User Objektes,label=lst:pseudocode-checked-function]
-setRole: (user: User, role: String) -> userWithRole: User,
-			where userWithRole.role == role;
+setRole: (oldRole: Role, user: User oldRole, newRole: Role) -> userWithRole: User newRole,
+	where userWithRole.role == role;
 \end{lstlisting}
-Es muss noch eine weitere grundlegende Voraussetzung erfüllt sein, damit diese Funktion bereits beim Kompilieren auf Korrektheit geprüft werden kann. Ein Typ repräsentiert normalerweise unterschiedliche Ausprägungen. Allerdings wird für typ-abhängige Sprachen für jede Ausprägung ein eigener Typ benötigt.\\
-Unter der Annahme, dass es beispielsweise insgesamt drei verschiedene Rollen (UserWithAdminRole, UserWithSupportRole, UserWithUserRole) gibt, können einzelne Typen für jede Rolle erstellt werden.
+Die Funktion \textbf{setRole} aus dem Beispiel \ref{lst:pseudocode-checked-function} zeigt, dass ein User mit einer alten Rolle \textbf{oldRole} eine neue Rolle \textbf{newRole} bekommt. Dies ist durch die Where-Klausel aus Zeile 2 immer sicher gestellt. Dabei ist es wichtig zu verstehen, dass \textbf{nicht} die Werte verglichen werden, sondern Typen, welche den Wert, der noch nicht zugewiesen wurde repräsentieren. Im Beispiel wird geprüft, ob nach dem ausführen der Funktion der neue Typ userWithRole einen Typ \textbf{role} hat, welcher ungleich \textbf{null} ist. Zur Verdeutlichung könnte die Where-Klausel auch \textbf{where typeof(userWithRole.role) == Role} lauten.\\
+\textbf{oldRole} wäre ein impliziter Parameter, da er sich aus dem Typ von User ergibt. Es ist notwendig den Role-Parameter der Funktion zu übergeben, sodass der User immer einen Role-Parameter hat.\\
+\\
+Es muss noch eine weitere grundlegende Voraussetzung erfüllt sein, damit diese Funktion bereits beim Kompilieren auf Korrektheit geprüft werden kann. Ein Typ repräsentiert normalerweise unterschiedliche Ausprägungen. Allerdings wird für dependent type Sprachen für jede Ausprägung ein eigener Typ benötigt.\\
+Unter der Annahme, dass es beispielsweise insgesamt drei verschiedene Rollen (adminRole, supportRole, userRole) gibt, können einzelne Typen für jede Rolle erstellt werden.
 Jetzt ist es möglich, dass bereits der Compiler sicherstellen kann, dass die Funktion aus Codeblock \ref{lst:pseudocode-checked-function} korrekt abläuft. Zur Erklärung hilft folgendes Beispiel:
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Pseudocode Check auf null des User Objektes,label=lst:pseudocode-checked-function-usage]
-result: UserWithAdminRole = setRole (user, adminRole);
+result: userWithRole = setRole (userRole, user, adminRole);
 \end{lstlisting}
-Jeder der oben genannten Typen stellt genau einen User mit einer bestimmten Rolle mit einem bestimmten Wert dar. Dies bedeutet typ-abhängig.\cite{MARTIN01:FV}
-Zusammenfassend gesagt, ist es durch typ-abhängige Sprachen möglich zu prüfen, ob etwas wahr ist, bevor ein konkretes Objekt beziehungsweise eine Instanz mit Werten erstellt wurde. Die durchgeführten Checks, die normalerweise bei der Laufzeit durchlaufen werden, sind dadurch bereits zur Compilezeit des Programms geprüft.\\
+Jeder der oben genannten Typen stellt genau einen User mit einer bestimmten Rolle mit einem bestimmten Wert dar.\\
+Zusammenfassend gesagt, ist es durch dependent type Sprachen möglich zu prüfen, ob etwas wahr ist, bevor ein konkretes Objekt beziehungsweise eine Instanz mit Werten erstellt wurde. Die durchgeführten Checks, die normalerweise bei der Laufzeit durchlaufen werden, sind dadurch bereits zur Compilezeit des Programms geprüft.\cite{MARTIN01:FV}\\
 \\
 Diese Art von Typ-System benötigt einerseits für jeden Wert einen eigenen Typ, andererseits entstehen dadurch viele neue Optionen. Die viele Arbeit zur Erstellung eines Typs pro Wert, übernimmt der Compiler.\\
-Der größte Vorteil ist die Vermeidung von Bugs. Zugriffe auf nicht existente Array Indizes, Nullpointer-Exceptions oder nicht endlicher Code sind faktisch keine Probleme in typ-abhängigen Sprachen, falls die korrekten Beweise durchgeführt wurden.\\
-\\
+Der größte Vorteil ist die Vermeidung von Bugs. Zugriffe auf nicht existente Array Indizes, Nullpointer-Exceptions oder nicht endlicher Code sind faktisch keine Probleme in dependent type Sprachen, falls die korrekten Beweise durchgeführt wurden.\\
 Generell ist es möglich fast alles mit dependent Types darzustellen. Beispielsweise eine Login-Funktion, die keine Leerstrings erlaubt, oder eine Funktion, die natürliche Zahlen dividiert ohne eine Null zu erlauben, ist dadurch problemlos umsetzbar.
 \subsection{Basisbegriffe}
 \subsubsection{Typdefinition}
@@ -490,7 +492,7 @@ Der ganze Proofed Stack könnte ungefähr in den Ebenen wie in der folgenden Ill
 JSCert ist eine maschinell in Coq geprüfte Spezifikation von JavaScript. Es wurde mit der Coq Version 8.4.6 geschrieben. Dabei wurde versucht, sich so nah wie möglich am englischen Standard ECMAScript 5 zu halten. Des Weiteren ist ein in Ocaml geschriebener Interpreter namens \textbf{JSRef} damit als korrekt bewiesen worden. Dies deckt 262 Testfälle ab.\cite{JSCERT01:FV}\cite{JSCERT012:FV}
 
 \subsection{CertiCoq}
-CertiCoq ist ein in Coq verifizierter Compiler für Coq. Genau genommen beweist CertiCoq, dass die Kompilierung von typ-abhängigen Sprachen, wie Gallina korrekt verläuft.\cite{CERTICOQ01:FV}\cite{CERTICOQ02:FV}
+CertiCoq ist ein in Coq verifizierter Compiler für Coq. Genau genommen beweist CertiCoq, dass die Kompilierung von dependent type Sprachen, wie Gallina korrekt verläuft.\cite{CERTICOQ01:FV}\cite{CERTICOQ02:FV}
 
 \subsection{Beweise für Probleme der Mathematik oder Informatik}
 Mit Coq kann nicht nur Programmcode verifiziert werden. Die Grundlage dafür sind schließlich mathematische Beweise inklusive Taktiken und der interaktiven Entwicklungsumgebung. Somit wird Coq auch von Theoretikern, welche vor allem aus den Fachbereichen der Mathematik und Informatik kommen, genutzt. Die folgenden zwei bekannten Probleme wurden mittels Coq bewiesen. 
