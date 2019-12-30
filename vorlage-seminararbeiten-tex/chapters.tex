@@ -41,7 +41,7 @@ Der Online-Dienst \textbf{Open Hub}, ehemals \textbf{Ohloh} genannt, katalogisie
 \section{Programmatische Coq-Grundlagen}
 In diesem Kapitel werden die Grundlagen der Programmiersprache Coq erläutert. Es wird zuerst auf das spezielle Type-System eingegangen. Das dabei verwendete Konzept stellt die Basis für programmatische formale Verifikation dar. Weiterhin werden die darauf aufbauenden Coq-Features und das Zusammenspiel von Coq und der interaktiven CoqIde erklärt.\\
 
-\subsection{Dependent Type Language}
+\subsection{Dependent Type Sprache}
 Java, C\# und PHP verwenden Objekte als universellen Datentyp. C und Go nutzen hingegen Strukturen. Das Typ-System von Coq basiert weder auf Objekten, noch auf Strukturen - es ist eine dependent Type Sprache (zu Deutsch Typen die von etwas abhängen).\\
 Angenommen es gäbe eine Funktion, die irgendetwas mit einem User-Objekt/einer User-Struktur macht. In den häufig verwendeten Sprachen, wie beispielsweise Java, sollten die ersten Zeilen einen Check beinhalten, ob das User-Objekt null ist. (siehe Codeblock \ref{lst:java-function}).
 \begin{lstlisting}[language=coq,firstnumber=1,caption=Java Funktion für den initialen Check auf null des User Objektes,label=lst:java-function]
@@ -174,6 +174,42 @@ Für den Beweise werden zwei Taktiken genutzt. \textbf{Intros} in Verbindung mit
 Ein anschließendes Anwenden von \textbf{reflexivity} sorgt dafür, dass das Programm überprüft, ob die linke und rechte Seite identisch sind. Dabei führt \textbf{reflexivity} auch ein \textbf{simpl} zur Vereinfachung (z.B.: 0 + n => n) aus. \textbf{Reflexivity} steht somit meistens am Ende eines Beweises mit dem Format \textbf{links = rechts}, sodass er abgeschlossen werden kann. Dafür gibt es auch anderweitige Möglichkeiten.\\
 Die zweite Funktion \textbf{plus\_n\_O} validiert das \textbf{n = n + 0} gilt und wird mit Hilfe der Taktik \textbf{induction} gelöst. Diese teilt die Aussage in zwei Subgoals (zu Deutsch Teilziele) auf, passend zu Induktion. Dabei wird geprüft, dass \textbf{n = 0} (Zeile 11) gilt und das aus der Aussage für \textbf{n} \textbf{n + 1} (Zeile 12-13) folgt.
 Anschließend muss jedes einzelne Ziel überprüft werden. Dies verschiedenen Ebenen von Subgoals sind mit Hilfe von \textbf{-, +, *} gekennzeichnet. Der \textbf{*}-Operator ist dabei nicht mit der vorher beschriebenen Kommentar-Notation \textbf{(* *)} zu verwechseln. Ein \textbf{-} wird bei der ersten Teilziel-Ebene verwendet. Für das Adressieren weiterer Subgoals von Subgoals werden \textbf{+} und \textbf{*} genutzt. Das Schlüsselwort \textbf{rewrite} wird in folgendem Unterkapitel erläutert.
+
+\subsection{Verwendung in Coq von Dependent Type Sprache}
+Coq verwendet dependent type Sprache um logische Aussagen auf Typen abzubilden.
+Eine Aussage ist ein Typ und diese ist wahr, wenn eine
+Instanz des Typs hingeschrieben werden kann.
+Dafür existieren in Coq die zwei induktiven Typen \textbf{True} und \textbf{False}.
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Basis Typen,label=lst:base-types]
+Inductive True : Type := I.
+
+Inductive False : Type := .
+
+Inductive and (A B : Type) : Type :=
+conj : A -> B -> and A B.
+
+Inductive or (A B : Type) : Type :=
+or_introl : A -> or A B
+| or_intror : B -> or A B.
+\end{lstlisting}
+Im Codeblock \ref{lst:base-types} sind diese in den Zeilen 1 und 3 beschrieben. Ein Type True kann durch den Konstruktor \textbf{I} instantiiert werden. Ein Typ False hingegen besitzt keine Konstruktoren.\\
+Weiterhin nutzen logische Aussagen Verbindungen, wie beispielsweise \textbf{Und} und \textbf{Oder}. Die in Coq verwendeten Definition sind die induktiven Typen \textbf{and} und \textbf{or}. Um ein \textbf{and}-Typen instantiieren zu können, muss ein Instanz beider Typen A und B angegeben werden. Bei Oder hingegen reicht eine der beiden Aussagen. In Coq ist es hierbei nicht möglich falschen Aussagen anzugeben.\\
+\\
+Ein Theorem ist eine Funktion, die aus den forall-Werten (zum Beispiel: forall n: nat) und Voraussetzungen eine Instanz der Theoremausgabe kreiert. Ein Beispiel hierfür ist das Theorem \textbf{nat\_rect}, das die Induktion über natürliche Zahlen darstellt (siehe Codeblock \ref{lst:base-types-induction}).
+\begin{lstlisting}[language=coq,firstnumber=1,caption=Coq Induktion der natürlichen Zahlen,label=lst:base-types-induction]
+nat_rect : forall P : nat -> Type,
+P 0 ->
+(forall n : nat, P n -> P (S n)) ->
+forall n : nat, P n
+\end{lstlisting}
+Es bedeutet, dass für alle Aussagen P über natürlich Zahlen folgendes
+gilt:\\
+"`Wenn die Aussage für 0 gilt und wenn für alle n aus der Aussage
+für n die Aussage für (S n) folgt, so gilt die Aussage für alle n."'\\
+\\
+Zusammenfassend bedeutet dies, dass in Coq die Induktion nur über einfache rekursive Funktionen abgebildet werden. Diese wird von Coq selbst für jeden Induktiven Type erstellt. Bei einer Anwendung der Taktik \textbf{induction}, wird zu einem bestimmten Zeitpunkt diese Funktion aufgerufen.\\
+Außerdem ist die Induktion nur mittels dependent Type Sprache abzubilden. Denn nur so ist gewährleistet, dass zum Beispiel eine \textbf{and}-Aussage von den beiden Teilaussagen A und B abhängig ist.
+
 
 \subsection{Anwendung von Coq}
 Dieses Kapitel beinhaltet einen Beispielbeweis und geht somit auf den praktischen Einsatz von Coq ein. Dabei wird die interaktive Entwicklungsumgebung CoqIde verwendet. Das bedeutet, dass der Nutzer während des Beweisvorgangs Informationen vom Programm erhält. Dies können sowohl Hinweise als auch Fehlermeldungen sein. Um sich die CoqIde genauer vorstellen zu können, wird folgende Illustration \ref{fig:coqide-sample} verwendet.\\
