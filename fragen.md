@@ -1,14 +1,16 @@
 # Fragen
 
-1. Darf ich ein kleines Dankesschreiben einfügen? ja
+1. Warum kann ich 0 + n vereinfachen aber n + 0 nicht?
+2. Warum And und Und?
+3. In Coq ist eine Aussage ein Typ und die Aussage ist wahr, wenn man eine
+   Instanz des Typs hinschreiben kann. Bei True ist das trivial (I). Bei
+   False, einem enum ohne Element, geht das gar nicht. ?
+4. Was bringt mir eine Oder oder eine Und Instanz?
+5. Woher weiß Coq, dass er bei der Rekursion aufhören soll? Also wenn ich alle natürliche Zahlen aufschreibe? Ich schlussfolgere das Mathematisch oder? Und warum macht er dann trotzdem eine Rekursion?  Wenn Mathe falsch wäre, wäre das keine Garantie oder?
 
-2. Darf ich schreiben: Das dabei verwendete Prinzip lautet salopp gesagt:
-\textbf{Es gibt eine Liste von Dingen, die eine Software tun soll. Hierfür wird Logik verwendet, um zu beweisen, dass diese Software auch genau diese Dinge tut.}   -> vereinfacht gesagt
+nat -> logische Aussage abhängig von Zahl
 
-3. Darf ich schreiben: In dieser Arbeit, wird wie bereits erwähnt ausschließlich auf Coq eingegangen, da das Vergleichen den Rahmen dieser Arbeit sprengen würde. Für Interessenten ist das Paper unter \url{http://www.cs.ru.nl/~freek/comparison/comparison.pdf} von Freek Wiedijk und Dana Scott zu empfehlen. Further Reading chapter? -> Hintergrundwissen ist ersichtlich unter. 
+Typechecker prüft am Ende ob der Typ gleich ist
 
+Typechecker läuft bei Qed.
 
-Ergebnis: 
-
-- Entwicklungsaufwand wieviel mehr Aufwand? 5mal? Studie?
-- Extra Kapitel: Warum Formale Verifikation. Beispiel Fehler im Compiler gravierend und so weiter
