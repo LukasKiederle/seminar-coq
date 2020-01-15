@@ -214,6 +214,8 @@ Anschließend muss jedes einzelne Ziel überprüft werden. Dies verschiedenen Eb
 
 \subsection{Anwendung von Coq}
 Dieses Kapitel beinhaltet einen Beispielbeweis und geht somit auf den praktischen Einsatz von Coq ein. Dabei wird die interaktive Entwicklungsumgebung CoqIde verwendet. Das bedeutet, dass der Nutzer während des Beweisvorgangs Informationen vom Programm erhält. Dies können sowohl Hinweise als auch Fehlermeldungen sein. Um sich die CoqIde genauer vorstellen zu können, wird folgende Illustration \ref{fig:coqide-sample} verwendet.\\
+\\
+Die CoqIde bietet viele spezielle Features für formale Verifikation. Beispielsweise ist es möglich mit den Pfeilen in der Navigationsleiste die einzelnen Kommandos aus der linken Textbox auszuführen. Je nach Pfeil springt man einen Schritt vorwärts, bis zum Mauszeiger vorwärts oder auch rückwärts.\\
 
 \begin{minipage}{\textwidth}
 	\centering
@@ -223,8 +225,6 @@ Dieses Kapitel beinhaltet einen Beispielbeweis und geht somit auf den praktische
 	\label{fig:coqide-sample}
 \end{minipage}
 \\
-\\
-Die CoqIde bietet viele spezielle Features für formale Verifikation. Beispielsweise ist es möglich mit den Pfeilen in der Navigationsleiste die einzelnen Kommandos aus der linken Textbox auszuführen. Je nach Pfeil springt man einen Schritt vorwärts, bis zum Mauszeiger vorwärts oder auch rückwärts.\\
 \\
 Die Entwicklungsumgebung besteht grundsätzlich aus drei Fenster. Dabei wird eines für den Programmcode genutzt. Die anderen beiden Fenster auf der rechten Seite dienen ausschließlich der Informationsausgabe.\\
 Im Screenshot ist ein Beweis zu sehen. Dabei wird überprüft, wenn die natürlichen Zahlen \textbf{n, m, o} und die Beziehungen \textbf{n = m} und \textbf{m = o} gegeben sind, dass \textbf{n + m = m + o} gilt.\\
@@ -478,7 +478,13 @@ Die folgenden Unterkapitel erläutern den theoretischen und praktischen Weg, um 
 
 \subsubsection{Beispiel Programmiersprache C und VST}
 Ein C-Programm kann nicht einfach in Coq kopiert und anschließend bewiesen werden. Dafür wird das Hilfsmittel \textbf{VST} benötigt. Diese ermöglicht es, ein C-Programm über \textbf{Verifiable C} in verifizierten Maschinencode zu übersetzen.
-In folgender Abbildung \ref{fig:vst} sind die einzelnen Komponenten von der VST zu sehen.
+In folgender Abbildung \ref{fig:vst} sind die einzelnen Komponenten von der VST zu sehen.\\
+Zuerst wird dabei das C-Source-Programm durch die \textbf{Clight}-Technologie von \textbf{CompCert} in Verifiable C übersetzt.
+"`Verifiable C ist grundsätzlich korrekt. Das heißt, es ist nachgewiesen (mit einem maschinell geprüften Beweis im Coq-Proof-Assistenten), dass:\\
+\textbf{Egal welche beobachtbare Eigenschaft eines C-Programms Sie auch immer beweisen wollen. Unter Verwendung der Verifiable C-Programmlogik, wird diese Eigenschaft
+	tatsächlich im Assemblerprogramm enthalten sein, welches der C-Compiler generiert.}"'(übersetzt aus \cite{Appel02:VST})\\
+Mit \textbf{program logic} ist eine Art Hoare Logik gemeint, die ein leichteres Beweisen von Programmcode mit Pointern, Funktions-Pointern, Datenabstraktion und Datenstrukturen ermöglicht.\cite{Appel02:VST} Die Hoare Logik wurde durch den britischen Informatiker C. A. R. Hoare entwickelt und dient generell als Hilfsmittel für das Beweisen von Programmcode. Dabei werden logische Regeln aufgestellt, die es erlauben Aussage in mathematischer Form über Computer-Programme zu treffen.\\
+Die in orange dargestellte Komponente \textbf{VST retargetable Separation Logic} ergänzt die \textbf{program logic}. Außerdem können dadurch zusätzliche \textbf{verified program analysis tools} integriert werden.\\
 
 \begin{minipage}{\textwidth}
 	\centering
@@ -487,13 +493,7 @@ In folgender Abbildung \ref{fig:vst} sind die einzelnen Komponenten von der VST 
 	\caption{Verified Software Toolchain\cite{PRINCETON01:VST}}
 	\label{fig:vst}
 \end{minipage}
-
-Zuerst wird dabei das C-Source-Programm durch die \textbf{Clight}-Technologie von \textbf{CompCert} in Verifiable C übersetzt.
-"`Verifiable C ist grundsätzlich korrekt. Das heißt, es ist nachgewiesen (mit einem maschinell geprüften Beweis im Coq-Proof-Assistenten), dass:\\
-\textbf{Egal welche beobachtbare Eigenschaft eines C-Programms Sie auch immer beweisen wollen. Unter Verwendung der Verifiable C-Programmlogik, wird diese Eigenschaft
-tatsächlich im Assemblerprogramm enthalten sein, welches der C-Compiler generiert.}"'(übersetzt aus \cite{Appel02:VST})\\
-Mit \textbf{program logic} ist eine Art Hoare Logik gemeint, die ein leichteres Beweisen von Programmcode mit Pointern, Funktions-Pointern, Datenabstraktion und Datenstrukturen ermöglicht.\cite{Appel02:VST} Die Hoare Logik wurde durch den britischen Informatiker C. A. R. Hoare entwickelt und dient generell als Hilfsmittel für das Beweisen von Programmcode. Dabei werden logische Regeln aufgestellt, die es erlauben Aussage in mathematischer Form über Computer-Programme zu treffen.\\
-Die in orange dargestellte Komponente \textbf{VST retargetable Separation Logic} ergänzt die \textbf{program logic}. Außerdem können dadurch zusätzliche \textbf{verified program analysis tools} integriert werden.\\
+\\
 \\
 Der nächste Schritt in der Princeton Tool Chain ist der \textbf{verified Compiler CompCert}. Dieser wurde von INRIA entwickelt und ist wie die VST open-source auf GitHub erhältlich unter \url{https://github.com/PrincetonUniversity/VST} und \url{https://github.com/PrincetonUniversity/VST/tree/master/compcert}. Um CompCert allerdings kommerziell nutzen zu können, wird ein kostenpflichtige Lizenz benötigt.
 CompCert wandelt schlussendlich den Verifiable C Code in Maschinensprache um.
@@ -510,11 +510,6 @@ In diesem Kapitel werden einige Anwendungsfälle und Projekte kurz vorgestellt.
 
 \subsection{Proofed Stack}
 Mit Hilfe von VST inklusive CompCert wird versucht eine Art Stack aufzubauen, der von Maschinensprache über das Betriebssystem bis hin zu C-Programmcode formal verifiziert ist. Hierfür wird zusätzlich ein spezielles Coq-Framework namens \textbf{Kami} verwendet. Damit ist es möglich Hardware-Design formal zu beweisen. Diese Domain Specific Language (DSL) ist hauptsächlich inspiriert von \textbf{Bluespec}. Mit Hilfe von Kami ist es zum Beispiel möglich einen formal verifizierten Prozessor zu entwickeln. Die Firma SiFive arbeitet zur Zeit an einem Formal verifizierten RiscV Prozessor. \textbf{RISC-V} ist eine Befehlssatzarchitektur.\cite{KAMI01:ST} Vereinfacht gesagt, beschreibt dies die Verhaltensweise eines Prozessors in Form von einer formalen Spezifikation.\\
-Die zur Architektur passenden Chips werden beispielsweise durch \textbf{SiFive}, welche auch \textbf{Kami} entwickelt haben, hergestellt.\\
-Schlussendlich fehlt noch ein Betriebssystem, welches zum ein oder anderen Zeitpunkt mit Prozessoren und Speichern interagiert. Hierfür wurde \textbf{CertiKOS}, eines der ersten formal verifizierte Betriebssystem, entwickelt. Es unterstützt \textbf{x86} inklusive Multiprocessing. Außerdem ist es möglich, einen Hypervisor zu hosten und dadurch mehrere Betriebssysteme gleichzeitig auf der selben Maschine zu verwenden.\cite{CERTIKOS01:FV}\cite{CERTIKOS02:FV}\\
-\\
-Der ganze Proofed Stack könnte ungefähr in den Ebenen wie in der folgenden Illustration \ref{fig:proofed-stack} dargestellt werden. Dabei sind Hardware-Komponenten in rot markiert. Der Softwareteil wird farblich unterschiedlich abgebildet mit dem Ziel, dass das Bild übersichtlicher ist.\\
-
 
 \begin{minipage}{\textwidth}
 	\centering
@@ -523,6 +518,12 @@ Der ganze Proofed Stack könnte ungefähr in den Ebenen wie in der folgenden Ill
 	\caption{Proofed Stack}
 	\label{fig:proofed-stack}
 \end{minipage}
+\\
+\\
+Die zur Architektur passenden Chips werden beispielsweise durch \textbf{SiFive}, welche auch \textbf{Kami} entwickelt haben, hergestellt.\\
+Schlussendlich fehlt noch ein Betriebssystem, welches zum ein oder anderen Zeitpunkt mit Prozessoren und Speichern interagiert. Hierfür wurde \textbf{CertiKOS}, eines der ersten formal verifizierte Betriebssystem, entwickelt. Es unterstützt \textbf{x86} inklusive Multiprocessing. Außerdem ist es möglich, einen Hypervisor zu hosten und dadurch mehrere Betriebssysteme gleichzeitig auf der selben Maschine zu verwenden.\cite{CERTIKOS01:FV}\cite{CERTIKOS02:FV}\\
+\\
+Der ganze Proofed Stack könnte ungefähr in den Ebenen wie in der folgenden Illustration \ref{fig:proofed-stack} dargestellt werden. Dabei sind Hardware-Komponenten in rot markiert. Der Softwareteil wird farblich unterschiedlich abgebildet mit dem Ziel, dass das Bild übersichtlicher ist.
 
 
 \subsection{JSCert}
